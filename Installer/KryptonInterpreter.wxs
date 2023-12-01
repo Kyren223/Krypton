@@ -1,0 +1,52 @@
+<?define name="Krypton"?>
+<?define path="C:\Krypton\bin\release\"?>
+<?define interpreter="KryptonInterpreter.exe"?>
+<?define packageManager="KaPI.exe"?>
+<?define publisher="Kyren"?>
+<?define version="1.0"?>
+<?define guid="cc040820-31ab-4a35-b1f4-a6478fa123ea"?>
+<?define silentArgs = "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES /MERGETASKS=!runcode"?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package
+          Name="$(var.name)"
+          Manufacturer="$(var.publisher)"
+          Version="$(var.version)"
+          UpgradeCode="$(var.guid)"
+          Scope="perMachine">
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <CustomAction Id="RunExe" Return="asyncWait" Execute="commit"
+                  ExeCommand="$(var.silentArgs)" HideTarget="yes" Impersonate="no"
+                  FileRef="Interpreter" />
+
+    <InstallExecuteSequence>
+      <Custom Action="RunExe" After="InstallFiles"
+              Condition="NOT Installed AND NOT REMOVE" />
+    </InstallExecuteSequence>
+
+    <StandardDirectory Id="ProgramFilesFolder">
+      <Directory Id="INSTALLFOLDER" Name="$(var.name)"/>
+    </StandardDirectory>
+
+    <FeatureRef Id="Main" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf"/>
+
+    <Property Id="WixAppFolder" Value="INSTALLFOLDER" />
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Run Krypton"/>
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER"/>
+  </Package>
+
+  <Fragment>
+    <Feature Id="Main" Title="Krypton Interpreter">
+      <Component Directory="INSTALLFOLDER">
+        <File Id="Interpreter" Name="$(var.interpreter)" Source="$(var.path)$(var.interpreter)" />
+      </Component>
+    </Feature>
+  </Fragment>
+</Wix>

@@ -1,0 +1,21 @@
+# ninja log v5
+2430	2471	7229079401303086	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-install	b690910496b67426
+1	52	7229079377109505	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-mkdir	953c91016d5a609
+1	52	7229079377109505	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-mkdir	953c91016d5a609
+52	2236	7229079398940976	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-download	a30c190c4b937155
+52	2236	7229079398940976	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-download	a30c190c4b937155
+2292	2337	7229079399947613	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-patch	10482a94955f7df9
+2518	2583	7229079402419342	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-done	bebe41208c6f9652
+2236	2291	7229079399489145	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-update	f4d4115678341608
+2292	2337	7229079399947613	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-patch	10482a94955f7df9
+2236	2291	7229079399489145	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-update	f4d4115678341608
+2337	2380	7229079400386143	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-configure	b452c820ed5d914
+2337	2380	7229079400386143	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-configure	b452c820ed5d914
+2380	2430	7229079400874515	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-build	9a73315059dcd58c
+2380	2430	7229079400874515	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-build	9a73315059dcd58c
+2430	2471	7229079401303086	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-install	b690910496b67426
+2471	2517	7229079401761541	catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-test	53d885208d593b12
+2471	2517	7229079401761541	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-test	53d885208d593b12
+2518	2583	7229079402419342	CMakeFiles/catch2-populate-complete	bebe41208c6f9652
+2518	2583	7229079402419342	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/catch2-populate-prefix/src/catch2-populate-stamp/catch2-populate-done	bebe41208c6f9652
+2518	2583	7229079402419342	C:/Krypton/cmake-build-debug/_deps/catch2-subbuild/CMakeFiles/catch2-populate-complete	bebe41208c6f9652
