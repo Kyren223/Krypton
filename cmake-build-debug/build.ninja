@@ -78,6 +78,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 build cmake_object_order_depends_target_Interpreter: phony || Interpreter/CMakeFiles/Interpreter.dir
 
 build Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Debug C$:/Krypton/Interpreter/src/core/main.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=true
   DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\core\main.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/PackageManager/include

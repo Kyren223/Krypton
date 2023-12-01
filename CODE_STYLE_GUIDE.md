@@ -21,3 +21,12 @@ You may avoid braces if:
 - There is only 1 statement
 - The statement can fit on the same line
 Otherwise you should use braces
+
+# C++ conventions
+- Use `nullptr` instead of `NULL`
+- Use `#pragma once` instead of include guards
+- Use only `#include <header>`
+- If a function can be marked as `const`, do it
+- Use `const` whenever possible
+- 
+
