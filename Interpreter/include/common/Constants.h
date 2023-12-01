@@ -14,6 +14,6 @@ namespace Constants
      */
     
     constexpr const char* NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.0.1";
+    constexpr const char* VERSION = "0.1.0";
     constexpr bool STABLE = true;
 }
