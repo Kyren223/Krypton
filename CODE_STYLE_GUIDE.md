@@ -22,7 +22,7 @@ You may avoid braces if:
 - The statement can fit on the same line
 Otherwise you should use braces
 
-# C++ conventions
+## C++
 - Use `nullptr` instead of `NULL`
 - Use `#pragma once` instead of include guards
 - Use only `#include <header>`
