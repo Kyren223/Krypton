@@ -1,0 +1,9 @@
+#parse("Custom File Header.h")
+#pragma once
+
+${NAMESPACES_OPEN}
+class ${NAME} {
+
+};
+
+${NAMESPACES_CLOSE}

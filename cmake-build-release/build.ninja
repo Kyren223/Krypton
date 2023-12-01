@@ -77,13 +77,29 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_Interpreter: phony || Interpreter/CMakeFiles/Interpreter.dir
 
-build Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Release C$:/Krypton/Interpreter/src/core/main.cpp || cmake_object_order_depends_target_Interpreter
+build Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Release C$:/Krypton/Interpreter/src/core/Interpreter.cpp || cmake_object_order_depends_target_Interpreter
   DEFINES = -DDEBUG=false
-  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\core\main.cpp.obj.d
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\core\Interpreter.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/PackageManager/include
   OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\core
+
+build Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentHandler.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Release C$:/Krypton/Interpreter/src/cli/ArgumentHandler.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=false
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\cli\ArgumentHandler.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/PackageManager/include
+  OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\cli
+
+build Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Release C$:/Krypton/Interpreter/src/cli/CommandExecutor.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=false
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\cli\CommandExecutor.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/PackageManager/include
+  OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\cli
 
 
 # =============================================================================
@@ -93,7 +109,7 @@ build Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj: CXX_COMPILER
 #############################################
 # Link the executable C:\Krypton\bin\release\KryptonInterpreter.exe
 
-build C$:/Krypton/bin/release/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Release Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj
+build C$:/Krypton/bin/release/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Release Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentHandler.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -113,10 +129,38 @@ build C$:/Krypton/bin/release/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Int
 
 build cmake_object_order_depends_target_InterpreterTests: phony || cmake_object_order_depends_target_Catch2 cmake_object_order_depends_target_Catch2WithMain
 
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/core/Interpreter.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/src/core/Interpreter.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\core\Interpreter.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\core
+
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentHandler.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/src/cli/ArgumentHandler.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\cli\ArgumentHandler.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\cli
+
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/src/cli/CommandExecutor.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\cli\CommandExecutor.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\cli
+
 build Interpreter/CMakeFiles/InterpreterTests.dir/tests/test.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/tests/test.cpp || cmake_object_order_depends_target_InterpreterTests
   DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\tests\test.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\tests
+
+build Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentHandlerTest.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/tests/ArgumentHandlerTest.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\tests\ArgumentHandlerTest.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
   OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\tests
 
@@ -128,7 +172,7 @@ build Interpreter/CMakeFiles/InterpreterTests.dir/tests/test.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable C:\Krypton\bin\release\InterpreterTests.exe
 
-build C$:/Krypton/bin/release/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Release Interpreter/CMakeFiles/InterpreterTests.dir/tests/test.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
+build C$:/Krypton/bin/release/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Release Interpreter/CMakeFiles/InterpreterTests.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentHandler.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/test.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentHandlerTest.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = _deps/catch2-build/src/libCatch2Main.a  _deps/catch2-build/src/libCatch2.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -176,8 +220,8 @@ build Interpreter/rebuild_cache: phony Interpreter/CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_PackageManager: phony || PackageManager/CMakeFiles/PackageManager.dir
 
-build PackageManager/CMakeFiles/PackageManager.dir/src/main.cpp.obj: CXX_COMPILER__PackageManager_unscanned_Release C$:/Krypton/PackageManager/src/main.cpp || cmake_object_order_depends_target_PackageManager
-  DEP_FILE = PackageManager\CMakeFiles\PackageManager.dir\src\main.cpp.obj.d
+build PackageManager/CMakeFiles/PackageManager.dir/src/PackageManager.cpp.obj: CXX_COMPILER__PackageManager_unscanned_Release C$:/Krypton/PackageManager/src/PackageManager.cpp || cmake_object_order_depends_target_PackageManager
+  DEP_FILE = PackageManager\CMakeFiles\PackageManager.dir\src\PackageManager.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = PackageManager\CMakeFiles\PackageManager.dir
   OBJECT_FILE_DIR = PackageManager\CMakeFiles\PackageManager.dir\src
@@ -190,7 +234,7 @@ build PackageManager/CMakeFiles/PackageManager.dir/src/main.cpp.obj: CXX_COMPILE
 #############################################
 # Link the executable C:\Krypton\bin\release\KaPI.exe
 
-build C$:/Krypton/bin/release/KaPI.exe: CXX_EXECUTABLE_LINKER__PackageManager_Release PackageManager/CMakeFiles/PackageManager.dir/src/main.cpp.obj
+build C$:/Krypton/bin/release/KaPI.exe: CXX_EXECUTABLE_LINKER__PackageManager_Release PackageManager/CMakeFiles/PackageManager.dir/src/PackageManager.cpp.obj
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -210,8 +254,8 @@ build C$:/Krypton/bin/release/KaPI.exe: CXX_EXECUTABLE_LINKER__PackageManager_Re
 
 build cmake_object_order_depends_target_PackageManagerTests: phony || cmake_object_order_depends_target_Catch2 cmake_object_order_depends_target_Catch2WithMain
 
-build PackageManager/CMakeFiles/PackageManagerTests.dir/src/main.cpp.obj: CXX_COMPILER__PackageManagerTests_unscanned_Release C$:/Krypton/PackageManager/src/main.cpp || cmake_object_order_depends_target_PackageManagerTests
-  DEP_FILE = PackageManager\CMakeFiles\PackageManagerTests.dir\src\main.cpp.obj.d
+build PackageManager/CMakeFiles/PackageManagerTests.dir/src/PackageManager.cpp.obj: CXX_COMPILER__PackageManagerTests_unscanned_Release C$:/Krypton/PackageManager/src/PackageManager.cpp || cmake_object_order_depends_target_PackageManagerTests
+  DEP_FILE = PackageManager\CMakeFiles\PackageManagerTests.dir\src\PackageManager.cpp.obj.d
   FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
   OBJECT_DIR = PackageManager\CMakeFiles\PackageManagerTests.dir
@@ -232,7 +276,7 @@ build PackageManager/CMakeFiles/PackageManagerTests.dir/tests/test.cpp.obj: CXX_
 #############################################
 # Link the executable C:\Krypton\bin\release\PackageManagerTests.exe
 
-build C$:/Krypton/bin/release/PackageManagerTests.exe: CXX_EXECUTABLE_LINKER__PackageManagerTests_Release PackageManager/CMakeFiles/PackageManagerTests.dir/src/main.cpp.obj PackageManager/CMakeFiles/PackageManagerTests.dir/tests/test.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
+build C$:/Krypton/bin/release/PackageManagerTests.exe: CXX_EXECUTABLE_LINKER__PackageManagerTests_Release PackageManager/CMakeFiles/PackageManagerTests.dir/src/PackageManager.cpp.obj PackageManager/CMakeFiles/PackageManagerTests.dir/tests/test.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = _deps/catch2-build/src/libCatch2Main.a  _deps/catch2-build/src/libCatch2.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

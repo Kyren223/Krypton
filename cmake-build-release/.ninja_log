@@ -5,7 +5,7 @@
 53	112	7229057614942049	StandardLibrary/libKryptonSTD.a	3dc653efd13e8093
 16777	17628	7230497290120533	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.obj	33922e772554c222
 11169	13958	7230497253427900	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.obj	c6b5cb438a395a15
-4	407	7230497060653067	C:/Krypton/bin/release/KryptonInterpreter.exe	c968df274ca3492c
+576	883	7231415540741809	C:/Krypton/bin/release/KryptonInterpreter.exe	2098480d864d80da
 4394	6110	7230497174979586	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj	f0ef971e25bcf8b
 8892	9731	7230497211208442	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.obj	a20729974b551656
 0	404	7229052564553540	PackageManager/CMakeFiles/PackageManager.dir/src/main.cpp.obj	c517281c4574ccd7
@@ -117,6 +117,5 @@
 6	512	7230497951427826	PackageManager/CMakeFiles/PackageManagerTests.dir/src/main.cpp.obj	883cbf41f5d80c27
 12	1170	7230497958006010	PackageManager/CMakeFiles/PackageManagerTests.dir/tests/test.cpp.obj	23f2df7c1a908a11
 1170	1557	7230497961773554	C:/Krypton/bin/release/PackageManagerTests.exe	1129d66d73baa334
-2	388	7231415355144230	build.ninja	d3c48e121b2f7936
+2	388	7231522370794538	build.ninja	d3c48e121b2f7936
 0	575	7231415537741842	Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj	f313fc5f52265415
-576	883	7231415540741809	C:/Krypton/bin/release/KryptonInterpreter.exe	2098480d864d80da
