@@ -1,7 +1,7 @@
 :test-result: PASS # A test name that starts with a #
 :test-result: PASS #1027: Bitfields can be captured
 :test-result: PASS #1147
-:test-result: PASS #1175 - Hidden Test
+:test-result: PASS #1175 - Hidden ArgumentParser
 :test-result: PASS #1238
 :test-result: PASS #1245
 :test-result: PASS #1319: Sections can have description (even if it is not saved
@@ -258,10 +258,10 @@ Message from section two
 :test-result: PASS TemplateTestSig: vectors can be sized and resized - float,4
 :test-result: PASS TemplateTestSig: vectors can be sized and resized - int,5
 :test-result: PASS TemplateTestSig: vectors can be sized and resized - std::string,15
-:test-result: PASS Test case with identical tags keeps just one
-:test-result: PASS Test case with one argument
-:test-result: PASS Test enum bit values
-:test-result: PASS Test with special, characters "in name
+:test-result: PASS ArgumentParser case with identical tags keeps just one
+:test-result: PASS ArgumentParser case with one argument
+:test-result: PASS ArgumentParser enum bit values
+:test-result: PASS ArgumentParser with special, characters "in name
 :test-result: PASS Testing checked-if
 :test-result: XFAIL Testing checked-if 2
 :test-result: XFAIL Testing checked-if 3

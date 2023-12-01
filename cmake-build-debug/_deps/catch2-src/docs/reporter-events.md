@@ -2,7 +2,7 @@
 # Reporter events
 
 **Contents**<br>
-[Test running events](#test-running-events)<br>
+[ArgumentParser running events](#test-running-events)<br>
 [Benchmarking events](#benchmarking-events)<br>
 [Listings events](#listings-events)<br>
 [Miscellaneous events](#miscellaneous-events)<br>
@@ -19,9 +19,9 @@ event groups:
 * listings (3 events)
 * miscellaneous (4 events)
 
-## Test running events
+## ArgumentParser running events
 
-Test running events are always paired so that for each `fooStarting` event,
+ArgumentParser running events are always paired so that for each `fooStarting` event,
 there is a `fooEnded` event. This means that the 10 test running events
 consist of 5 pairs of events:
 

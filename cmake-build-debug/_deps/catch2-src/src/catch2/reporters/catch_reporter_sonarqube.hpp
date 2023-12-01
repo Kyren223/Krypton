@@ -29,7 +29,7 @@ namespace Catch {
 
         static std::string getDescription() {
             using namespace std::string_literals;
-            return "Reports test results in the Generic Test Data SonarQube XML format"s;
+            return "Reports test results in the Generic ArgumentParser Data SonarQube XML format"s;
         }
 
         void testRunStarting( TestRunInfo const& testRunInfo ) override;

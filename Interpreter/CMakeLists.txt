@@ -6,21 +6,23 @@ include_directories(src)
 
 # main
 add_executable(Interpreter src/core/Interpreter.cpp
-        include/cli/ArgumentHandler.h
+        include/cli/ArgumentParser.h
         include/cli/CommandExecutor.h
-        src/cli/ArgumentHandler.cpp
-        src/cli/CommandExecutor.cpp)
+        src/cli/ArgumentParser.cpp
+        src/cli/CommandExecutor.cpp
+        include/cli/Argument.h
+        include/common/Constants.h)
+
 target_include_directories(Interpreter PRIVATE include/)
 set_target_properties(Interpreter PROPERTIES OUTPUT_NAME KryptonInterpreter)
 
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(Interpreter PRIVATE DEBUG=true)
 else ()
     target_compile_definitions(Interpreter PRIVATE DEBUG=false)
 endif ()
 
 get_target_property(INTERPRETER_SOURCES Interpreter SOURCES)
-
 
 # tests
 add_executable(InterpreterTests ${INTERPRETER_SOURCES}

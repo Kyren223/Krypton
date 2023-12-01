@@ -3,9 +3,11 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
+      <file path="$PROJECT_DIR$/Interpreter/include/cli" />
       <file path="$PROJECT_DIR$/Interpreter/include/compiler" />
       <file path="$PROJECT_DIR$/Interpreter/include/lexer" />
       <file path="$PROJECT_DIR$/Interpreter/include/runtime" />
+      <file path="$PROJECT_DIR$/Interpreter/src/cli" />
       <file path="$PROJECT_DIR$/Interpreter/src/compiler" />
       <file path="$PROJECT_DIR$/Interpreter/src/lexer" />
       <file path="$PROJECT_DIR$/Interpreter/src/parser" />

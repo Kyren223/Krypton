@@ -78,7 +78,7 @@ repeatability guarantees without taking into account user-provided
 code. First one is in the test case shuffling, and the second one is
 the output from random generators.
 
-Test case shuffling is repeatable across different platforms since v2.12.0,
+ArgumentParser case shuffling is repeatable across different platforms since v2.12.0,
 and it is also generally repeatable across versions, but we might break
 it from time to time. E.g. we broke repeatability with previous versions
 in v2.13.4 so that test cases with similar names are shuffled better.

@@ -96,8 +96,8 @@ hello
 :test-result: PASS Strings can be rendered with colour
 :test-result: FAIL Tabs and newlines show in output
 :test-result: PASS Tag alias can be registered against tag patterns
-:test-result: PASS Test case with one argument
-:test-result: PASS Test enum bit values
+:test-result: PASS ArgumentParser case with one argument
+:test-result: PASS ArgumentParser enum bit values
 :test-result: PASS Text can be formatted using the Text class
 :test-result: PASS The NO_FAIL macro reports a failure but does not fail the test
 :test-result: FAIL This test 'should' fail but doesn't

@@ -4,7 +4,7 @@
 **Contents**<br>
 [Getting Catch2](#getting-catch2)<br>
 [Writing tests](#writing-tests)<br>
-[Test cases and sections](#test-cases-and-sections)<br>
+[ArgumentParser cases and sections](#test-cases-and-sections)<br>
 [BDD style testing](#bdd-style-testing)<br>
 [Data and Type driven tests](#data-and-type-driven-tests)<br>
 [Next steps](#next-steps)<br>
@@ -91,7 +91,7 @@ before we move on.
 
 * We introduce test cases with the `TEST_CASE` macro. This macro takes
   one or two string arguments - a free form test name and, optionally,
-  one or more tags (for more see [Test cases and Sections](#test-cases-and-sections)).
+  one or more tags (for more see [ArgumentParser cases and Sections](#test-cases-and-sections)).
 * The test automatically self-registers with the test runner, and user
   does not have do anything more to ensure that it is picked up by the test
   framework. _Note that you can run specific test, or set of tests,
@@ -107,7 +107,7 @@ expression. As an example, checking that an expression throws an exception
 is done with the `REQUIRE_THROWS` macro. More on that later.
 
 
-## Test cases and sections
+## ArgumentParser cases and sections
 
 Like most test frameworks, Catch2 supports a class-based fixture mechanism,
 where individual tests are methods on class and setup/teardown can be
@@ -205,7 +205,7 @@ or at the [vector example done with BDD macros](../examples/120-Bdd-ScenarioGive
 
 ## Data and Type driven tests
 
-Test cases in Catch2 can also be driven by types, input data, or both
+ArgumentParser cases in Catch2 can also be driven by types, input data, or both
 at the same time.
 
 For more details look into the Catch2 reference, either at the

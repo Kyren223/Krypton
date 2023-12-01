@@ -5,7 +5,7 @@ Additional messages can be logged during a test case. Note that the messages log
 
 ```cpp
 TEST_CASE("Foo") {
-    INFO("Test case start");
+    INFO("ArgumentParser case start");
     for (int i = 0; i < 2; ++i) {
         INFO("The number is " << i);
         CHECK(i == 0);
@@ -13,7 +13,7 @@ TEST_CASE("Foo") {
 }
 
 TEST_CASE("Bar") {
-    INFO("Test case start");
+    INFO("ArgumentParser case start");
     for (int i = 0; i < 2; ++i) {
         INFO("The number is " << i);
         CHECK(i == i);
@@ -23,10 +23,10 @@ TEST_CASE("Bar") {
 ```
 When the `CHECK` fails in the "Foo" test case, then two messages will be printed.
 ```
-Test case start
+ArgumentParser case start
 The number is 1
 ```
-When the last `CHECK` fails in the "Bar" test case, then only one message will be printed: `Test case start`.
+When the last `CHECK` fails in the "Bar" test case, then only one message will be printed: `ArgumentParser case start`.
 
 ## Logging without local scope
 

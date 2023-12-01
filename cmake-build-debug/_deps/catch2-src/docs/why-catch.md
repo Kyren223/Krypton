@@ -3,8 +3,8 @@
 
 Good question. For C++ there are quite a number of established frameworks,
 including (but not limited to),
-[Google Test](http://code.google.com/p/googletest/),
-[Boost.Test](http://www.boost.org/doc/libs/1_49_0/libs/test/doc/html/index.html),
+[Google ArgumentParser](http://code.google.com/p/googletest/),
+[Boost.ArgumentParser](http://www.boost.org/doc/libs/1_49_0/libs/test/doc/html/index.html),
 [CppUnit](http://sourceforge.net/apps/mediawiki/cppunit/index.php?title=Main_Page),
 [Cute](http://www.cute-test.com), and
 [many, many more](http://en.wikipedia.org/wiki/List_of_unit_testing_frameworks#C.2B.2B).
