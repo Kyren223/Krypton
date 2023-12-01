@@ -2,6 +2,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/release)
 
 include_directories(include)
+include_directories(src)
 
 # main
 add_executable(Interpreter src/core/Interpreter.cpp
@@ -22,7 +23,7 @@ get_target_property(INTERPRETER_SOURCES Interpreter SOURCES)
 
 
 # tests
-add_executable(InterpreterTests ${INTERPRETER_SOURCES} tests/test.cpp
+add_executable(InterpreterTests ${INTERPRETER_SOURCES}
         tests/ArgumentHandlerTest.cpp)
 target_include_directories(InterpreterTests PRIVATE include/)
 target_link_libraries(InterpreterTests PRIVATE Catch2::Catch2WithMain)

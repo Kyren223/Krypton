@@ -9,6 +9,8 @@ This document outlines the coding style conventions used in the Krypton project.
 - Classes/Structures: PascalCase. For example, `MyAwesomeClass`.
 - Variables/Functions: camelCase. For example, `myMemoryLeakerVariable`, `myForgotToReleaseMemoryFunction()`.
 - Constants/Enum Values: SCREAMING_SNAKE_CASE. For example, `CONSTANT_VALUE`, `ENUM_TYPE_1`.
+- Function & Methods use verbs in camelCase. For example, `getVariable()`, `setVariable()`, `doSomething()`.
+- Member variables use nouns in camelCase and are prefixed with `_`. For example, `_myVariable`.
 
 ## Indentation
 
@@ -28,6 +30,7 @@ Otherwise you should use braces
 - Use only `#include <header>`
 - If a function can be marked as `const`, do it
 - Use `const` whenever possible
+- Always use `override` when overriding a virtual function
 
 ## File Structure
 - All source files should be in the `src` folder

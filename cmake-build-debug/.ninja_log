@@ -1,7 +1,7 @@
 # ninja log v5
 11833	13185	7229080835966815	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj	37ca2c5c41850e3e
 28443	30589	7229081010079382	_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj	cff07e88856579ce
-1	388	7231522370784572	build.ninja	deed45574584c40
+1	388	7231549154402347	build.ninja	deed45574584c40
 11865	14320	7229080847249076	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj	cdb1477ce36ea310
 2	320	7230497806508212	C:/Krypton/bin/debug/KaPI.exe	d4917675290967fa
 2	453	7230496558019147	Interpreter/CMakeFiles/Interpreter.dir/src/main.cpp.obj	90e904c5498480f7
@@ -9,7 +9,7 @@
 10	1704	7229080721217660	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.obj	fc6163acec2ea93b
 4444	6772	7229080771889357	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.obj	85e82f24b322078
 11741	11833	7229080822496308	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.obj	29d6787005737a86
-58	412	7231488364776798	C:/Krypton/bin/debug/KryptonInterpreter.exe	ff6a00d4e932b2d6
+487	849	7231523063172220	C:/Krypton/bin/debug/KryptonInterpreter.exe	eb5444c912fe7612
 12522	13208	7229080836235902	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.obj	8282aed16bb6f01b
 0	427	7229052525782416	PackageManager/CMakeFiles/PackageManager.dir/src/main.cpp.obj	b37c6d4cd1f2792b
 6	1838	7229080722523289	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.obj	18b7adfc1ab63e62
@@ -67,6 +67,7 @@
 13208	15202	7229080856164590	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.obj	1e3df6ef223712e2
 13185	16303	7229080867108005	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.obj	242f9185143f0c7e
 14320	16453	7229080868672763	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.obj	46300cda83a4aba3
+13	78	7231523055516789	Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj	ac57a53b351e94ba
 9865	16839	7229080872489999	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.obj	dc4b0764be055041
 16439	17489	7229080879048379	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.obj	f9ba6a80acca96af
 16974	18078	7229080884953948	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.obj	903ace5bba2952ca
@@ -119,5 +120,5 @@
 1147	3419	7230498072646737	C:/Krypton/bin/debug/PackageManagerTests.exe	ba5a102cd0ea9cb8
 5	60	7230501187706803	Interpreter/CMakeFiles/InterpreterTests.dir/src/file.cpp.obj	ea9d4dc0cc52ebef
 2	495	7231423175900800	Interpreter/CMakeFiles/Interpreter.dir/src/core/main.cpp.obj	ece544992376a2c1
-0	445	7231474112816032	Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj	6439992f7b01e7a5
-3	58	7231488361308400	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentHandler.cpp.obj	da1582418b240d51
+9	487	7231523059618964	Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj	6439992f7b01e7a5
+3	82	7231523055526754	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentHandler.cpp.obj	da1582418b240d51
