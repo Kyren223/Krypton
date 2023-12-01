@@ -28,5 +28,13 @@ Otherwise you should use braces
 - Use only `#include <header>`
 - If a function can be marked as `const`, do it
 - Use `const` whenever possible
-- 
+
+## File Structure
+- All source files should be in the `src` folder
+- All header files should be in the `include` folder
+- Headers end with `.h`
+- Source files end with `.cpp`
+- Header files with implementation should end with `.hpp`
+- All files should be named using PascalCase
+- All folders should be named using snake_case
 

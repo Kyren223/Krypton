@@ -10,15 +10,25 @@
  */
 
 #define APPLICATION_NAME "KryptonInterpreter"
-#define VERSION "0.1.0" // major.minor.patch
+#define VERSION "0.1.1" // major.minor.patch
 #define STABLE false
 
-#define STABLE_STRING (STABLE ? "Stable" : "Unstable")
-#define DEBUG_STRING (DEBUG ? "Debug" : "Release")
-#define BUILD_STRING std::string("v") + VERSION + " (" + STABLE_STRING + " " + DEBUG_STRING + ")"
+#if STABLE
+#define STABLE_STRING "Stable"
+#else
+#define STABLE_STRING "Unstable"
+#endif
+
+#if DEBUG
+#define DEBUG_STRING "Debug"
+#else
+#define DEBUG_STRING "Release"
+#endif
+
+#define BUILD_STRING "v" VERSION " (" STABLE_STRING " " DEBUG_STRING ")"
 
 
-int main(const int argc, const char** argv)
+int main(const int argc, const char* argv[])
 {
     std::cout << APPLICATION_NAME << " " << BUILD_STRING << std::endl;
     return 0;

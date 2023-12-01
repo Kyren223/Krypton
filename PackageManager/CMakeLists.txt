@@ -1,4 +1,4 @@
-set(SOURCES src/main.cpp) # src files
+set(SOURCES src/PackageManager.cpp) # src files
 set(TEST_SOURCES tests/test.cpp) # test files
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/debug)
