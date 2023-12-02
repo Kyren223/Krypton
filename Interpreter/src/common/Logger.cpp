@@ -72,7 +72,7 @@ void Logger::print(const std::string& message, LogMode level)
             SetConsoleTextAttribute(hConsole, 10);
             break;
     }
-    std::cout << getLevelPrefix(level) << message << std::endl;
+    std::cout << getLevelPrefix(level) << message << "\n";
     SetConsoleTextAttribute(hConsole, 15);
 }
 

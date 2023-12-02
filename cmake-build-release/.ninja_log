@@ -123,3 +123,8 @@
 14	1299	7231719114356563	Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj	46ad222128d5fd1d
 1	1096	7231711112251004	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj	27150fcf15497feb
 5	3266	7231719134015412	Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj	12945ed7bd797e0c
+10	769	7232296774517837	Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj	46ad222128d5fd1d
+20	871	7232296775534439	Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj	4152dcc405deb818
+5	1141	7232296778245441	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj	27150fcf15497feb
+15	2085	7232296787679085	Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj	12945ed7bd797e0c
+2085	2434	7232296791108387	C:/Krypton/bin/release/KryptonInterpreter.exe	8bec5f43093c78a4

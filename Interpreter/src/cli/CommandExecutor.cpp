@@ -47,7 +47,6 @@ void CommandExecutor::executeHelp(optional<Argument> argument)
         case Argument::HELP:
             message = "Help Usage:\n"
                       "  krypton --help\n"
-                      "  krypton --help <argument> \n"
                       "  krypton --help\"<argument>\"\n"
                       "Short: -h \n";
             break;
@@ -59,9 +58,7 @@ void CommandExecutor::executeHelp(optional<Argument> argument)
         case Argument::BUILD:
             message = "Build Usage:\n"
                       "  krypton <Krypton File> --build\n"
-                      "  krypton <Krypton File> --build <path>\n"
                       "  krypton <Krypton File> --build\"<path>\"\n"
-                      "  krypton <Directory> --build <path> \n"
                       "  krypton <Directory> --build\"<path>\"\n"
                       "Short: -b \n";
             break;
