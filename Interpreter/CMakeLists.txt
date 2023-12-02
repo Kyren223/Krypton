@@ -16,6 +16,13 @@ add_executable(Interpreter src/core/Interpreter.cpp
         include/common/Logger.h
         src/common/StringHelper.cpp
         include/common/StringHelper.h
+        include/parser/Parser.h
+        src/lexer/Lexer.cpp
+        include/lexer/Lexer.h
+        include/nodes/ASTNode.h
+        include/runtime/Runtime.h
+        src/lexer/Token.cpp
+        include/lexer/Token.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)

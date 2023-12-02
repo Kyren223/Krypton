@@ -1,7 +1,7 @@
 # ninja log v5
 11833	13185	7229080835966815	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj	37ca2c5c41850e3e
 28443	30589	7229081010079382	_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj	cff07e88856579ce
-1	388	7232510371468261	build.ninja	deed45574584c40
+1	388	7232566268835692	build.ninja	deed45574584c40
 11865	14320	7229080847249076	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj	cdb1477ce36ea310
 2	320	7230497806508212	C:/Krypton/bin/debug/KaPI.exe	d4917675290967fa
 2	453	7230496558019147	Interpreter/CMakeFiles/Interpreter.dir/src/main.cpp.obj	90e904c5498480f7

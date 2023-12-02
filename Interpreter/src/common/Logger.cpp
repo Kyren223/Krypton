@@ -17,7 +17,7 @@ void Logger::setSuppressWarnings(bool suppressWarnings)
     _suppressWarnings = suppressWarnings;
 }
 
-void Logger::setNoOutput(bool noOutput)
+void Logger::setSilent(bool noOutput)
 {
     _silent = noOutput;
 }

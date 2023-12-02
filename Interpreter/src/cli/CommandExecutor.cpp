@@ -27,7 +27,24 @@ void CommandExecutor::execute()
     else if (_parser.hasArgument(Argument::VERSION)) executeVersion();
     else if (_parser.getPath())
     {
-        // TODO Implement build
+        // Set logger output options
+        Logger::setVerbose(_parser.hasArgument(Argument::VERBOSE));
+        Logger::setSilent(_parser.hasArgument(Argument::SILENT));
+        Logger::setSuppressWarnings(_parser.hasArgument(Argument::SUPPRESS_WARNINGS));
+        
+        // Execute command
+        // TODO - Get path from parser path
+        
+        
+        // Temporary code for testing
+        if (_parser.hasArgument(Argument::BUILD))
+        {
+            Logger::debug("Build command");
+        }
+        if (_parser.hasArgument(Argument::RUN))
+        {
+            Logger::debug("Run command");
+        }
     }
     else
     {

@@ -22,7 +22,7 @@ class Logger
 public:
     static void setVerbose(bool verbose);
     static void setSuppressWarnings(bool suppressWarnings);
-    static void setNoOutput(bool noOutput);
+    static void setSilent(bool noOutput);
     
     static void log(const string& message);
     static void debug(const string& message);
