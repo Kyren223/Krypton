@@ -13,7 +13,12 @@ void CommandExecutor::execute()
 {
     if (_parser.hasArgument(Argument::HELP))
     {
-        executeHelp(_parser.getArgumentValue(Argument::HELP)));
+        optional<string> argument = _parser.getArgumentValue(Argument::HELP);
+        if (!argument) executeHelp({});
+        else
+        {
+            ArgumentParser::argumentFromString();
+        }
     }
     else if (_parser.hasArgument(Argument::VERSION)) executeVersion();
     else if (_parser.getPath())

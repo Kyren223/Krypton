@@ -22,6 +22,8 @@ public:
     optional<string> getArgumentValue(Argument type) const;
     
     static string argumentToString(Argument argument);
+    static optional<Argument> argumentFromString(string argument);
+
 private:
     pair<Argument, optional<string>> parseArgument(string argument) const;
     static int getDashCount(string argument);

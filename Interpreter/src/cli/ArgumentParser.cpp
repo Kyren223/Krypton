@@ -139,24 +139,29 @@ string ArgumentParser::argumentToString(const Argument argument)
 {
     switch (argument)
     {
-        case Argument::HELP:
-            return "HELP";
-        case Argument::VERSION:
-            return "VERSION";
-        case Argument::BUILD:
-            return "BUILD";
-        case Argument::RUN:
-            return "RUN";
-        case Argument::INCLUDE_SUBDIRECTORIES:
-            return "INCLUDE_SUBDIRECTORIES";
-        case Argument::NO_STD:
-            return "NO_STD";
-        case Argument::SUPPRESS_WARNINGS:
-            return "SUPPRESS_WARNINGS";
-        case Argument::VERBOSE:
-            return "VERBOSE";
-        case Argument::SILENT:
-            return "SILENT";
+        case Argument::HELP: return "HELP";
+        case Argument::VERSION: return "VERSION";
+        case Argument::BUILD: return "BUILD";
+        case Argument::RUN: return "RUN";
+        case Argument::INCLUDE_SUBDIRECTORIES: return "INCLUDE_SUBDIRECTORIES";
+        case Argument::NO_STD: return "NO_STD";
+        case Argument::SUPPRESS_WARNINGS: return "SUPPRESS_WARNINGS";
+        case Argument::VERBOSE: return "VERBOSE";
+        case Argument::SILENT: return "SILENT";
     }
     return "None";
+}
+
+optional<Argument> ArgumentParser::argumentFromString(string argument)
+{
+    if (argument == "HELP") return Argument::HELP;
+    if (argument == "VERSION") return Argument::VERSION;
+    if (argument == "BUILD") return Argument::BUILD;
+    if (argument == "RUN") return Argument::RUN;
+    if (argument == "INCLUDE_SUBDIRECTORIES") return Argument::INCLUDE_SUBDIRECTORIES;
+    if (argument == "NO_STD") return Argument::NO_STD;
+    if (argument == "SUPPRESS_WARNINGS") return Argument::SUPPRESS_WARNINGS;
+    if (argument == "VERBOSE") return Argument::VERBOSE;
+    if (argument == "SILENT") return Argument::SILENT;
+    return {};
 }

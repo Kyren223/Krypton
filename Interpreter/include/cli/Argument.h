@@ -1,5 +1,6 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #pragma once
+#include <string>
 
 enum class Argument
 {
@@ -13,4 +14,6 @@ enum class Argument
     VERBOSE,
     SILENT,
 };
+
+
 
