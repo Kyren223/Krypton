@@ -152,7 +152,7 @@ string ArgumentParser::argumentToString(const Argument argument)
     return "None";
 }
 
-optional<Argument> ArgumentParser::argumentFromString(string argument)
+optional<Argument> ArgumentParser::argumentFromString(const string& argument)
 {
     if (argument == "HELP") return Argument::HELP;
     if (argument == "VERSION") return Argument::VERSION;

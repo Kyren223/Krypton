@@ -16,13 +16,13 @@ class ArgumentParser
 
 public:
     ArgumentParser(int argc, const char* argv[]);
-    
+
     optional<string> getPath() const;
     bool hasArgument(Argument type) const;
     optional<string> getArgumentValue(Argument type) const;
-    
+
     static string argumentToString(Argument argument);
-    static optional<Argument> argumentFromString(string argument);
+    static optional<Argument> argumentFromString(const string& argument);
 
 private:
     pair<Argument, optional<string>> parseArgument(string argument) const;

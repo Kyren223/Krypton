@@ -2,6 +2,7 @@
 #include <cli/CommandExecutor.h>
 #include <common/Logger.h>
 #include <common/Constants.h>
+#include <common/StringHelper.h>
 
 CommandExecutor::CommandExecutor(ArgumentParser& parser)
     : _parser(parser)
@@ -17,7 +18,10 @@ void CommandExecutor::execute()
         if (!argument) executeHelp({});
         else
         {
-            ArgumentParser::argumentFromString();
+            string value = StringHelper::toUpper(argument.value());
+            optional<Argument> arg = ArgumentParser::argumentFromString(argument.value());
+            if (!arg) Logger::error("Invalid command \"" + argument.value() + "\" for help");
+            else executeHelp(arg);
         }
     }
     else if (_parser.hasArgument(Argument::VERSION)) executeVersion();
