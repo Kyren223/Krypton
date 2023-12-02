@@ -15,7 +15,8 @@ add_executable(Interpreter src/core/Interpreter.cpp
         src/common/Logger.cpp
         include/common/Logger.h
         src/common/StringHelper.cpp
-        include/common/StringHelper.h)
+        include/common/StringHelper.h
+)
 
 target_include_directories(Interpreter PRIVATE include/)
 set_target_properties(Interpreter PROPERTIES OUTPUT_NAME KryptonInterpreter)

@@ -7,7 +7,7 @@
 CommandExecutor::CommandExecutor(ArgumentParser& parser)
     : _parser(parser)
 {
-    // TODO Implement constructor
+
 }
 
 void CommandExecutor::execute()

@@ -2,11 +2,13 @@
 #pragma once
 #include <string>
 
+using std::string;
+
 class StringHelper
 {
 public:
-    static std::string toLower(const std::string& string);
-    static std::string toUpper(const std::string& string);
+    static string toLower(const string& string);
+    static string toUpper(const string& string);
     
 };
 

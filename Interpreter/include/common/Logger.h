@@ -2,6 +2,8 @@
 #pragma once
 #include <string>
 
+using std::string;
+
 enum class LogMode
 {
     NONE, // White
@@ -22,13 +24,13 @@ public:
     static void setSuppressWarnings(bool suppressWarnings);
     static void setNoOutput(bool noOutput);
     
-    static void log(const std::string& message);
-    static void debug(const std::string& message);
-    static void info(const std::string& message);
-    static void warn(const std::string& message);
-    static void error(const std::string& message);
+    static void log(const string& message);
+    static void debug(const string& message);
+    static void info(const string& message);
+    static void warn(const string& message);
+    static void error(const string& message);
     
-    static void print(const std::string& message, LogMode mode);
+    static void print(const string& message, LogMode mode);
 private:
-    static std::string getLevelPrefix(LogMode mode);
+    static string getLevelPrefix(LogMode mode);
 };

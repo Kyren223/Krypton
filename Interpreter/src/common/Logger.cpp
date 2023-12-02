@@ -22,32 +22,32 @@ void Logger::setNoOutput(bool noOutput)
     _silent = noOutput;
 }
 
-void Logger::log(const std::string& message)
+void Logger::log(const string& message)
 {
     print(message, LogMode::NONE);
 }
 
-void Logger::debug(const std::string& message)
+void Logger::debug(const string& message)
 {
     print(message, LogMode::DEBUG_LOG);
 }
 
-void Logger::info(const std::string& message)
+void Logger::info(const string& message)
 {
     print(message, LogMode::INFO);
 }
 
-void Logger::warn(const std::string& message)
+void Logger::warn(const string& message)
 {
     print(message, LogMode::WARN);
 }
 
-void Logger::error(const std::string& message)
+void Logger::error(const string& message)
 {
     print(message, LogMode::ERROR_LOG);
 }
 
-void Logger::print(const std::string& message, LogMode level)
+void Logger::print(const string& message, LogMode level)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     switch (level)
@@ -76,7 +76,7 @@ void Logger::print(const std::string& message, LogMode level)
     SetConsoleTextAttribute(hConsole, 15);
 }
 
-std::string Logger::getLevelPrefix(LogMode level)
+string Logger::getLevelPrefix(LogMode level)
 {
     switch (level)
     {

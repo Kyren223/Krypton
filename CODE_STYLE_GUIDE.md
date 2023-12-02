@@ -32,6 +32,7 @@ Otherwise you should use braces
 - If a function can be marked as `const`, do it
 - Use `const` whenever possible
 - Always use `override` when overriding a virtual function
+- Use `using std::<type>` when using a type from the standard library
 
 ## File Structure
 - All source files should be in the `src` folder
