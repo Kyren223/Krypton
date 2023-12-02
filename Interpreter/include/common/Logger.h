@@ -15,7 +15,7 @@ class Logger
 {
     static bool _verbose;
     static bool _suppressWarnings;
-    static bool _noOutput;
+    static bool _silent;
     
 public:
     static void setVerbose(bool verbose);

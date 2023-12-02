@@ -11,6 +11,7 @@ This document outlines the coding style conventions used in the Krypton project.
 - Constants/Enum Values: SCREAMING_SNAKE_CASE. For example, `CONSTANT_VALUE`, `ENUM_TYPE_1`.
 - Function & Methods use verbs in camelCase. For example, `getVariable()`, `setVariable()`, `doSomething()`.
 - Member variables use nouns in camelCase and are prefixed with `_`. For example, `_myVariable`.
+- All test files should be named `<Name>Test.cpp` and placed in the `tests` folder.
 
 ## Indentation
 

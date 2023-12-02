@@ -11,5 +11,6 @@ enum class Argument : unsigned int
     NO_STD,
     SUPPRESS_WARNINGS,
     VERBOSE,
+    SILENT,
 };
 

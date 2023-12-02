@@ -23,7 +23,8 @@ get_target_property(INTERPRETER_SOURCES Interpreter SOURCES)
 # tests
 add_executable(InterpreterTests ${INTERPRETER_SOURCES}
         tests/ArgumentHandlerTest.cpp
-        tests/LoggerTests.cpp)
+        tests/LoggerTest.cpp
+        tests/CommandExecutorTest.cpp)
 target_include_directories(InterpreterTests PRIVATE include/)
 target_link_libraries(InterpreterTests PRIVATE Catch2::Catch2WithMain)
 target_compile_definitions(InterpreterTests PRIVATE NO_MAIN)

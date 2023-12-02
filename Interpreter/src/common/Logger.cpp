@@ -5,7 +5,7 @@
 
 bool Logger::_verbose = false;
 bool Logger::_suppressWarnings = false;
-bool Logger::_noOutput = false;
+bool Logger::_silent = false;
 
 void Logger::setVerbose(bool verbose)
 {
@@ -19,7 +19,7 @@ void Logger::setSuppressWarnings(bool suppressWarnings)
 
 void Logger::setNoOutput(bool noOutput)
 {
-    _noOutput = noOutput;
+    _silent = noOutput;
 }
 
 void Logger::log(const std::string& message)
@@ -53,15 +53,15 @@ void Logger::print(const std::string& message, LogMode level)
     switch (level)
     {
         case LogMode::NONE:
-            if (_noOutput) return;
+            if (_silent) return;
             SetConsoleTextAttribute(hConsole, 15);
             break;
         case LogMode::INFO:
-            if (_noOutput || _verbose) return;
+            if (_silent || _verbose) return;
             SetConsoleTextAttribute(hConsole, 11);
             break;
         case LogMode::WARN:
-            if (_noOutput || _suppressWarnings) return;
+            if (_silent || _suppressWarnings) return;
             SetConsoleTextAttribute(hConsole, 14);
             break;
         case LogMode::ERROR_LOG:

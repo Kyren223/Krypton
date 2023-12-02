@@ -4,6 +4,12 @@
 
 namespace Constants
 {
+    
+    // Interpreter
+    constexpr const char* APP_NAME = "KryptonInterpreter";
+    constexpr const char* VERSION = "0.2.0";
+    constexpr bool STABLE = false;
+    
     /*
      * =================================================================================
      * MAJOR VERSION - Incremented when substantial new features/reworks have been done
@@ -13,7 +19,7 @@ namespace Constants
      * =================================================================================
      */
     
-    constexpr const char* NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.1.0";
-    constexpr bool STABLE = true;
+    // Language
+    constexpr const char* LANGUAGE_NAME = "Krypton";
+    constexpr int LANGUAGE_VERSION = 1;
 }
