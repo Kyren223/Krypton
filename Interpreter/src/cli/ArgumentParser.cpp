@@ -135,7 +135,6 @@ int ArgumentParser::getDashCount(string argument)
     return count;
 }
 
-#if DEBUG
 string ArgumentParser::argumentToString(const Argument argument)
 {
     switch (argument)
@@ -161,4 +160,3 @@ string ArgumentParser::argumentToString(const Argument argument)
     }
     return "None";
 }
-#endif

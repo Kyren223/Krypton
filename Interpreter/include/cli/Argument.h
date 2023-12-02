@@ -1,7 +1,7 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #pragma once
 
-enum class Argument : unsigned int
+enum class Argument
 {
     HELP,
     VERSION,

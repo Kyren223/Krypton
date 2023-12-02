@@ -11,7 +11,20 @@ CommandExecutor::CommandExecutor(ArgumentParser& parser)
 
 void CommandExecutor::execute()
 {
-
+    if (_parser.hasArgument(Argument::HELP))
+    {
+        executeHelp(_parser.getArgumentValue(Argument::HELP)));
+    }
+    else if (_parser.hasArgument(Argument::VERSION)) executeVersion();
+    else if (_parser.getPath())
+    {
+        // TODO Implement build
+    }
+    else
+    {
+        Logger::error("No command specified!");
+        Logger::log("Use \"krypton --help\" to see all commands");
+    }
 }
 
 void CommandExecutor::executeHelp(optional<Argument> argument)
