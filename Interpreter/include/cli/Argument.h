@@ -13,6 +13,9 @@ enum class Argument
     SUPPRESS_WARNINGS,
     VERBOSE,
     SILENT,
+    COMPILE,
+    MODULES,
+    LIBS,
 };
 
 

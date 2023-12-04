@@ -69,6 +69,18 @@ pair<Argument, optional<string>> ArgumentParser::parseArgument(string argument) 
             case 'r':
                 argumentType = Argument::RUN;
                 break;
+            case 'c':
+                argumentType = Argument::COMPILE;
+                argumentValue = argument.substr(2);
+                break;
+            case 'm':
+                argumentType = Argument::MODULES;
+                argumentValue = argument.substr(2);
+                break;
+            case 'l':
+                argumentType = Argument::LIBS;
+                argumentValue = argument.substr(2);
+                break;
             default:
                 throw std::invalid_argument("Invalid argument");
         }
@@ -113,6 +125,18 @@ pair<Argument, optional<string>> ArgumentParser::parseArgument(string argument) 
         {
             argumentType = Argument::SILENT;
         }
+        else if (argument.starts_with("--compile")) {
+            argumentType = Argument::COMPILE;
+            argumentValue = argument.substr(10);
+        }
+        else if (argument.starts_with("--modules")) {
+            argumentType = Argument::MODULES;
+            argumentValue = argument.substr(10);
+        }
+        else if (argument.starts_with("--libs")) {
+            argumentType = Argument::LIBS;
+            argumentValue = argument.substr(7);
+        }
         else
         {
             throw std::invalid_argument("Invalid argument");
@@ -148,6 +172,9 @@ string ArgumentParser::argumentToString(const Argument argument)
         case Argument::SUPPRESS_WARNINGS: return "SUPPRESS_WARNINGS";
         case Argument::VERBOSE: return "VERBOSE";
         case Argument::SILENT: return "SILENT";
+        case Argument::COMPILE: return "COMPILE";
+        case Argument::MODULES: return "MODULES";
+        case Argument::LIBS: return "LIBS";
     }
     return "None";
 }
@@ -163,5 +190,8 @@ optional<Argument> ArgumentParser::argumentFromString(const string& argument)
     if (argument == "SUPPRESS_WARNINGS") return Argument::SUPPRESS_WARNINGS;
     if (argument == "VERBOSE") return Argument::VERBOSE;
     if (argument == "SILENT") return Argument::SILENT;
+    if (argument == "COMPILE") return Argument::COMPILE;
+    if (argument == "MODULES") return Argument::MODULES;
+    if (argument == "LIBS") return Argument::LIBS;
     return {};
 }
