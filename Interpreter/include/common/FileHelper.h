@@ -9,7 +9,7 @@
 #include <vector>
 
 namespace fs = std::filesystem;
-using std::string, std::optional, std::streamsize, std::vector, std::ifstream;
+using std::string, std::optional, std::streamsize, std::vector, std::ifstream, std::ofstream;
 
 
 enum class PathType

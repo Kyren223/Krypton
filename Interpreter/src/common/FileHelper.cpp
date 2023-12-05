@@ -35,22 +35,18 @@ string FileHelper::trimExtension(const string& file)
 
 optional<string> FileHelper::readFile(const fs::path& path)
 {
-    ifstream file(path, std::ios::binary | std::ios::ate);
-    if(file.fail()) return {};
-    
-    // Get file size
-    const streamsize end = file.tellg();
-    file.seekg(0, std::ios::beg);
-    const streamsize size = end - file.tellg();
-    
-    std::string text(size, '\0');
-    if (!file.read(text.data(), size)) return {};
-    return text;
+    ifstream file(path, std::ios::in | std::ios::binary);
+    if (!fs::exists(path) || !file) return {};
+    string data((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    return data;
 }
 
 void FileHelper::writeFile(const fs::path& path, const string& data)
 {
-    
+    ofstream file(path, std::ios::out | std::ios::trunc);
+    if(file.fail()) throw std::runtime_error("Failed to write to file at " + path.string());
+    file << data;
+    file.close();
 }
 
 
