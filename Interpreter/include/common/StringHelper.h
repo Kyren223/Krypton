@@ -7,8 +7,9 @@ using std::string;
 class StringHelper
 {
 public:
-    static string toLower(const string& string);
-    static string toUpper(const string& string);
-    
+    static string toLower(const string& str);
+    static string toUpper(const string& str);
+    static string trim(const string& str, char ch);
+    static string replace(const string& str, const string& from, const string& to);
 };
 

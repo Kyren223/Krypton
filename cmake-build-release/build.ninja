@@ -133,6 +133,14 @@ build Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj: CXX_COMPIL
   OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\lexer
 
+build Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Release C$:/Krypton/Interpreter/src/common/FileHelper.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=false
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\common\FileHelper.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/PackageManager/include
+  OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\common
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Interpreter
@@ -141,7 +149,7 @@ build Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable C:\Krypton\bin\release\KryptonInterpreter.exe
 
-build C$:/Krypton/bin/release/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Release Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj
+build C$:/Krypton/bin/release/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Release Interpreter/CMakeFiles/Interpreter.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -217,6 +225,14 @@ build Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Token.cpp.obj: CXX_C
   OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\lexer
 
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/common/FileHelper.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/src/common/FileHelper.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEFINES = -DDEBUG=false -DNO_MAIN
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\common\FileHelper.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/cmake-build-release/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-release/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\common
+
 build Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentHandlerTest.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Release C$:/Krypton/Interpreter/tests/ArgumentHandlerTest.cpp || cmake_object_order_depends_target_InterpreterTests
   DEFINES = -DDEBUG=false -DNO_MAIN
   DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\tests\ArgumentHandlerTest.cpp.obj.d
@@ -249,7 +265,7 @@ build Interpreter/CMakeFiles/InterpreterTests.dir/tests/CommandExecutorTest.cpp.
 #############################################
 # Link the executable C:\Krypton\bin\release\InterpreterTests.exe
 
-build C$:/Krypton/bin/release/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Release Interpreter/CMakeFiles/InterpreterTests.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentHandlerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LoggerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/CommandExecutorTest.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
+build C$:/Krypton/bin/release/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Release Interpreter/CMakeFiles/InterpreterTests.dir/src/core/Interpreter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/FileHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentHandlerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LoggerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/CommandExecutorTest.cpp.obj | _deps/catch2-build/src/libCatch2Main.a _deps/catch2-build/src/libCatch2.a || _deps/catch2-build/src/libCatch2.a _deps/catch2-build/src/libCatch2Main.a
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = _deps/catch2-build/src/libCatch2Main.a  _deps/catch2-build/src/libCatch2.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

@@ -6,7 +6,7 @@ namespace Constants
     
     // Interpreter
     constexpr const char* APP_NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.5.0";
+    constexpr const char* VERSION = "0.8.0";
     constexpr bool STABLE = false;
     
     /*

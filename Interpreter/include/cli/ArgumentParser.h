@@ -4,27 +4,29 @@
 #include <string>
 #include <optional>
 #include <unordered_map>
-#include <variant>
+#include <vector>
 #include <cli/Argument.h>
 
-using std::optional, std::string, std::unordered_map, std::variant, std::pair;
+using std::optional, std::string, std::unordered_map, std::vector;
 
 class ArgumentParser
 {
-    optional<string> _path;
-    unordered_map<Argument, optional<string>> _arguments;
+    unordered_map<Argument, vector<string>> _arguments;
+    vector<string> _input;
+    int _index;
+    bool _terminate;
 
 public:
     ArgumentParser(int argc, const char* argv[]);
 
-    optional<string> getPath() const;
     bool hasArgument(Argument type) const;
-    optional<string> getArgumentValue(Argument type) const;
+    vector<string> getArgumentOptions(Argument type) const;
 
-    static string argumentToString(Argument argument);
+    static optional<string> argumentToString(Argument argument);
     static optional<Argument> argumentFromString(const string& argument);
 
 private:
-    pair<Argument, optional<string>> parseArgument(string argument) const;
+    void parseNextArgument();
     static int getDashCount(string argument);
+    static optional<Argument> getArgumentType(const string& argument, int dashCount);
 };

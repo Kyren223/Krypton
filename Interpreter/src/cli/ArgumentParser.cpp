@@ -1,154 +1,32 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <cli/ArgumentParser.h>
 #include <common/Logger.h>
-#include <stdexcept>
+#include <common/FileHelper.h>
+#include <common/StringHelper.h>
 
 ArgumentParser::ArgumentParser(int argc, const char* argv[])
 {
-#if DEBUG
-    Logger::debug("ArgumentParser - List of arguments:");
-    for (int i = 0; i < argc; i++)
+    #if DEBUG
+        Logger::debug("ArgumentParser - List of arguments:");
+        for (int i = 0; i < argc; i++) Logger::debug(argv[i]);
+    #endif
+    
+    _terminate = false;
+    _index = 0;
+    _input = vector<string>(argv + 1, argv + argc);
+    
+    while (_index < _input.size()) parseNextArgument();
+    
+    if (_terminate)
     {
-        Logger::debug(argv[i]);
+        Logger::log("Use \"krypton --help\" to see all arguments");
+        exit(1);
     }
-#endif
-
-    try
-    {
-        _path = argv[1][0] != '-' ? argv[1] : optional<string>();
-        Logger::debug("ArgumentParser - Path: " + (_path ? _path.value() : "None"));
-        for (int i = 2; i < argc; i++)
-        {
-            auto argument = parseArgument(argv[i]);
-            _arguments.insert(argument);
-        }
-    }
-    catch (std::invalid_argument& e) { Logger::error(e.what()); }
-
-}
-
-optional<string> ArgumentParser::getPath() const
-{
-    return _path;
 }
 
 bool ArgumentParser::hasArgument(Argument type) const
 {
     return _arguments.contains(type);
-}
-
-optional<string> ArgumentParser::getArgumentValue(Argument type) const
-{
-    if (!_arguments.contains(type)) return {};
-    return _arguments.at(type);
-}
-
-pair<Argument, optional<string>> ArgumentParser::parseArgument(string argument) const
-{
-    int dashes = getDashCount(argument);
-    if (dashes == 0) throw std::invalid_argument("Argument " + argument + " must start with a dash");
-    
-    
-    Argument argumentType;
-    optional<string> argumentValue;
-    if (dashes == 1)
-    {
-        switch (argument[1])
-        {
-            case 'h':
-                argumentType = Argument::HELP;
-                argumentValue = argument.substr(2);
-                break;
-            case 'v':
-                argumentType = Argument::VERSION;
-                break;
-            case 'b':
-                argumentType = Argument::BUILD;
-                argumentValue = argument.substr(2);
-                break;
-            case 'r':
-                argumentType = Argument::RUN;
-                break;
-            case 'c':
-                argumentType = Argument::COMPILE;
-                argumentValue = argument.substr(2);
-                break;
-            case 'm':
-                argumentType = Argument::MODULES;
-                argumentValue = argument.substr(2);
-                break;
-            case 'l':
-                argumentType = Argument::LIBS;
-                argumentValue = argument.substr(2);
-                break;
-            default:
-                throw std::invalid_argument("Invalid argument");
-        }
-    }
-    if (dashes == 2)
-    {
-        if (argument.starts_with("--help"))
-        {
-            argumentType = Argument::HELP;
-            argumentValue = argument.substr(7);
-        }
-        else if (argument.starts_with("--version"))
-        {
-            argumentType = Argument::VERSION;
-        }
-        else if (argument.starts_with("--build"))
-        {
-            argumentType = Argument::BUILD;
-            argumentValue = argument.substr(8);
-        }
-        else if (argument.starts_with("--run"))
-        {
-            argumentType = Argument::RUN;
-        }
-        else if (argument.starts_with("--include-subdirectories"))
-        {
-            argumentType = Argument::INCLUDE_SUBDIRECTORIES;
-        }
-        else if (argument.starts_with("--no-std"))
-        {
-            argumentType = Argument::NO_STD;
-        }
-        else if (argument.starts_with("--suppress-warnings"))
-        {
-            argumentType = Argument::SUPPRESS_WARNINGS;
-        }
-        else if (argument.starts_with("--verbose"))
-        {
-            argumentType = Argument::VERBOSE;
-        }
-        else if (argument.starts_with("--silent"))
-        {
-            argumentType = Argument::SILENT;
-        }
-        else if (argument.starts_with("--compile")) {
-            argumentType = Argument::COMPILE;
-            argumentValue = argument.substr(10);
-        }
-        else if (argument.starts_with("--modules")) {
-            argumentType = Argument::MODULES;
-            argumentValue = argument.substr(10);
-        }
-        else if (argument.starts_with("--libs")) {
-            argumentType = Argument::LIBS;
-            argumentValue = argument.substr(7);
-        }
-        else
-        {
-            throw std::invalid_argument("Invalid argument");
-        }
-    }
-
-#if DEBUG
-    Logger::debug("ArgumentParser - Argument type: " + argumentToString(argumentType));
-    Logger::debug("ArgumentParser - Argument value: " + (argumentValue ? argumentValue.value() : "None"));
-#endif
-    
-    return {argumentType, argumentValue};
 }
 
 int ArgumentParser::getDashCount(string argument)
@@ -159,10 +37,11 @@ int ArgumentParser::getDashCount(string argument)
     return count;
 }
 
-string ArgumentParser::argumentToString(const Argument argument)
+optional<string> ArgumentParser::argumentToString(const Argument argument)
 {
     switch (argument)
     {
+        case Argument::PATH: return "PATH";
         case Argument::HELP: return "HELP";
         case Argument::VERSION: return "VERSION";
         case Argument::BUILD: return "BUILD";
@@ -176,22 +55,107 @@ string ArgumentParser::argumentToString(const Argument argument)
         case Argument::MODULES: return "MODULES";
         case Argument::LIBS: return "LIBS";
     }
-    return "None";
+    return {};
 }
 
 optional<Argument> ArgumentParser::argumentFromString(const string& argument)
 {
-    if (argument == "HELP") return Argument::HELP;
-    if (argument == "VERSION") return Argument::VERSION;
-    if (argument == "BUILD") return Argument::BUILD;
-    if (argument == "RUN") return Argument::RUN;
-    if (argument == "INCLUDE_SUBDIRECTORIES") return Argument::INCLUDE_SUBDIRECTORIES;
-    if (argument == "NO_STD") return Argument::NO_STD;
-    if (argument == "SUPPRESS_WARNINGS") return Argument::SUPPRESS_WARNINGS;
-    if (argument == "VERBOSE") return Argument::VERBOSE;
-    if (argument == "SILENT") return Argument::SILENT;
-    if (argument == "COMPILE") return Argument::COMPILE;
-    if (argument == "MODULES") return Argument::MODULES;
-    if (argument == "LIBS") return Argument::LIBS;
+    string upperArgument = StringHelper::toUpper(argument);
+    if (upperArgument == "PATH") return Argument::PATH;
+    if (upperArgument == "HELP") return Argument::HELP;
+    if (upperArgument == "VERSION") return Argument::VERSION;
+    if (upperArgument == "BUILD") return Argument::BUILD;
+    if (upperArgument == "RUN") return Argument::RUN;
+    if (upperArgument == "INCLUDE_SUBDIRECTORIES") return Argument::INCLUDE_SUBDIRECTORIES;
+    if (upperArgument == "NO_STD") return Argument::NO_STD;
+    if (upperArgument == "SUPPRESS_WARNINGS") return Argument::SUPPRESS_WARNINGS;
+    if (upperArgument == "VERBOSE") return Argument::VERBOSE;
+    if (upperArgument == "SILENT") return Argument::SILENT;
+    if (upperArgument == "COMPILE") return Argument::COMPILE;
+    if (upperArgument == "MODULES") return Argument::MODULES;
+    if (upperArgument == "LIBS") return Argument::LIBS;
     return {};
+}
+
+vector<string> ArgumentParser::getArgumentOptions(Argument type) const
+{
+    if (!_arguments.contains(type)) return {};
+    return _arguments.at(type);
+}
+
+void ArgumentParser::parseNextArgument()
+{
+    Logger::debug("ArgumentParser - Parsing argument: " + _input[_index]);
+    
+    optional<Argument> type;
+    string argument = _input[_index];
+    int dashCount = getDashCount(argument);
+    
+    if (dashCount == 0)
+    {
+        /*
+         * Note: the only case where dashCount is 0 is at the start
+         * Because if it's not at the start, it will get parsed as an option
+         * Options only terminate for the current argument if it encounters:
+         * 1. A dash (new argument)
+         * 2. The end of the input
+         * So we can assume this is the first argument which we interpret as the path
+         */
+        type = Argument::PATH;
+    }
+    else
+    {
+        type = getArgumentType(argument, dashCount);
+        _index++;
+    }
+    
+    vector<string> options;
+    while (true)
+    {
+        if (_index >= _input.size()) break;
+        string option = _input.at(_index);
+        if (getDashCount(option) != 0) break;
+        
+        options.push_back(option);
+        _index++;
+        
+        Logger::debug("ArgumentParser - Parsing option: " + option);
+    }
+    
+    if (type) _arguments[type.value()] = options;
+    else
+    {
+        Logger::error("Invalid argument: " + argument);
+        _terminate = true;
+    }
+}
+
+optional<Argument> ArgumentParser::getArgumentType(const string& argument, int dashCount)
+{
+    if (dashCount == 2)
+    {
+        string arg = StringHelper::toUpper(argument).substr(2);
+        return argumentFromString(arg);
+    }
+    
+    string arg = StringHelper::toLower(argument.substr(1));
+    if (arg.size() != 1) return {};
+    char ch = arg[0];
+    switch (ch)
+    {
+        case 'p': return Argument::PATH;
+        case 'h': return Argument::HELP;
+        case 'v': return Argument::VERSION;
+        case 'b': return Argument::BUILD;
+        case 'r': return Argument::RUN;
+        case 'i': return Argument::INCLUDE_SUBDIRECTORIES;
+        case 'n': return Argument::NO_STD;
+        case 'w': return Argument::SUPPRESS_WARNINGS;
+        case 'c': return Argument::COMPILE;
+        case 'm': return Argument::MODULES;
+        case 'l': return Argument::LIBS;
+        case 's': return Argument::SILENT;
+        case 'o': return Argument::VERBOSE;
+        default: return {};
+    }
 }

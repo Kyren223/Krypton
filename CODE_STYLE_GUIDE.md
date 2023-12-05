@@ -33,6 +33,7 @@ Otherwise you should use braces
 - Use `const` whenever possible
 - Always use `override` when overriding a virtual function
 - Use `using std::<type>` when using a type from the standard library
+- Never initialize a variable in the header file
 
 ## File Structure
 - All source files should be in the `src` folder

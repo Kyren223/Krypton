@@ -4,6 +4,7 @@
 
 enum class Argument
 {
+    PATH,
     HELP,
     VERSION,
     BUILD,

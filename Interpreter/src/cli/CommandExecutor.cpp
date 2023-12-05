@@ -14,7 +14,8 @@ void CommandExecutor::execute()
 {
     if (_parser.hasArgument(Argument::HELP))
     {
-        optional<string> argument = _parser.getArgumentValue(Argument::HELP);
+        // TODO - Get argument from parser
+        optional<string> argument = {};
         if (!argument) executeHelp({});
         else
         {
@@ -25,7 +26,8 @@ void CommandExecutor::execute()
         }
     }
     else if (_parser.hasArgument(Argument::VERSION)) executeVersion();
-    else if (_parser.getPath())
+    // TODO - Get path from parser path
+    else if (false)
     {
         // Set logger output options
         Logger::setVerbose(_parser.hasArgument(Argument::VERBOSE));
