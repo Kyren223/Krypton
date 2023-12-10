@@ -4,9 +4,10 @@
 #include <string>
 #include <utility>
 #include <filesystem>
+#include <optional>
 
 namespace fs = std::filesystem;
-using std::string;
+using std::string, std::optional;
 
 
 enum class TokenType
@@ -22,25 +23,25 @@ enum class TokenType
     COLON,
     SEMICOLON,
     QUESTION_MARK,
-    BANG,
     DOT,
-    MINUS,
-    PLUS,
-    ASTERISK,
-    SLASH,
-    CARET,
-    PERCENTAGE,
-    AMPERSAND,
-    PIPE,
-    GREATER,
-    LESS,
-    EQUAL,
     BACK_SLASH,
     AT,
     DOLLAR,
     HASHTAG,
     
-    // Two-character tokens
+    // One or two character tokens
+    BANG,
+    EQUAL,
+    GREATER,
+    LESS,
+    PIPE,
+    AMPERSAND,
+    PERCENTAGE,
+    CARET,
+    SLASH,
+    ASTERISK,
+    PLUS,
+    MINUS,
     BANG_EQUAL,
     EQUAL_EQUAL,
     GREATER_EQUAL,
@@ -53,16 +54,10 @@ enum class TokenType
     ASTERISK_EQUAL,
     PLUS_EQUAL,
     MINUS_EQUAL,
-    GREATER_GREATER,
-    LESS_LESS,
     PIPE_PIPE,
     AMPERSAND_AMPERSAND,
     PLUS_PLUS,
     MINUS_MINUS,
-    
-    // Three-character tokens
-    GREATER_GREATER_EQUAL,
-    LESS_LESS_EQUAL,
     
     
     // Literals
@@ -86,7 +81,7 @@ enum class TokenType
     RETURN,
     BREAK,
     CONTINUE,
-    NULL_,
+    NUL, // null
     IMPORT,
     AS,
     FROM,
@@ -104,36 +99,28 @@ enum class TokenType
     CHAR, // char 1-byte
     INT, // int 4-bytes
     DEC, // double 8-bytes
+    
+    END
 };
 
-class Location
+struct FilePosition
 {
-    string _fullPath;
-    string _fileName;
-    int _line;
-    int _column;
-    int _length;
-    
-public:
-    Location(const fs::path& fullPath, int line, int column, int length);
-
-    [[nodiscard]] string getFullPath() const;
-    [[nodiscard]] string getFileName() const;
-    [[nodiscard]] int getLine() const;
-    [[nodiscard]] int getColumn() const;
-    [[nodiscard]] int getLength() const;
+    string filename;
+    int line;
+    int column;
 };
 
 class Token
 {
-    Location _location;
+    FilePosition _pos;
     TokenType _type;
-    string _lexeme;
+    optional<string> _lexeme;
     
 public:
-    Token(Location location, TokenType type, string lexeme);
+    Token(FilePosition pos, TokenType type, string lexeme);
+    Token(FilePosition pos, TokenType type);
     
-    [[nodiscard]] Location getLocation() const;
+    [[nodiscard]] FilePosition getLocation() const;
     [[nodiscard]] TokenType getType() const;
-    [[nodiscard]] string getLexeme() const;
+    [[nodiscard]]  optional<string> getLexeme() const;
 };

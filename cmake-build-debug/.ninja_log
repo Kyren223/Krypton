@@ -193,3 +193,15 @@
 1796	5373	7235085148515198	C:/Krypton/bin/debug/InterpreterTests.exe	88e6aa33ba7fa301
 11	1586	7235096650552273	Interpreter/CMakeFiles/InterpreterTests.dir/tests/FileHelperTest.cpp.obj	75b074a13c0c05ae
 1587	5187	7235096686338516	C:/Krypton/bin/debug/InterpreterTests.exe	88e6aa33ba7fa301
+21	2903	7238324307284947	Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj	a6515b7475cdc16f
+35	3202	7238324310363360	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj	22a13915256dc2d2
+27	3431	7238324312681958	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
+43	3919	7238324317593771	Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj	150b12fc4e65f72a
+9	4073	7238324319130676	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj	cfa1a39c343ccf26
+4073	5018	7238324328529261	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f
+4	920	7238384127206091	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj	22a13915256dc2d2
+9	1046	7238384128462294	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
+5	1561	7238384273800429	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
+1561	2141	7238384279528715	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f
+5	1581	7238404467619447	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
+1581	2208	7238404473839445	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f
