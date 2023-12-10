@@ -72,24 +72,7 @@ void Logger::print(const string& message, LogMode level)
             SetConsoleTextAttribute(hConsole, 10);
             break;
     }
-    std::cout << getLevelPrefix(level) << message << "\n";
+    std::cout << message << "\n";
     SetConsoleTextAttribute(hConsole, 15);
-}
-
-string Logger::getLevelPrefix(LogMode level)
-{
-    switch (level)
-    {
-        case LogMode::NONE:
-            return "";
-        case LogMode::INFO:
-            return "[INFO] ";
-        case LogMode::WARN:
-            return "[WARNING] ";
-        case LogMode::ERROR_LOG:
-            return "[ERROR] ";
-        case LogMode::DEBUG_LOG:
-            return "[DEBUG] ";
-    }
 }
 

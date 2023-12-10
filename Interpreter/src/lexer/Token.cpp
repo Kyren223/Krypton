@@ -1,22 +1,22 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <lexer/Token.h>
 
-Token::Token(FilePosition pos, TokenType type, string lexeme)
-    : _pos(pos), _type(type), _lexeme(lexeme)
+Token::Token(SourceLocation loc, TokenType type, string lexeme)
+    : _loc(loc), _type(type), _lexeme(lexeme)
 {
 
 }
 
-Token::Token(FilePosition pos, TokenType type)
-    : _pos(pos), _type(type)
+Token::Token(SourceLocation loc, TokenType type)
+    : _loc(loc), _type(type)
 {
     _lexeme = {};
 }
 
 
-FilePosition Token::getLocation() const
+SourceLocation Token::getLocation() const
 {
-    return _pos;
+    return _loc;
 }
 
 TokenType Token::getType() const

@@ -205,3 +205,9 @@
 1561	2141	7238384279528715	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f
 5	1581	7238404467619447	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
 1581	2208	7238404473839445	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f
+15	1154	7239210515515402	Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj	a6515b7475cdc16f
+21	1371	7239210517708068	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj	22a13915256dc2d2
+27	1528	7239210519272836	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	9a6850ed784e4742
+32	1928	7239210523279757	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj	cfa1a39c343ccf26
+6	2306	7239210527086858	Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj	53a574f3d5caf576
+2307	3007	7239210533993409	C:/Krypton/bin/debug/KryptonInterpreter.exe	2a22dddaed6b8b3f

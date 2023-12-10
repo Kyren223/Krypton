@@ -9,12 +9,12 @@ class Lexer
 {
     vector<Token> _tokens;
     string _source;
-    FilePosition _pos;
+    SourceLocation _loc;
     int _start;
     int _current;
     
 public:
-    Lexer(const string& filename, const string& source);
+    Lexer(const string& filepath, const string& source);
     vector<Token> scanTokens();
     
 private:

@@ -1,10 +1,10 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <lexer/Lexer.h>
 
-Lexer::Lexer(const string& filename, const string& source)
+Lexer::Lexer(const string& filepath, const string& source)
 {
     _source = source;
-    _pos = FilePosition(filename, 1, 0);
+    _loc = SourceLocation(filepath, 1, 0);
     _start = 0;
     _current = 0;
 }
@@ -32,22 +32,22 @@ char Lexer::advance()
     char c = _source.at(_current);
     if (c == '\n')
     {
-        _pos.line++;
-        _pos.column = 0;
+        _loc.line++;
+        _loc.column = 0;
     }
-    else _pos.column++;
+    else _loc.column++;
     _current++;
     return c;
 }
 
 void Lexer::addToken(TokenType type)
 {
-    _tokens.emplace_back(_pos, TokenType::END);
+    _tokens.emplace_back(_loc, TokenType::END);
 }
 
 void Lexer::addToken(TokenType type, const string& lexeme)
 {
-    _tokens.emplace_back(_pos, TokenType::END, lexeme);
+    _tokens.emplace_back(_loc, TokenType::END, lexeme);
 }
 
 char Lexer::peek()

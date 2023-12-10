@@ -103,24 +103,24 @@ enum class TokenType
     END
 };
 
-struct FilePosition
+struct SourceLocation
 {
-    string filename;
+    string filepath;
     int line;
     int column;
 };
 
 class Token
 {
-    FilePosition _pos;
+    SourceLocation _loc;
     TokenType _type;
     optional<string> _lexeme;
     
 public:
-    Token(FilePosition pos, TokenType type, string lexeme);
-    Token(FilePosition pos, TokenType type);
+    Token(SourceLocation loc, TokenType type, string lexeme);
+    Token(SourceLocation loc, TokenType type);
     
-    [[nodiscard]] FilePosition getLocation() const;
+    [[nodiscard]] SourceLocation getLocation() const;
     [[nodiscard]] TokenType getType() const;
     [[nodiscard]]  optional<string> getLexeme() const;
 };

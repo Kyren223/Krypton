@@ -32,5 +32,4 @@ public:
     
     static void print(const string& message, LogMode mode);
 private:
-    static string getLevelPrefix(LogMode mode);
 };
