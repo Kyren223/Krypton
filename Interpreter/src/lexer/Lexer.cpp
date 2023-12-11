@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <lexer/Lexer.h>
 #include <common/ErrorHandler.h>
+#include <common/Logger.h>
+#include <common/utf8/unchecked.h>
 
 Lexer::Lexer(const string& filepath, const string& source)
 {
@@ -8,6 +10,8 @@ Lexer::Lexer(const string& filepath, const string& source)
     _loc = SourceLocation(filepath, 1, 0);
     _start = 0;
     _current = 0;
+    _allowUtf8 = false;
+    _utf8 = 0;
 }
 
 vector<Token> Lexer::scanTokens()
@@ -30,13 +34,36 @@ bool Lexer::isAtEnd()
 char Lexer::advance()
 {
     if (isAtEnd()) return '\0';
+    
     char c = _source.at(_current);
-    if (c == '\n')
+    
+    if (_utf8 == 0)
     {
-        _loc.line++;
-        _loc.column = 0;
+        string utf8Char = getUtf8Char();
+        size_t length = utf8Char.size();
+        if (length == 1)
+        {
+            if (c == '\n')
+            {
+                _loc.line++;
+                _loc.column = 0;
+            }
+            else _loc.column++;
+        }
+        else
+        {
+            _loc.column++;
+            if (_allowUtf8) _utf8 = length - 1;
+            else
+            {
+                _current += length - 1;
+                ErrorHandler::getInstance().unexpectedCharacter(
+                        _loc,_source,utf8Char);
+            }
+        }
     }
-    else _loc.column++;
+    else _utf8--;
+    
     _current++;
     return c;
 }
@@ -161,17 +188,23 @@ bool Lexer::match(char expected)
 
 void Lexer::scanComment()
 {
+    _allowUtf8 = true;
     while (peek() != '\n' && !isAtEnd()) advance();
+    _allowUtf8 = true;
 }
 
 void Lexer::scanMultilineComment()
 {
+    _allowUtf8 = true;
     while (peek() != '*' && peekNext() != '/' && !isAtEnd()) advance();
+    _allowUtf8 = true;
 }
 
 void Lexer::scanString()
 {
+    _allowUtf8 = true;
     while (peek() != '"' && !isAtEnd()) advance();
+    _allowUtf8 = false;
     
     if (isAtEnd())
     {
@@ -180,14 +213,16 @@ void Lexer::scanString()
     
     advance(); // Consume the closing "
     
-    string value = _source.substr(_start + 1, _current - 1);
-    // TODO Handle escape sequences
+    string value = _source.substr(_start + 1, _current - _start - 2);
+    value = unescape(value);
     addToken(TokenType::STRING_LITERAL, value);
 }
 
 void Lexer::scanChar()
 {
+    _allowUtf8 = true;
     while (peek() != '\'' && !isAtEnd()) advance();
+    _allowUtf8 = false;
     
     if (isAtEnd())
     {
@@ -196,8 +231,9 @@ void Lexer::scanChar()
     
     advance(); // Consume the closing '
     
-    string value = _source.substr(_start + 1, _current - 1);
-    // TODO Handle escape sequences
+    string value = _source.substr(_start + 1, _current - _start - 2);
+    value = unescape(value);
+    // TODO: Handle errors (char length > 1)
     addToken(TokenType::CHAR_LITERAL, value);
 }
 
@@ -209,5 +245,25 @@ void Lexer::scanNumber()
 bool Lexer::isDigit(char c)
 {
     return c >= '0' && c <= '9';
+}
+
+
+string Lexer::unescape(const string& str)
+{
+    // TODO: Implement unescape
+    return str;
+}
+
+string Lexer::getUtf8Char()
+{
+    // Get the UTF-8 codepoint at the current position
+    utf8::unchecked::iterator<std::string::iterator> it(_source.begin() + _current);
+    char32_t codepoint = *it;
+    
+    // Convert codepoint back to UTF-8 encoded string
+    std::string currentChar;
+    utf8::unchecked::append(codepoint, back_inserter(currentChar));
+    
+    return currentChar;
 }
 

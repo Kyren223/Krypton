@@ -23,7 +23,12 @@ void ErrorHandler::terminateIfErrors() const
 
 void ErrorHandler::unexpectedCharacter(const SourceLocation& loc, const string& line)
 {
-    printErrorLine(loc, line, 1, "Unexpected character");
+    unexpectedCharacter(loc, line, line.substr(loc.column - 1, 1));
+}
+
+void ErrorHandler::unexpectedCharacter(const SourceLocation& loc, const string& line, const string& problem)
+{
+    printErrorLine(loc, "Unexpected character", problem, line, 1);
 }
 
 void ErrorHandler::unterminatedString(const SourceLocation& loc, const string& line)
@@ -43,10 +48,8 @@ void ErrorHandler::printErrorLocation(const SourceLocation& loc)
     _hasErrors = true;
 }
 
-void ErrorHandler::printErrorLine(const SourceLocation& loc, const string& line, int length, const string& error)
+void ErrorHandler::printErrorLine(const SourceLocation& loc, const string& error, const string& problem, const string& line, size_t problemLength)
 {
-    string problem = line.substr(loc.column - 1, length);
-    
     printErrorLocation(loc);
     Logger::print(LogMode::ERROR_LOG, error + " '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, problem, Color::BLUE);
@@ -54,7 +57,7 @@ void ErrorHandler::printErrorLine(const SourceLocation& loc, const string& line,
     string lineString = std::format("{} | {}\n", loc.line, line);
     Logger::print(LogMode::ERROR_LOG, lineString, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, string(loc.column + 3, ' '), Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, string(length, '^'), Color::RED);
+    Logger::print(LogMode::ERROR_LOG, string(problemLength, '^'), Color::RED);
     Logger::print(LogMode::ERROR_LOG, "\n\n", Color::RED);
 }
 

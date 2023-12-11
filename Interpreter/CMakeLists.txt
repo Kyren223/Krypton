@@ -5,7 +5,7 @@ include_directories(include)
 include_directories(src)
 
 # main
-add_executable(Interpreter src/core/Interpreter.cpp
+add_executable(Interpreter src/Interpreter.cpp
         include/cli/ArgumentParser.h
         include/cli/CommandExecutor.h
         src/cli/ArgumentParser.cpp

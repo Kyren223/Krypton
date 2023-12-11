@@ -10,8 +10,10 @@ class Lexer
     vector<Token> _tokens;
     string _source;
     SourceLocation _loc;
-    int _start;
-    int _current;
+    size_t _start;
+    size_t _current;
+    bool _allowUtf8;
+    size_t _utf8;
     
 public:
     Lexer(const string& filepath, const string& source);
@@ -35,5 +37,7 @@ private:
     void scanChar();
     void scanNumber();
     
+    string getUtf8Char();
+    string unescape(const string& str);
     static bool isDigit(char c);
 };

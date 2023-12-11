@@ -23,6 +23,7 @@ public:
     
     // Lexer Errors Factory methods
     void unexpectedCharacter(const SourceLocation& loc, const string& line);
+    void unexpectedCharacter(const SourceLocation& loc, const string& line, const string& problem);
     void unterminatedString(const SourceLocation& loc, const string& line);
     void unterminatedChar(const SourceLocation& loc, const string& line);
     
@@ -32,5 +33,6 @@ public:
     
 private:
     void printErrorLocation(const SourceLocation& loc);
-    void printErrorLine(const SourceLocation& loc, const string& line, int length, const string& error);
+    void printErrorLine(const SourceLocation& loc, const string& error, const string& problem, const string& line, size_t problemLength);
+    
 };
