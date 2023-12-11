@@ -5,6 +5,7 @@
 #include <utility>
 #include <filesystem>
 #include <optional>
+#include <common/Error.h>
 
 namespace fs = std::filesystem;
 using std::string, std::optional;
@@ -101,13 +102,6 @@ enum class TokenType
     DEC, // double 8-bytes
     
     END
-};
-
-struct SourceLocation
-{
-    string filepath;
-    int line;
-    int column;
 };
 
 class Token

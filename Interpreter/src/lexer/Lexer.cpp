@@ -1,5 +1,6 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <lexer/Lexer.h>
+#include <common/ErrorHandler.h>
 
 Lexer::Lexer(const string& filepath, const string& source)
 {
@@ -143,10 +144,7 @@ void Lexer::scanToken()
         default:
         {
             if (isDigit(c)) scanNumber();
-            else
-            {
-                // TODO: Handle errors (unexpected character)
-            }
+            else ErrorHandler::getInstance().unexpectedCharacter(_loc, _source);
             break;
         }
     }

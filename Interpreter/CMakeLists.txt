@@ -25,6 +25,9 @@ add_executable(Interpreter src/core/Interpreter.cpp
         include/lexer/Token.h
         src/common/FileHelper.cpp
         include/common/FileHelper.h
+        src/common/ErrorHandler.cpp
+        include/common/ErrorHandler.h
+        include/common/Error.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)

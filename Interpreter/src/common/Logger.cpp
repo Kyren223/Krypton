@@ -24,55 +24,61 @@ void Logger::setSilent(bool noOutput)
 
 void Logger::log(const string& message)
 {
-    print(message, LogMode::NONE);
+    print(LogMode::NONE, message, Color::WHITE);
 }
 
 void Logger::debug(const string& message)
 {
-    print(message, LogMode::DEBUG_LOG);
+    print(LogMode::DEBUG_LOG, message, Color::GREEN);
 }
 
 void Logger::info(const string& message)
 {
-    print(message, LogMode::INFO);
+    print(LogMode::INFO, message, Color::BLUE);
 }
 
 void Logger::warn(const string& message)
 {
-    print(message, LogMode::WARN);
+    print(LogMode::WARN, message, Color::YELLOW);
 }
 
 void Logger::error(const string& message)
 {
-    print(message, LogMode::ERROR_LOG);
+    print(LogMode::ERROR_LOG, message, Color::RED);
 }
 
-void Logger::print(const string& message, LogMode level)
+void Logger::print(LogMode mode, const string& message, Color color)
 {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    switch (level)
+    bool isDebug = DEBUG && mode == LogMode::DEBUG_LOG;
+    if (mode != LogMode::ERROR_LOG && !isDebug)
     {
-        case LogMode::NONE:
-            if (_silent) return;
-            SetConsoleTextAttribute(hConsole, 15);
+        if (_silent) return;
+        if (mode == LogMode::WARN && _suppressWarnings) return;
+        if (mode == LogMode::INFO && !_verbose) return;
+    }
+    
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    
+    switch (color)
+    {
+        case Color::RED:
+            SetConsoleTextAttribute(hConsole, 4);
             break;
-        case LogMode::INFO:
-            if (_silent || _verbose) return;
-            SetConsoleTextAttribute(hConsole, 11);
-            break;
-        case LogMode::WARN:
-            if (_silent || _suppressWarnings) return;
-            SetConsoleTextAttribute(hConsole, 14);
-            break;
-        case LogMode::ERROR_LOG:
-            SetConsoleTextAttribute(hConsole, 12);
-            break;
-        case LogMode::DEBUG_LOG:
-            if (!DEBUG) return;
+        case Color::GREEN:
             SetConsoleTextAttribute(hConsole, 10);
             break;
+        case Color::YELLOW:
+            SetConsoleTextAttribute(hConsole, 14);
+            break;
+        case Color::BLUE:
+            SetConsoleTextAttribute(hConsole, 1);
+            break;
+        case Color::WHITE:
+            SetConsoleTextAttribute(hConsole, 15);
+            break;
     }
-    std::cout << message << "\n";
+    
+    std::cout << message;
     SetConsoleTextAttribute(hConsole, 15);
 }
 
