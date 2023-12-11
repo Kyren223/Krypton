@@ -2,6 +2,7 @@
 #include <common/ErrorHandler.h>
 #include <common/Logger.h>
 #include <format>
+#include <common/StringHelper.h>
 
 ErrorHandler* ErrorHandler::instance = nullptr;
 
@@ -31,14 +32,22 @@ void ErrorHandler::unexpectedCharacter(const SourceLocation& loc, const string& 
     printErrorLine(loc, "Unexpected character", problem, line, 1);
 }
 
-void ErrorHandler::unterminatedString(const SourceLocation& loc, const string& line)
+void ErrorHandler::unterminatedString(const SourceLocation& loc, const string& line, const string& problem)
 {
-
+    size_t length = StringHelper::getUtf8CharLength(problem);
+    SourceLocation location = loc;
+    location.column -= (int) length - 1;
+    printErrorLine(location, "Unterminated string", problem,
+                   line, length);
 }
 
-void ErrorHandler::unterminatedChar(const SourceLocation& loc, const string& line)
+void ErrorHandler::unterminatedChar(const SourceLocation& loc, const string& line, const string& problem)
 {
-
+    size_t length = StringHelper::getUtf8CharLength(problem);
+    SourceLocation location = loc;
+    location.column -= (int) length - 1;
+    printErrorLine(location, "Unterminated char", problem,
+                   line, length);
 }
 
 void ErrorHandler::printErrorLocation(const SourceLocation& loc)
@@ -59,6 +68,25 @@ void ErrorHandler::printErrorLine(const SourceLocation& loc, const string& error
     Logger::print(LogMode::ERROR_LOG, string(loc.column + 3, ' '), Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, string(problemLength, '^'), Color::RED);
     Logger::print(LogMode::ERROR_LOG, "\n\n", Color::RED);
+}
+
+void ErrorHandler::multiCharacterChar(const SourceLocation& loc, const string& line, const string& problem)
+{
+    size_t length = StringHelper::getUtf8CharLength(problem);
+    SourceLocation location = loc;
+    location.column -= (int) length;
+    printErrorLine(location, "Multi-Character char", problem,
+                   line, length);
+}
+
+void ErrorHandler::invalidEscapeSequence(const SourceLocation& loc, const string& line, size_t offset, size_t length)
+{
+    SourceLocation location = loc;
+    location.column -= (int) (offset + 1);
+    string problem = line.substr(location.column - 1, length);
+    printErrorLine(location, "Invalid escape sequence", problem,
+                   line, length);
+
 }
 
 

@@ -24,8 +24,10 @@ public:
     // Lexer Errors Factory methods
     void unexpectedCharacter(const SourceLocation& loc, const string& line);
     void unexpectedCharacter(const SourceLocation& loc, const string& line, const string& problem);
-    void unterminatedString(const SourceLocation& loc, const string& line);
-    void unterminatedChar(const SourceLocation& loc, const string& line);
+    void unterminatedString(const SourceLocation& loc, const string& line, const string& problem);
+    void unterminatedChar(const SourceLocation& loc, const string& line, const string& problem);
+    void multiCharacterChar(const SourceLocation& loc, const string& line, const string& problem);
+    void invalidEscapeSequence(const SourceLocation& loc, const string& line, size_t offset, size_t length);
     
     // Parser Errors Factory methods
     

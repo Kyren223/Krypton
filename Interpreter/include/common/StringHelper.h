@@ -11,5 +11,10 @@ public:
     static string toUpper(const string& str);
     static string trim(const string& str, char ch);
     static string replace(const string& str, const string& from, const string& to);
+    
+    // UTF-8
+    static size_t getUtf8CharLength(const string& str);
+    static bool isUtf8(const string& str);
+    static bool isAscii(const string& str);
 };
 

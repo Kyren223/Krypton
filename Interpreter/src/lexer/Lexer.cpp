@@ -1,17 +1,19 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <lexer/Lexer.h>
-#include <common/ErrorHandler.h>
 #include <common/Logger.h>
 #include <common/utf8/unchecked.h>
+#include <common/StringHelper.h>
 
-Lexer::Lexer(const string& filepath, const string& source)
+Lexer::Lexer(const string& filepath, const string& source) :
+    _handler(ErrorHandler::getInstance()),
+    _source(source),
+    _loc(filepath, 1, 0),
+    _start(0),
+    _current(0),
+    _allowUtf8(false),
+    _utf8(0)
 {
-    _source = source;
-    _loc = SourceLocation(filepath, 1, 0);
-    _start = 0;
-    _current = 0;
-    _allowUtf8 = false;
-    _utf8 = 0;
+
 }
 
 vector<Token> Lexer::scanTokens()
@@ -23,6 +25,7 @@ vector<Token> Lexer::scanTokens()
     }
     
     addToken(TokenType::END);
+    _handler.terminateIfErrors();
     return _tokens;
 }
 
@@ -36,6 +39,7 @@ char Lexer::advance()
     if (isAtEnd()) return '\0';
     
     char c = _source.at(_current);
+    _currentLine += c;
     
     if (_utf8 == 0)
     {
@@ -47,6 +51,7 @@ char Lexer::advance()
             {
                 _loc.line++;
                 _loc.column = 0;
+                _currentLine = "";
             }
             else _loc.column++;
         }
@@ -57,8 +62,7 @@ char Lexer::advance()
             else
             {
                 _current += length - 1;
-                ErrorHandler::getInstance().unexpectedCharacter(
-                        _loc,_source,utf8Char);
+                _handler.unexpectedCharacter(_loc,_source,utf8Char);
             }
         }
     }
@@ -80,6 +84,7 @@ void Lexer::addToken(TokenType type, const string& lexeme)
 
 char Lexer::peek()
 {
+    if (isAtEnd()) return '\0';
     return _source.at(_current);
 }
 
@@ -171,7 +176,7 @@ void Lexer::scanToken()
         default:
         {
             if (isDigit(c)) scanNumber();
-            else ErrorHandler::getInstance().unexpectedCharacter(_loc, _source);
+            else _handler.unexpectedCharacter(_loc, _source);
             break;
         }
     }
@@ -203,12 +208,15 @@ void Lexer::scanMultilineComment()
 void Lexer::scanString()
 {
     _allowUtf8 = true;
-    while (peek() != '"' && !isAtEnd()) advance();
+    while (peek() != '"' && peek() != '\n' && !isAtEnd()) advance();
     _allowUtf8 = false;
     
-    if (isAtEnd())
+    if (peek() != '"')
     {
-        // TODO: Handle errors (unterminated string)
+        string problem = _source.substr(_start, _current - _start);
+        _handler.unterminatedString(_loc, _currentLine, problem);
+        advance(); // Avoid infinite loop
+        return;
     }
     
     advance(); // Consume the closing "
@@ -221,37 +229,37 @@ void Lexer::scanString()
 void Lexer::scanChar()
 {
     _allowUtf8 = true;
-    while (peek() != '\'' && !isAtEnd()) advance();
+    while (peek() != '\'' && peek() != '\n' && !isAtEnd()) advance();
     _allowUtf8 = false;
     
-    if (isAtEnd())
+    if (peek() != '\'')
     {
-        // TODO: Handle errors (unterminated char)
+        string problem = _source.substr(_start, _current - _start);
+        _handler.unterminatedChar(_loc, _currentLine, problem);
+        advance(); // Avoid infinite loop
+        return;
     }
     
     advance(); // Consume the closing '
     
     string value = _source.substr(_start + 1, _current - _start - 2);
     value = unescape(value);
-    // TODO: Handle errors (char length > 1)
+    if (value.length() > 1)
+    {
+        _handler.multiCharacterChar(_loc, _currentLine, value);
+        return;
+    }
     addToken(TokenType::CHAR_LITERAL, value);
 }
 
 void Lexer::scanNumber()
 {
-    
+
 }
 
 bool Lexer::isDigit(char c)
 {
     return c >= '0' && c <= '9';
-}
-
-
-string Lexer::unescape(const string& str)
-{
-    // TODO: Implement unescape
-    return str;
 }
 
 string Lexer::getUtf8Char()
@@ -266,4 +274,122 @@ string Lexer::getUtf8Char()
     
     return currentChar;
 }
+
+string Lexer::unescape(const string& str)
+{
+    // \\ \n \r \t \x00 \000
+    string result;
+    bool error = false;
+    for (size_t i = 0; i < str.length(); i++)
+    {
+        char c = str.at(i);
+        if (c == '\\')
+        {
+            error = error || !scanEscapeSequence(str, result, i);
+        }
+        else result += c;
+    }
+    
+    return error ? str : result;
+}
+
+bool Lexer::scanEscapeSequence(const string& str, string& result, size_t& i)
+{
+    i++;
+    size_t length = 2;
+    if (i < str.length())
+    {
+        char c = str.at(i);
+        switch (c)
+        {
+            case '\\': result += '\\'; return true;
+            case 'n': result += '\n'; return true;
+            case 'r': result += '\r'; return true;
+            case 't': result += '\t'; return true;
+            case 'x':
+            {
+                length = 2;
+                if (i + 1 >= str.length()) break;
+                length = 3;
+                int hex1 = getHex(str.at(i + 1));
+                if (hex1 != -1 && i + 2 >= str.length())
+                {
+                    result += (char) hex1;
+                    i++;
+                    return true;
+                }
+                if (hex1 == -1 || i + 2 >= str.length()) break;
+                int hex2 = getHex(str.at(i + 2));
+                if (hex2 == -1)
+                {
+                    result += (char) hex1;
+                    i++;
+                    return true;
+                }
+                int hex = hex1 * 16 + hex2;
+                result += (char) hex;
+                i += 2;
+                return true;
+            }
+            default:
+            {
+                int oct1 = getOct(c);
+                if (oct1 == -1) break;
+                length = 2;
+                if (i + 1 >= str.length())
+                {
+                    result += (char) oct1;
+                    i++;
+                    return true;
+                }
+                int oct2 = getOct(str.at(i + 1));
+                if (oct2 == -1)
+                {
+                    result += (char) oct1;
+                    i++;
+                    return true;
+                }
+                length = 3;
+                if (i + 2 >= str.length())
+                {
+                    int oct = oct1 * 8 + oct2;
+                    result += (char) oct;
+                    i += 2;
+                    return true;
+                }
+                int oct3 = getOct(str.at(i + 2));
+                if (oct3 == -1)
+                {
+                    int oct = oct1 * 8 + oct2;
+                    result += (char) oct;
+                    i += 2;
+                    return true;
+                }
+                int oct = oct1 * 64 + oct2 * 8 + oct3;
+                result += (char) oct;
+                i += 3;
+                return true;
+            }
+        }
+    }
+    
+    size_t offset = StringHelper::getUtf8CharLength(str) - i;
+    _handler.invalidEscapeSequence(_loc, _currentLine, offset, length);
+    return false;
+}
+
+int Lexer::getHex(char c)
+{
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    return -1;
+}
+
+int Lexer::getOct(char c)
+{
+    if (c >= '0' && c <= '7') return c - '0';
+    return -1;
+}
+
 

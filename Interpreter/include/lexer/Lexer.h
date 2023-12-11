@@ -2,13 +2,16 @@
 #pragma once
 #include <lexer/Token.h>
 #include <vector>
+#include <common/ErrorHandler.h>
 
 using std::vector;
 
 class Lexer
 {
+    ErrorHandler& _handler;
     vector<Token> _tokens;
     string _source;
+    string _currentLine;
     SourceLocation _loc;
     size_t _start;
     size_t _current;
@@ -39,5 +42,8 @@ private:
     
     string getUtf8Char();
     string unescape(const string& str);
+    bool scanEscapeSequence(const string& str, string& result, size_t& i);
+    static int getHex(char c);
+    static int getOct(char c);
     static bool isDigit(char c);
 };
