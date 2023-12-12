@@ -4,6 +4,41 @@
 #include <common/utf8/unchecked.h>
 #include <common/StringHelper.h>
 
+const unordered_map<string, TokenType> Lexer::KEYWORDS =
+        {
+                {"class", TokenType::CLASS},
+                {"is", TokenType::IS},
+                {"if", TokenType::IF},
+                {"else", TokenType::ELSE},
+                {"for", TokenType::FOR},
+                {"while", TokenType::WHILE},
+                {"true", TokenType::TRUE},
+                {"false", TokenType::FALSE},
+                {"super", TokenType::SUPER},
+                {"this", TokenType::THIS},
+                {"return", TokenType::RETURN},
+                {"break", TokenType::BREAK},
+                {"continue", TokenType::CONTINUE},
+                {"null", TokenType::NUL},
+                {"import", TokenType::IMPORT},
+                {"as", TokenType::AS},
+                {"from", TokenType::FROM},
+                {"switch", TokenType::SWITCH},
+                {"case", TokenType::CASE},
+                {"default", TokenType::DEFAULT},
+                {"enum", TokenType::ENUM},
+                {"export", TokenType::EXPORT},
+                {"or", TokenType::OR},
+                {"and", TokenType::AND},
+                
+                {"void", TokenType::VOID},
+                {"int", TokenType::INT},
+                {"bool", TokenType::BOOL},
+                {"char", TokenType::CHAR},
+                {"int", TokenType::INT},
+                {"dec", TokenType::DEC},
+        };
+
 Lexer::Lexer(const string& filepath, const string& source) :
     _handler(ErrorHandler::getInstance()),
     _source(source),
@@ -176,6 +211,7 @@ void Lexer::scanToken()
         default:
         {
             if (isDigit(c)) scanNumber();
+            else if (isIdentifierStart(c)) scanIdentifier();
             else _handler.unexpectedCharacter(_loc, _source);
             break;
         }
@@ -254,7 +290,24 @@ void Lexer::scanChar()
 
 void Lexer::scanNumber()
 {
-
+    if (peek() == '0')
+    {
+        // TODO Binary, Octal, Hexadecimal (0b, 0o, 0x)
+    }
+    
+    while (isDigit(peek())) advance();
+    
+    // Look for a decimal point
+    bool hasDecimal = false;
+    if (peek() == '.' && isDigit(peekNext())) {
+        advance(); // Consume the "."
+        hasDecimal = true;
+        while (isDigit(peek())) advance();
+    }
+    
+    string value = _source.substr(_start, _current - _start);
+    TokenType type = hasDecimal ? TokenType::DEC_LITERAL : TokenType::INT_LITERAL;
+    addToken(type, value);
 }
 
 bool Lexer::isDigit(char c)
@@ -390,6 +443,34 @@ int Lexer::getOct(char c)
 {
     if (c >= '0' && c <= '7') return c - '0';
     return -1;
+}
+
+int Lexer::getBin(char c)
+{
+    if (c == '0') return 0;
+    if (c == '1') return 1;
+    return -1;
+}
+
+bool Lexer::isIdentifier(char c)
+{
+    return isIdentifierStart(c) || isDigit(c);
+}
+
+bool Lexer::isIdentifierStart(char c)
+{
+    return ('a' <= c && c <= 'z') ||
+           ('A' <= c && c <= 'Z') ||
+           c == '_';
+}
+
+void Lexer::scanIdentifier()
+{
+    while (isIdentifier(peek())) advance();
+    string value = _source.substr(_start, _current - _start);
+    TokenType type = KEYWORDS.at(value);
+    if (type == TokenType::IDENTIFIER) addToken(type, value);
+    else addToken(type);
 }
 
 

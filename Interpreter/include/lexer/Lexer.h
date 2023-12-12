@@ -3,11 +3,13 @@
 #include <lexer/Token.h>
 #include <vector>
 #include <common/ErrorHandler.h>
+#include <unordered_map>
 
-using std::vector;
+using std::vector, std::unordered_map;
 
 class Lexer
 {
+    static const unordered_map<string, TokenType> KEYWORDS;
     ErrorHandler& _handler;
     vector<Token> _tokens;
     string _source;
@@ -39,11 +41,15 @@ private:
     void scanString();
     void scanChar();
     void scanNumber();
+    void scanIdentifier();
     
     string getUtf8Char();
     string unescape(const string& str);
     bool scanEscapeSequence(const string& str, string& result, size_t& i);
     static int getHex(char c);
     static int getOct(char c);
+    static int getBin(char c);
     static bool isDigit(char c);
+    static bool isIdentifier(char c);
+    static bool isIdentifierStart(char c);
 };
