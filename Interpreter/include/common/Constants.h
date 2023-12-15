@@ -6,13 +6,13 @@ namespace Constants
     
     // Interpreter
     constexpr const char* APP_NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.15.0";
+    constexpr const char* VERSION = "0.16.0";
     constexpr bool STABLE = false;
     
     /*
      * =================================================================================
-     * MAJOR VERSION - Incremented at the end of each sprint
-     * MINOR VERSION - Incremented for features/issues that have been made
+     * MAJOR VERSION - Incremented at the end of each cycle
+     * MINOR VERSION - Incremented for features that have been made
      * PATCH VERSION - Incremented if the functionality is the same
      * STABLE - A version is considered stable if it has passed all the tests
      * =================================================================================

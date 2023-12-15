@@ -468,7 +468,7 @@ void Lexer::scanIdentifier()
 {
     while (isIdentifier(peek())) advance();
     string value = _source.substr(_start, _current - _start);
-    TokenType type = KEYWORDS.at(value);
+    TokenType type = KEYWORDS.contains(value) ? KEYWORDS.at(value) : TokenType::IDENTIFIER;
     if (type == TokenType::IDENTIFIER) addToken(type, value);
     else addToken(type);
 }

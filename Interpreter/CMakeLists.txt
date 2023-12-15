@@ -28,6 +28,8 @@ add_executable(Interpreter src/Interpreter.cpp
         src/common/ErrorHandler.cpp
         include/common/ErrorHandler.h
         include/common/Error.h
+        include/nodes/Expressions.h
+        src/parser/Parser.cpp
 )
 
 target_include_directories(Interpreter PRIVATE include/)
