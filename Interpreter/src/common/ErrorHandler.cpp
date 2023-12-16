@@ -87,5 +87,16 @@ void ErrorHandler::invalidEscapeSequence(const SourceLocation& loc, const string
 
 }
 
+void ErrorHandler::expectedXgotY(const SourceLocation& loc, const string& expected, const string& got)
+{
+    printErrorLocation(loc);
+    Logger::print(LogMode::ERROR_LOG, "Expected '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, expected, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, got, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    _hasErrors = true;
+}
+
 
 

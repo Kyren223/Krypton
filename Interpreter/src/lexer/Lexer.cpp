@@ -109,12 +109,12 @@ char Lexer::advance()
 
 void Lexer::addToken(TokenType type)
 {
-    _tokens.emplace_back(_loc, TokenType::END);
+    _tokens.emplace_back(_loc, type);
 }
 
 void Lexer::addToken(TokenType type, const string& lexeme)
 {
-    _tokens.emplace_back(_loc, TokenType::END, lexeme);
+    _tokens.emplace_back(_loc, type, lexeme);
 }
 
 char Lexer::peek()

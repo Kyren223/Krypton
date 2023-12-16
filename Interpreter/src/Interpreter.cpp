@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 
 #include <lexer/Lexer.h>
+#include <parser/Parser.h>
 #include "windows.h"
 
 #if DEBUG
@@ -31,12 +32,14 @@ void operator delete(void* p, size_t size) noexcept
 
 int main(const int argc, const char* argv[])
 {
-    {
-        SetConsoleOutputCP(CP_UTF8);
-        
-        Lexer lexer("src/test.kr", R"('\176')");
-        lexer.scanTokens();
-    }
+    SetConsoleOutputCP(CP_UTF8);
+    
+    Lexer lexer("src/test.kr", R"(5 + class)");
+    vector<Token> tokens = lexer.scanTokens();
+    Parser parser(tokens);
+    unique_ptr<ASTNode> ast = parser.parse();
+    
+    
     return 0;
 }
 

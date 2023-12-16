@@ -116,5 +116,8 @@ public:
     
     [[nodiscard]] SourceLocation getLocation() const;
     [[nodiscard]] TokenType getType() const;
-    [[nodiscard]]  optional<string> getLexeme() const;
+    [[nodiscard]] optional<string> getLexeme() const;
+    [[nodiscard]] string toString();
+    
+    static string getTokenTypeString(TokenType type);
 };

@@ -22,6 +22,8 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     Token token = peek();
     unique_ptr<Expression> left;
     
+    if (token.getType() == TokenType::END) return nullptr;
+    
     optional<pair<int, int>> prefixPrecedence = getPrefixPrecedence(token.getType());
     
     // Literal Expression
@@ -43,7 +45,10 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         left = parseExpression();
         if (!match(TokenType::RIGHT_PAREN))
         {
-            // TODO Error - Expected ')'
+            _handler.expectedXgotY(token.getLocation(),
+                                   ")",
+                                   token.toString());
+            return nullptr;
         }
     }
     
@@ -56,7 +61,9 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     
     else
     {
-        // TODO Error - Expected expression
+        _handler.expectedXgotY(token.getLocation(),
+                               "Expression",
+                               token.toString());
         return nullptr;
     }
     
@@ -64,6 +71,8 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     while (true)
     {
         token = peek();
+        if (token.getType() == TokenType::END) break;
+        
         optional<pair<int, int>> postfixPrecedence = getPostfixPrecedence(token.getType());
         
         if (postfixPrecedence)
@@ -76,7 +85,9 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
                 unique_ptr<Expression> right = parseExpression();
                 if (advance().getType() != TokenType::RIGHT_BRACKET)
                 {
-                    // TODO Error - Expected ']'
+                    _handler.expectedXgotY(token.getLocation(),
+                                           "]",
+                                           token.toString());
                     return nullptr;
                 }
                 left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
@@ -95,7 +106,9 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
                 unique_ptr<Expression> middle = parseExpression();
                 if (advance().getType() != TokenType::COLON)
                 {
-                    // TODO Error - Expected ':'
+                    _handler.expectedXgotY(token.getLocation(),
+                                           ":",
+                                           token.toString());
                     return nullptr;
                 }
                 unique_ptr<Expression> right = parseExpression(infixPrecedence->second);

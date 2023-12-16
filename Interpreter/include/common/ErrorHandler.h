@@ -35,6 +35,7 @@ public:
     void invalidEscapeSequence(const SourceLocation& loc, const string& line, size_t offset, size_t length);
     
     // Parser Errors Factory methods
+    void expectedXgotY(const SourceLocation& loc, const string& expected, const string& got);
     
     // Runtime Errors Factory methods
     
