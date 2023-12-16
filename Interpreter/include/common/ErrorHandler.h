@@ -3,13 +3,18 @@
 
 #include <string>
 #include <vector>
-#include <common/Error.h>
 
-using std::vector;
+using std::vector, std::string;
+
+struct SourceLocation
+{
+    string filepath;
+    int line;
+    int column;
+};
 
 class ErrorHandler
 {
-    static ErrorHandler* instance;
     bool _hasErrors;
     
     ErrorHandler() : _hasErrors(false) {}

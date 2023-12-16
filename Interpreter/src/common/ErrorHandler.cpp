@@ -4,12 +4,10 @@
 #include <format>
 #include <common/StringHelper.h>
 
-ErrorHandler* ErrorHandler::instance = nullptr;
-
 ErrorHandler& ErrorHandler::getInstance()
 {
-    if (instance == nullptr) instance = new ErrorHandler();
-    return *instance;
+    static ErrorHandler instance;
+    return instance;
 }
 
 bool ErrorHandler::hasErrors() const

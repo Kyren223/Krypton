@@ -1,6 +1,8 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <parser/Parser.h>
 
+using std::make_unique;
+
 Parser::Parser(vector<Token> tokens)
     : _handler(ErrorHandler::getInstance())
 {
@@ -8,17 +10,17 @@ Parser::Parser(vector<Token> tokens)
     _current = 0;
 }
 
-ASTNode* Parser::parse()
+unique_ptr<ASTNode> Parser::parse()
 {
-    ASTNode* ast = parseExpression();
+    unique_ptr<ASTNode> ast = parseExpression();
     _handler.terminateIfErrors();
     return ast;
 }
 
-Expression* Parser::parseExpression(int minPrecedence)
+unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
 {
     Token token = peek();
-    Expression* left;
+    unique_ptr<Expression> left;
     
     optional<pair<int, int>> prefixPrecedence = getPrefixPrecedence(token.getType());
     
@@ -32,7 +34,7 @@ Expression* Parser::parseExpression(int minPrecedence)
               TokenType::FALSE,
               TokenType::NUL))
     {
-        left = new LiteralExpression(token);
+        left = make_unique<LiteralExpression>(token);
     }
     
     // Grouped Expression
@@ -49,7 +51,7 @@ Expression* Parser::parseExpression(int minPrecedence)
     else if (prefixPrecedence)
     {
         left = parseExpression(prefixPrecedence->second);
-        left = new UnaryExpression(token, left);
+        left = make_unique<UnaryExpression>(token, std::move(left));
     }
     
     else
@@ -71,15 +73,15 @@ Expression* Parser::parseExpression(int minPrecedence)
             
             if (token.getType() == TokenType::LEFT_BRACKET)
             {
-                Expression* right = parseExpression();
+                unique_ptr<Expression> right = parseExpression();
                 if (advance().getType() != TokenType::RIGHT_BRACKET)
                 {
                     // TODO Error - Expected ']'
                     return nullptr;
                 }
-                left = new BinaryExpression(left, token, right);
+                left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
             }
-            else left = new UnaryExpression(token, left);
+            else left = make_unique<UnaryExpression>(token, std::move(left));
         }
         
         optional<pair<int, int>> infixPrecedence = getInfixPrecedence(token.getType());
@@ -90,19 +92,19 @@ Expression* Parser::parseExpression(int minPrecedence)
             
             if (token.getType() == TokenType::QUESTION_MARK)
             {
-                Expression* middle = parseExpression();
+                unique_ptr<Expression> middle = parseExpression();
                 if (advance().getType() != TokenType::COLON)
                 {
                     // TODO Error - Expected ':'
                     return nullptr;
                 }
-                Expression* right = parseExpression(infixPrecedence->second);
-                left = new TernaryExpression(left, middle, right);
+                unique_ptr<Expression> right = parseExpression(infixPrecedence->second);
+                left = make_unique<TernaryExpression>(std::move(left), std::move(middle), std::move(right));
             }
             else
             {
-                Expression* right = parseExpression(infixPrecedence->second);
-                left = new BinaryExpression(left, token, right);
+                unique_ptr<Expression> right = parseExpression(infixPrecedence->second);
+                left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
             }
         }
     }
@@ -127,28 +129,36 @@ optional<pair<int, int>> Parser::getInfixPrecedence(TokenType op)
 {
     switch (op)
     {
-        case TokenType::COLON: return {{1, 2}};
-        case TokenType::QUESTION_MARK: return {{1, 2}};
         case TokenType::DOT: return {{1, 2}};
-        case TokenType::EQUAL: return {{1, 2}};
-        case TokenType::GREATER: return {{1, 2}};
-        case TokenType::LESS: return {{1, 2}};
+        
         case TokenType::PIPE: return {{1, 2}};
         case TokenType::AMPERSAND: return {{1, 2}};
         case TokenType::PERCENTAGE: return {{1, 2}};
         case TokenType::CARET: return {{1, 2}};
-        case TokenType::SLASH: return {{1, 2}};
-        case TokenType::ASTERISK: return {{1, 2}};
-        case TokenType::PLUS: return {{1, 2}};
-        case TokenType::MINUS: return {{1, 2}};
-        case TokenType::BANG_EQUAL: return {{1, 2}};
-        case TokenType::EQUAL_EQUAL: return {{1, 2}};
-        case TokenType::GREATER_EQUAL: return {{1, 2}};
-        case TokenType::LESS_EQUAL: return {{1, 2}};
-        case TokenType::PIPE_PIPE: return {{1, 2}};
-        case TokenType::AMPERSAND_AMPERSAND: return {{1, 2}};
-        case TokenType::AND: return {{1, 2}};
-        case TokenType::OR: return {{1, 2}};
+        
+        case TokenType::SLASH:
+        case TokenType::ASTERISK:
+            return {{1, 2}};
+        
+        case TokenType::PLUS:
+        case TokenType::MINUS:
+            return {{1, 2}};
+        
+        case TokenType::GREATER:
+        case TokenType::LESS:
+        case TokenType::BANG_EQUAL:
+        case TokenType::EQUAL_EQUAL:
+        case TokenType::GREATER_EQUAL:
+        case TokenType::LESS_EQUAL:
+            return {{1, 2}};
+            
+        case TokenType::OR:
+        case TokenType::PIPE_PIPE:
+            return {{1, 2}};
+            
+        case TokenType::AND:
+        case TokenType::AMPERSAND_AMPERSAND:
+            return {{1, 2}};
         default: return {};
     }
 }

@@ -6,8 +6,9 @@
 #include <nodes/ASTNode.h>
 #include <nodes/Expressions.h>
 #include <common/ErrorHandler.h>
+#include <memory>
 
-using std::vector, std::pair;
+using std::vector, std::pair, std::unique_ptr;
 
 class Parser
 {
@@ -17,7 +18,7 @@ class Parser
     
 public:
     explicit Parser(vector<Token> tokens);
-    ASTNode* parse();
+    unique_ptr<ASTNode> parse();
     
 private:
     Token advance();
@@ -25,7 +26,7 @@ private:
     template<std::same_as<TokenType>... Ts>
     bool match(TokenType first, Ts... rest);
     
-    Expression* parseExpression(int minPrecedence = 0);
+    unique_ptr<Expression> parseExpression(int minPrecedence = 0);
     
     static optional<pair<int, int>> getInfixPrecedence(TokenType op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenType op);

@@ -5,7 +5,7 @@
 #include <utility>
 #include <filesystem>
 #include <optional>
-#include <common/Error.h>
+#include <common/ErrorHandler.h>
 
 namespace fs = std::filesystem;
 using std::string, std::optional;

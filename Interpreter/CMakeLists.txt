@@ -27,7 +27,6 @@ add_executable(Interpreter src/Interpreter.cpp
         include/common/FileHelper.h
         src/common/ErrorHandler.cpp
         include/common/ErrorHandler.h
-        include/common/Error.h
         include/nodes/Expressions.h
         src/parser/Parser.cpp
 )
