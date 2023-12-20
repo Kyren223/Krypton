@@ -29,6 +29,8 @@ add_executable(Interpreter src/Interpreter.cpp
         include/common/ErrorHandler.h
         include/nodes/Expressions.h
         src/parser/Parser.cpp
+        src/common/PrettyPrinter.cpp
+        include/common/PrettyPrinter.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)
@@ -42,7 +44,9 @@ add_executable(InterpreterTests ${INTERPRETER_SOURCES}
         tests/LoggerTest.cpp
         tests/CommandExecutorTest.cpp
         tests/FileHelperTest.cpp
-        tests/StringHelperTest.cpp)
+        tests/StringHelperTest.cpp
+        tests/LexerTest.cpp
+        tests/ParserTest.cpp)
 target_include_directories(InterpreterTests PRIVATE include/)
 target_link_libraries(InterpreterTests PRIVATE Catch2::Catch2WithMain)
 target_compile_definitions(InterpreterTests PRIVATE NO_MAIN)

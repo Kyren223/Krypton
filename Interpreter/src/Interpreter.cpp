@@ -2,6 +2,8 @@
 
 #include <lexer/Lexer.h>
 #include <parser/Parser.h>
+#include <common/PrettyPrinter.h>
+#include <common/Logger.h>
 #include "windows.h"
 
 #if DEBUG
@@ -34,10 +36,13 @@ int main(const int argc, const char* argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
     
-    Lexer lexer("src/test.kr", R"(5 + class)");
+    Lexer lexer("src/test.kr", R"(true)");
     vector<Token> tokens = lexer.scanTokens();
+    PrettyPrinter::printTokens(tokens);
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
+    const ASTNode& node = *ast;
+    PrettyPrinter::print(node);
     
     
     return 0;

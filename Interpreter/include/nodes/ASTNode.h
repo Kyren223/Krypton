@@ -3,5 +3,5 @@
 
 struct ASTNode
 {
-
+    virtual ~ASTNode() {}
 };

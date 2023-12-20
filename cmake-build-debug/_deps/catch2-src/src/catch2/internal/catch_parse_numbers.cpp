@@ -27,7 +27,7 @@ namespace Catch {
             size_t pos = 0;
             const auto ret = std::stoull( trimmed, &pos, base );
 
-            // We did not advance the whole input, so there is an issue
+            // We did not consume the whole input, so there is an issue
             // This can be bunch of different stuff, like multiple numbers
             // in the input, or invalid digits/characters and so on. Either
             // way, we do not want to return the partially parsed result.

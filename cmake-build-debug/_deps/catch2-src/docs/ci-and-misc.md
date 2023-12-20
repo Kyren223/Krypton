@@ -48,14 +48,14 @@ Being specific to TeamCity this is the best reporter to use with it - but it is 
 
 The Automake Reporter writes out the [meta tags](https://www.gnu.org/software/automake/manual/html_node/Log-files-generation-and-test-results-recording.html#Log-files-generation-and-test-results-recording) expected by automake via `make check`.
 
-### TAP (ArgumentParser Anything Protocol) Reporter
+### TAP (Test Anything Protocol) Reporter
 ```-r tap```
 
 Because of the incremental nature of Catch's test suites and ability to run specific tests, our implementation of TAP reporter writes out the number of tests in a suite last.
 
 ### SonarQube Reporter
 ```-r sonarqube```
-[SonarQube Generic ArgumentParser Data](https://docs.sonarqube.org/latest/analysis/generic-test/) XML format for tests metrics.
+[SonarQube Generic Test Data](https://docs.sonarqube.org/latest/analysis/generic-test/) XML format for tests metrics.
 
 
 ## Bazel test runner integration
@@ -64,8 +64,8 @@ Catch2 understands some of the environment variables Bazel uses to control
 test execution. Specifically it understands
 
  * JUnit output path via `XML_OUTPUT_FILE`
- * ArgumentParser filtering via `TESTBRIDGE_TEST_ONLY`
- * ArgumentParser sharding via `TEST_SHARD_INDEX`, `TEST_TOTAL_SHARDS`, and `TEST_SHARD_STATUS_FILE`
+ * Test filtering via `TESTBRIDGE_TEST_ONLY`
+ * Test sharding via `TEST_SHARD_INDEX`, `TEST_TOTAL_SHARDS`, and `TEST_SHARD_STATUS_FILE`
 
 > Support for `XML_OUTPUT_FILE` was [introduced](https://github.com/catchorg/Catch2/pull/2399) in Catch2 3.0.1
 

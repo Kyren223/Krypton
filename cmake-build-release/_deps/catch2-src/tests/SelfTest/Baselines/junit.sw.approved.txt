@@ -9,7 +9,7 @@
     <testcase classname="<exe-name>.global" name="# A test name that starts with a #" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="#1027: Bitfields can be captured" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="#1147" time="{duration}" status="run"/>
-    <testcase classname="<exe-name>.global" name="#1175 - Hidden ArgumentParser" time="{duration}" status="run"/>
+    <testcase classname="<exe-name>.global" name="#1175 - Hidden Test" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="#1238" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.(Fixture_1245&lt;int, int>)" name="#1245" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="#1319: Sections can have description (even if it is not saved/SectionName" time="{duration}" status="run"/>
@@ -1341,10 +1341,10 @@ at Misc.tests.cpp:<line number>
     <testcase classname="<exe-name>.global" name="TemplateTestSig: vectors can be sized and resized - std::string,15/resizing smaller changes size but not capacity/We can use the 'swap trick' to reset the capacity" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="TemplateTestSig: vectors can be sized and resized - std::string,15/reserving bigger changes capacity but not size" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="TemplateTestSig: vectors can be sized and resized - std::string,15/reserving smaller does not change size or capacity" time="{duration}" status="run"/>
-    <testcase classname="<exe-name>.global" name="ArgumentParser case with identical tags keeps just one" time="{duration}" status="run"/>
-    <testcase classname="<exe-name>.global" name="ArgumentParser case with one argument" time="{duration}" status="run"/>
-    <testcase classname="<exe-name>.global" name="ArgumentParser enum bit values" time="{duration}" status="run"/>
-    <testcase classname="<exe-name>.global" name="ArgumentParser with special, characters &quot;in name" time="{duration}" status="run"/>
+    <testcase classname="<exe-name>.global" name="Test case with identical tags keeps just one" time="{duration}" status="run"/>
+    <testcase classname="<exe-name>.global" name="Test case with one argument" time="{duration}" status="run"/>
+    <testcase classname="<exe-name>.global" name="Test enum bit values" time="{duration}" status="run"/>
+    <testcase classname="<exe-name>.global" name="Test with special, characters &quot;in name" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="Testing checked-if" time="{duration}" status="run"/>
     <testcase classname="<exe-name>.global" name="Testing checked-if 2" time="{duration}" status="run">
       <skipped message="TEST_CASE tagged with !mayfail"/>

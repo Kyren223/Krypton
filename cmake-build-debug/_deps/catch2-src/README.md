@@ -17,7 +17,7 @@ Catch2 is mainly a unit testing framework for C++, but it also
 provides basic micro-benchmarking features, and simple BDD macros.
 
 Catch2's main advantage is that using it is both simple and natural.
-ArgumentParser names do not have to be valid identifiers, assertions look like
+Test names do not have to be valid identifiers, assertions look like
 normal C++ boolean expressions, and sections provide a nice and local way
 to share set-up and tear-down code in tests.
 
@@ -91,7 +91,7 @@ here on GitHub](https://github.com/catchorg/Catch2/tree/v2.x).
 ## How to use it
 This documentation comprises these three parts:
 
-* [Why do we need yet another C++ ArgumentParser Framework?](docs/why-catch.md#top)
+* [Why do we need yet another C++ Test Framework?](docs/why-catch.md#top)
 * [Tutorial](docs/tutorial.md#top) - getting started
 * [Reference section](docs/Readme.md#top) - all the details
 

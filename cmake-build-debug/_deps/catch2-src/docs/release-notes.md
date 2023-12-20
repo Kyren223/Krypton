@@ -95,7 +95,7 @@
 * Improved performance
   * Section tracking is 10%-25% faster than in v3.3.0
   * Assertion handling is 5%-10% faster than in v3.3.0
-  * ArgumentParser case registration is 1%-2% faster than in v3.3.0
+  * Test case registration is 1%-2% faster than in v3.3.0
   * Tiny speedup for registering listeners
   * Tiny speedup for `CAPTURE`, `TEST_CASE_METHOD`, `METHOD_AS_TEST_CASE`, and `TEMPLATE_LIST_TEST_*` macros.
 * `Contains`, `RangeEquals` and `UnorderedRangeEquals` matchers now support ranges with iterator + sentinel pair
@@ -380,11 +380,11 @@ v3 releases.
 * Added `STATIC_CHECK` macro, similar to `STATIC_REQUIRE` (#2318)
   * When deferred tu runtime, it behaves like `CHECK`, and not like `REQUIRE`.
 * You can have multiple tests with the same name, as long as other parts of the test identity differ (#1915, #1999, #2175)
-  * ArgumentParser identity includes test's name, test's tags and and test's class name if applicable.
+  * Test identity includes test's name, test's tags and and test's class name if applicable.
 * Added new warning, `UnmatchedTestSpec`, to error on test specs with no matching tests
 * The `-w`, `--warn` warning flags can now be provided multiple times to enable multiple warnings
 * The case-insensitive handling of tags is now more reliable and takes up less memory
-* ArgumentParser case and assertion counting can no longer reasonably overflow on 32 bit systems
+* Test case and assertion counting can no longer reasonably overflow on 32 bit systems
   * The count is now kept in `uint64_t` on all platforms, instead of using `size_t` type.
 * The `-o`, `--out` output destination specifiers recognize `-` as stdout
   * You have to provide it as `--out=-` to avoid CLI error about missing option
@@ -635,7 +635,7 @@ v3 releases.
 * GCC and Clang now issue warnings for suspicious code in assertions (#1880)
   * E.g. `REQUIRE( int != unsigned int )` will now issue mixed signedness comparison warning
   * This has always worked on MSVC, but it now also works for GCC and current Clang versions
-* Colorization of "ArgumentParser filters" output should be more robust now
+* Colorization of "Test filters" output should be more robust now
 * `--wait-for-keypress` now also accepts `never` as an option (#1866)
 * Reporters no longer round-off nanoseconds when reporting benchmarking results (#1876)
 * Catch2's debug break now supports iOS while using Thumb instruction set (#1862)
@@ -673,7 +673,7 @@ v3 releases.
 
 ### Improvements
 * JUnit reporter output now contains more details in case of failure (#1347, #1719)
-* Added SonarQube ArgumentParser Data reporter (#1738)
+* Added SonarQube Test Data reporter (#1738)
   * It is in a separate header, just like the TAP, Automake, and TeamCity reporters
 * `range` generator now allows floating point numbers (#1776)
 * Reworked part of internals to increase throughput
@@ -823,7 +823,7 @@ v3 releases.
 * We now provide `REGISTER_ENUM` convenience macro for generating `StringMaker` specializations for enums
   * See the "String conversion" documentation for details
 * Added new set of macros for template test cases that enables the use of NTTPs (#1531, #1609)
-  * See "ArgumentParser cases and sections" documentation for details
+  * See "Test cases and sections" documentation for details
 
 ### Fixes
 * `UNSCOPED_INFO` macro now has a prefixed/disabled/prefixed+disabled versions (#1611)
@@ -1557,7 +1557,7 @@ Cygwin issue with `gettimeofday` - `#define` was not early enough
 * Introduced new compile-time flag, `CATCH_CONFIG_FAST_COMPILE`, trading features for compilation speed.
   * Moves debug breaks out of tests and into implementation, speeding up test compilation time (~10% on linux).
   * _More changes are coming_
-* Added [TAP (ArgumentParser Anything Protocol)](https://testanything.org/) and [Automake](https://www.gnu.org/software/automake/manual/html_node/Log-files-generation-and-test-results-recording.html#Log-files-generation-and-test-results-recording) reporters.
+* Added [TAP (Test Anything Protocol)](https://testanything.org/) and [Automake](https://www.gnu.org/software/automake/manual/html_node/Log-files-generation-and-test-results-recording.html#Log-files-generation-and-test-results-recording) reporters.
   * These are not present in the default single-include header and need to be downloaded from GitHub separately.
   * For details see [documentation about integrating with build systems](build-systems.md#top).
 *  XML reporter now reports filename as part of the `Section` and `TestCase` tags.

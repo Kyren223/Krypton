@@ -73,7 +73,7 @@
     </Expression>
     <OverallResult success="true" skips="0"/>
   </TestCase>
-  <TestCase name="#1175 - Hidden ArgumentParser" tags="[.]" filename="tests/<exe-name>/UsageTests/Misc.tests.cpp" >
+  <TestCase name="#1175 - Hidden Test" tags="[.]" filename="tests/<exe-name>/UsageTests/Misc.tests.cpp" >
     <OverallResult success="true" skips="0"/>
   </TestCase>
   <TestCase name="#1238" filename="tests/<exe-name>/UsageTests/Compilation.tests.cpp" >
@@ -14452,7 +14452,7 @@ Message from section two
     </Section>
     <OverallResult success="true" skips="0"/>
   </TestCase>
-  <TestCase name="ArgumentParser case with identical tags keeps just one" tags="[tags]" filename="tests/<exe-name>/IntrospectiveTests/Tag.tests.cpp" >
+  <TestCase name="Test case with identical tags keeps just one" tags="[tags]" filename="tests/<exe-name>/IntrospectiveTests/Tag.tests.cpp" >
     <Expression success="true" type="REQUIRE" filename="tests/<exe-name>/IntrospectiveTests/Tag.tests.cpp" >
       <Original>
         testCase.tags.size() == 1
@@ -14471,10 +14471,10 @@ Message from section two
     </Expression>
     <OverallResult success="true" skips="0"/>
   </TestCase>
-  <TestCase name="ArgumentParser case with one argument" filename="tests/<exe-name>/UsageTests/VariadicMacros.tests.cpp" >
+  <TestCase name="Test case with one argument" filename="tests/<exe-name>/UsageTests/VariadicMacros.tests.cpp" >
     <OverallResult success="true" skips="0"/>
   </TestCase>
-  <TestCase name="ArgumentParser enum bit values" tags="[Tricky]" filename="tests/<exe-name>/UsageTests/Tricky.tests.cpp" >
+  <TestCase name="Test enum bit values" tags="[Tricky]" filename="tests/<exe-name>/UsageTests/Tricky.tests.cpp" >
     <Expression success="true" type="REQUIRE" filename="tests/<exe-name>/UsageTests/Tricky.tests.cpp" >
       <Original>
         0x<hex digits> == bit30and31
@@ -14485,7 +14485,7 @@ Message from section two
     </Expression>
     <OverallResult success="true" skips="0"/>
   </TestCase>
-  <TestCase name="ArgumentParser with special, characters &quot;in name" tags="[cli][regression]" filename="tests/<exe-name>/IntrospectiveTests/CmdLine.tests.cpp" >
+  <TestCase name="Test with special, characters &quot;in name" tags="[cli][regression]" filename="tests/<exe-name>/IntrospectiveTests/CmdLine.tests.cpp" >
     <OverallResult success="true" skips="0"/>
   </TestCase>
   <TestCase name="Testing checked-if" tags="[checked-if]" filename="tests/<exe-name>/UsageTests/Misc.tests.cpp" >

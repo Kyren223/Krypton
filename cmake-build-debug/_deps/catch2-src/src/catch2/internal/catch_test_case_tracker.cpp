@@ -217,7 +217,7 @@ namespace TestCaseTracking {
         if( !filters.empty() ) {
             m_filters.reserve( m_filters.size() + filters.size() + 2 );
             m_filters.emplace_back(StringRef{}); // Root - should never be consulted
-            m_filters.emplace_back(StringRef{}); // ArgumentParser Case - not a section filter
+            m_filters.emplace_back(StringRef{}); // Test Case - not a section filter
             m_filters.insert( m_filters.end(), filters.begin(), filters.end() );
         }
     }

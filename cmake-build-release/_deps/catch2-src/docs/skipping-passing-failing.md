@@ -1,7 +1,7 @@
 <a id="top"></a>
 # Explicitly skipping, passing, and failing tests at runtime
 
-## Skipping ArgumentParser Cases at Runtime
+## Skipping Test Cases at Runtime
 
 > [Introduced](https://github.com/catchorg/Catch2/pull/2360) in Catch2 3.3.0.
 
@@ -93,7 +93,7 @@ case.
 
 ## Passing and failing test cases
 
-ArgumentParser cases can also be explicitly passed or failed, without the use of
+Test cases can also be explicitly passed or failed, without the use of
 assertions, and with a specific message. This can be useful to handle
 complex preconditions/postconditions and give useful error messages
 when they fail.

@@ -1,5 +1,5 @@
 <a id="top"></a>
-# ArgumentParser fixtures
+# Test fixtures
 
 ## Defining test fixtures
 

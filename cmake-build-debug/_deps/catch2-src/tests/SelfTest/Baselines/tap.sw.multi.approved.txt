@@ -18,7 +18,7 @@ ok {test-number} - t1 > t2 for: {?} > {?}
 ok {test-number} - t1 <= t2 for: {?} <= {?}
 # #1147
 ok {test-number} - t1 >= t2 for: {?} >= {?}
-# #1175 - Hidden ArgumentParser
+# #1175 - Hidden Test
 ok {test-number} -
 # #1238
 ok {test-number} - std::memcmp(uarr, "123", sizeof(uarr)) == 0 for: 0 == 0 with 2 messages: 'uarr := "123"' and 'sarr := "456"'
@@ -3030,15 +3030,15 @@ ok {test-number} - v.capacity() >= V for: 15 >= 15
 ok {test-number} - v.size() == V for: 15 == 15
 # TemplateTestSig: vectors can be sized and resized - std::string,15
 ok {test-number} - v.capacity() >= V for: 15 >= 15
-# ArgumentParser case with identical tags keeps just one
+# Test case with identical tags keeps just one
 ok {test-number} - testCase.tags.size() == 1 for: 1 == 1
-# ArgumentParser case with identical tags keeps just one
+# Test case with identical tags keeps just one
 ok {test-number} - testCase.tags[0] == Tag( "tag1" ) for: {?} == {?}
-# ArgumentParser case with one argument
+# Test case with one argument
 ok {test-number} - with 1 message: 'no assertions'
-# ArgumentParser enum bit values
+# Test enum bit values
 ok {test-number} - 0x<hex digits> == bit30and31 for: 3221225472 (0x<hex digits>) == 3221225472
-# ArgumentParser with special, characters "in name
+# Test with special, characters "in name
 ok {test-number} -
 # Testing checked-if
 ok {test-number} - true

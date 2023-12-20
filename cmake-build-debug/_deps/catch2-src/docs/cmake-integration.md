@@ -316,7 +316,7 @@ aim to support) all customization points from
 ## CMake project options
 
 Catch2's CMake project also provides some options for other projects
-that advance it. These are:
+that consume it. These are:
 
 * `BUILD_TESTING` -- When `ON` and the project is not used as a subproject,
 Catch2's test binary will be built. Defaults to `ON`.
