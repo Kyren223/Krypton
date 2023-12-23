@@ -136,19 +136,6 @@ void CommandExecutor::executeHelp(optional<Argument> argument)
 
 void CommandExecutor::executeVersion()
 {
-    string interpreterString = Constants::APP_NAME;
-    interpreterString += " v";
-    interpreterString += Constants::VERSION;
-    interpreterString += " (";
-    interpreterString += Constants::STABLE ? "Stable" : "Unstable";
-    interpreterString += " ";
-    interpreterString += DEBUG ? "Debug" : "Release";
-    interpreterString += " Build)";
-    
-    string languageString = Constants::LANGUAGE_NAME;
-    languageString += " ";
-    languageString += std::to_string(Constants::LANGUAGE_VERSION);
-    
-    Logger::log(interpreterString);
-    Logger::log("Supports " + languageString);
+    Logger::log(Constants::getInterpreterVersion());
+    Logger::log(Constants::getLanguageVersion());
 }

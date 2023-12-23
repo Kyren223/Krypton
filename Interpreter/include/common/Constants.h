@@ -1,24 +1,46 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #pragma once
 
+#include <string>
+#include <format>
+using std::string;
+
 namespace Constants
 {
     
     // Interpreter
-    constexpr const char* APP_NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.18.0";
-    constexpr bool STABLE = false;
+    constexpr const char* LANGUAGE = "Krypton";
+    constexpr const char* INTERPRETER = "KryptonInterpreter";
+    constexpr int MAJOR_VERSION = 1;
+    constexpr int MINOR_VERSION = 0;
+    constexpr int PATCH_VERSION = 0;
+    constexpr const char* DESCRIPTION = "Expressions, Types and Statements";
     
     /*
      * =================================================================================
-     * MAJOR VERSION - Incremented at the end of each cycle
-     * MINOR VERSION - Incremented for features that have been made
-     * PATCH VERSION - Incremented if the functionality is the same
-     * STABLE - A version is considered stable if it has passed all the tests
+     * MAJOR VERSION - New language features, Breaking changes, etc.
+     * MINOR VERSION - Small features, Improvements, Fixes, etc.
+     * PATCH VERSION - Bug Fixes, Refactors, Optimizations, etc.
+     * DESCRIPTION - Short description of the major version
      * =================================================================================
      */
     
-    // Language
-    constexpr const char* LANGUAGE_NAME = "Krypton";
-    constexpr int LANGUAGE_VERSION = 1;
+    // Methods
+    string getLanguageVersion()
+    {
+        return std::format("{} {} - {}",
+                           LANGUAGE,
+                           MAJOR_VERSION,
+                           DESCRIPTION);
+    }
+    
+    string getInterpreterVersion()
+    {
+        return std::format("{} {}.{}{}",
+                               INTERPRETER,
+                               MAJOR_VERSION,
+                               MINOR_VERSION,
+                               PATCH_VERSION ? std::format(".{}", PATCH_VERSION) : "",
+                               DEBUG ? "d" : "");
+    }
 }
