@@ -1,18 +1,26 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <parser/Parser.h>
+#include <exception>
+#include <utility>
+#include <common/Logger.h>
 
 using std::make_unique;
 
 Parser::Parser(vector<Token> tokens)
     : _handler(ErrorHandler::getInstance())
 {
-    _tokens = tokens;
+    _tokens = std::move(tokens);
     _current = 0;
 }
 
 unique_ptr<ASTNode> Parser::parse()
 {
-    unique_ptr<ASTNode> ast = parseExpression();
+    // The method that is assigned to the AST, may throw an exception
+    // But it also reports the error to the error handler so we don't need to catch it
+    // Because we have _handler.terminateIfErrors() at the end of the method
+    unique_ptr<ASTNode> ast = nullptr;
+    try { ast = parseExpression(); }
+    catch (const std::exception& ignored) {}
     _handler.terminateIfErrors();
     return ast;
 }
@@ -20,12 +28,12 @@ unique_ptr<ASTNode> Parser::parse()
 unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
 {
     Token token = peek();
+    if (token.getType() == TokenType::END) throw std::exception();
+    
     unique_ptr<Expression> left;
     
-    if (token.getType() == TokenType::END) return nullptr;
-    
     optional<pair<int, int>> prefixPrecedence = getPrefixPrecedence(token.getType());
-    
+
     // Literal Expression
     if (match(TokenType::INT_LITERAL,
               TokenType::DEC_LITERAL,
@@ -48,7 +56,7 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
             _handler.expectedXgotY(token.getLocation(),
                                    ")",
                                    token.toString());
-            return nullptr;
+            throw std::exception();
         }
     }
     
@@ -59,6 +67,7 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         left = make_unique<UnaryExpression>(token, std::move(left));
     }
     
+    // Invalid Expression
     else
     {
         _handler.expectedXgotY(token.getLocation(),
@@ -67,49 +76,50 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         return nullptr;
     }
     
-    // Binary Expression
     while (true)
     {
         token = peek();
         if (token.getType() == TokenType::END) break;
-        
+
         optional<pair<int, int>> postfixPrecedence = getPostfixPrecedence(token.getType());
+        optional<pair<int, int>> infixPrecedence = getInfixPrecedence(token.getType());
         
+        // Unary Expression (operator on the right)
         if (postfixPrecedence)
         {
             if (postfixPrecedence->first < minPrecedence) break;
-            advance(); // Consume the operator
-            
+            consume(); // Consume the operator
+
             if (token.getType() == TokenType::LEFT_BRACKET)
             {
                 unique_ptr<Expression> right = parseExpression();
-                if (advance().getType() != TokenType::RIGHT_BRACKET)
+                if (consume().getType() != TokenType::RIGHT_BRACKET)
                 {
                     _handler.expectedXgotY(token.getLocation(),
                                            "]",
                                            token.toString());
-                    return nullptr;
+                    throw std::exception();
                 }
                 left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
             }
             else left = make_unique<UnaryExpression>(token, std::move(left));
         }
         
-        optional<pair<int, int>> infixPrecedence = getInfixPrecedence(token.getType());
-        if (infixPrecedence)
+        // Binary Expression
+        else if (infixPrecedence)
         {
             if (infixPrecedence->first < minPrecedence) break;
-            advance(); // Consume the operator
-            
+            consume(); // Consume the operator
+
             if (token.getType() == TokenType::QUESTION_MARK)
             {
                 unique_ptr<Expression> middle = parseExpression();
-                if (advance().getType() != TokenType::COLON)
+                if (consume().getType() != TokenType::COLON)
                 {
                     _handler.expectedXgotY(token.getLocation(),
                                            ":",
                                            token.toString());
-                    return nullptr;
+                    throw std::exception();
                 }
                 unique_ptr<Expression> right = parseExpression(infixPrecedence->second);
                 left = make_unique<TernaryExpression>(std::move(left), std::move(middle), std::move(right));
@@ -120,21 +130,28 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
                 left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
             }
         }
+        
+        // No more operators, exit to avoid infinite loop
+        else break;
     }
-    
     
     return left;
 }
 
-Token Parser::advance()
+Token Parser::consume()
 {
-    if (_current >= _tokens.size()) return _tokens.at(_tokens.size() - 1);
-    return _tokens[_current++];
+    Token token = peek();
+    if (token.getType() != TokenType::END) _current++;
+    if (_current >= _tokens.size())
+    {
+        Logger::error("Parser - Tried to consume past the end of the token stream");
+        exit(1);
+    }
+    return token;
 }
 
 Token Parser::peek() const
 {
-    if (_current >= _tokens.size()) return _tokens.at(_tokens.size() - 1);
     return _tokens[_current];
 }
 
@@ -191,8 +208,6 @@ optional<pair<int, int>> Parser::getPostfixPrecedence(TokenType op)
 {
     switch (op)
     {
-        case TokenType::COLON: return {{1, 2}};
-        case TokenType::QUESTION_MARK: return {{1, 2}};
         case TokenType::BANG: return {{1, 2}};
         case TokenType::PLUS_PLUS: return {{1, 2}};
         case TokenType::MINUS_MINUS: return {{1, 2}};
@@ -204,7 +219,7 @@ bool Parser::match(TokenType first, Ts... rest)
 {
     if (peek().getType() == first)
     {
-        advance();
+        consume();
         return true;
     }
     if constexpr (sizeof...(rest) > 0) return match(rest...);

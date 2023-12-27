@@ -19,7 +19,7 @@ TEST_CASE("Lexer", "[lexer]")
     {
         Lexer lexer("src/test.kr", R"(5.5 + "74" * 223 >= test true)");
         vector<Token> tokens = lexer.scanTokens();
-        PrettyPrinter::printTokens(tokens);
+        PrettyPrinter::print(tokens);
         REQUIRE(tokens.size() == 8 + 1); // +1 for END token
         REQUIRE(tokens[0].getType() == TokenType::DEC_LITERAL);
         REQUIRE(tokens[1].getType() == TokenType::PLUS);

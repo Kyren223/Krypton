@@ -31,6 +31,16 @@ add_executable(Interpreter src/Interpreter.cpp
         src/parser/Parser.cpp
         src/common/PrettyPrinter.cpp
         include/common/PrettyPrinter.h
+        src/types/Value.cpp
+        include/types/Value.h
+        src/types/Type.cpp
+        include/types/Type.h
+        include/types/Primitive.h
+        src/types/IntType.cpp
+        include/types/Operations.h
+        src/types/IntType.cpp
+        include/types/FunctionSignature.h
+        src/types/BoolType.cpp
 )
 
 target_include_directories(Interpreter PRIVATE include/)

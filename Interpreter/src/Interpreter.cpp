@@ -5,6 +5,8 @@
 #include <common/PrettyPrinter.h>
 #include <common/Logger.h>
 #include "windows.h"
+#include <types/Value.h>
+#include <types/Primitive.h>
 
 #if DEBUG
 
@@ -36,14 +38,12 @@ int main(const int argc, const char* argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
     
-    Lexer lexer("src/test.kr", R"(true)");
+    Lexer lexer("src/test.kr", R"(5 + 7 * 30 / 10 + (6.5 + 5) * 50)");
     vector<Token> tokens = lexer.scanTokens();
-    PrettyPrinter::printTokens(tokens);
+    PrettyPrinter::print(tokens);
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
-    const ASTNode& node = *ast;
-    PrettyPrinter::print(node);
-    
+    PrettyPrinter::print(*ast);
     
     return 0;
 }

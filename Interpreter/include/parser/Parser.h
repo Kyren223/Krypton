@@ -21,7 +21,7 @@ public:
     unique_ptr<ASTNode> parse();
     
 private:
-    Token advance();
+    Token consume();
     [[nodiscard]] Token peek() const;
     template<std::same_as<TokenType>... Ts>
     bool match(TokenType first, Ts... rest);

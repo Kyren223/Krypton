@@ -29,7 +29,7 @@ private:
     void addToken(TokenType type);
     void addToken(TokenType type, const string& lexeme);
     
-    char advance();
+    char consume();
     char peek();
     char peekNext();
     

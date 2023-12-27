@@ -69,7 +69,7 @@ bool Lexer::isAtEnd()
     return _current >= _source.length();
 }
 
-char Lexer::advance()
+char Lexer::consume()
 {
     if (isAtEnd()) return '\0';
     
@@ -131,7 +131,7 @@ char Lexer::peekNext()
 
 void Lexer::scanToken()
 {
-    char c = advance();
+    char c = consume();
     
     switch(c)
     {
@@ -223,39 +223,39 @@ bool Lexer::match(char expected)
     if (isAtEnd()) return false;
     if (peek() != expected) return false;
     
-    advance();
+    consume();
     return true;
 }
 
 void Lexer::scanComment()
 {
     _allowUtf8 = true;
-    while (peek() != '\n' && !isAtEnd()) advance();
+    while (peek() != '\n' && !isAtEnd()) consume();
     _allowUtf8 = true;
 }
 
 void Lexer::scanMultilineComment()
 {
     _allowUtf8 = true;
-    while (peek() != '*' && peekNext() != '/' && !isAtEnd()) advance();
+    while (peek() != '*' && peekNext() != '/' && !isAtEnd()) consume();
     _allowUtf8 = true;
 }
 
 void Lexer::scanString()
 {
     _allowUtf8 = true;
-    while (peek() != '"' && peek() != '\n' && !isAtEnd()) advance();
+    while (peek() != '"' && peek() != '\n' && !isAtEnd()) consume();
     _allowUtf8 = false;
     
     if (peek() != '"')
     {
         string problem = _source.substr(_start, _current - _start);
         _handler.unterminatedString(_loc, _currentLine, problem);
-        advance(); // Avoid infinite loop
+        consume(); // Avoid infinite loop
         return;
     }
     
-    advance(); // Consume the closing "
+    consume(); // Consume the closing "
     
     string value = _source.substr(_start + 1, _current - _start - 2);
     value = unescape(value);
@@ -265,18 +265,18 @@ void Lexer::scanString()
 void Lexer::scanChar()
 {
     _allowUtf8 = true;
-    while (peek() != '\'' && peek() != '\n' && !isAtEnd()) advance();
+    while (peek() != '\'' && peek() != '\n' && !isAtEnd()) consume();
     _allowUtf8 = false;
     
     if (peek() != '\'')
     {
         string problem = _source.substr(_start, _current - _start);
         _handler.unterminatedChar(_loc, _currentLine, problem);
-        advance(); // Avoid infinite loop
+        consume(); // Avoid infinite loop
         return;
     }
     
-    advance(); // Consume the closing '
+    consume(); // Consume the closing '
     
     string value = _source.substr(_start + 1, _current - _start - 2);
     value = unescape(value);
@@ -295,14 +295,14 @@ void Lexer::scanNumber()
         // TODO Binary, Octal, Hexadecimal (0b, 0o, 0x)
     }
     
-    while (isDigit(peek())) advance();
+    while (isDigit(peek())) consume();
     
     // Look for a decimal point
     bool hasDecimal = false;
     if (peek() == '.' && isDigit(peekNext())) {
-        advance(); // Consume the "."
+        consume(); // Consume the "."
         hasDecimal = true;
-        while (isDigit(peek())) advance();
+        while (isDigit(peek())) consume();
     }
     
     string value = _source.substr(_start, _current - _start);
@@ -466,7 +466,7 @@ bool Lexer::isIdentifierStart(char c)
 
 void Lexer::scanIdentifier()
 {
-    while (isIdentifier(peek())) advance();
+    while (isIdentifier(peek())) consume();
     string value = _source.substr(_start, _current - _start);
     TokenType type = KEYWORDS.contains(value) ? KEYWORDS.at(value) : TokenType::IDENTIFIER;
     if (type == TokenType::IDENTIFIER) addToken(type, value);

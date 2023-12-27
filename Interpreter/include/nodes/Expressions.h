@@ -4,6 +4,7 @@
 #include <lexer/Token.h>
 #include <nodes/ASTNode.h>
 #include <memory>
+#include <utility>
 
 using std::unique_ptr;
 
@@ -15,26 +16,26 @@ struct Expression : ASTNode
 struct LiteralExpression : Expression
 {
     // TODO: Implement Type
-    const Token& literal;
-    explicit LiteralExpression(const Token& literal)
+    const Token literal;
+    explicit LiteralExpression(const Token literal)
         : literal(literal) {}
 };
 
 struct UnaryExpression : Expression
 {
-    const Token& op;
+    const Token op;
     unique_ptr<Expression> expression;
-    UnaryExpression(const Token& op, unique_ptr<Expression> expression)
-        : op(op), expression(std::move(expression)) {}
+    UnaryExpression(Token op, unique_ptr<Expression> expression)
+        : op(std::move(op)), expression(std::move(expression)) {}
 };
 
 struct BinaryExpression : Expression
 {
     unique_ptr<Expression> left;
-    const Token& op;
+    const Token op;
     unique_ptr<Expression> right;
-    explicit BinaryExpression(unique_ptr<Expression> left, const Token& op, unique_ptr<Expression> right)
-        : left(std::move(left)), op(op), right(std::move(right)) {}
+    explicit BinaryExpression(unique_ptr<Expression> left, Token op, unique_ptr<Expression> right)
+        : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
 };
 
 struct TernaryExpression : Expression

@@ -6,27 +6,28 @@
 
 void PrettyPrinter::print(const ASTNode& node)
 {
-    if (const Expression* expr = dynamic_cast<const Expression*>(&node)) print(*expr);
+    if (const auto* expr = dynamic_cast<const Expression*>(&node)) print(*expr);
     else LOG("Unknown node type");
+    LOG("\n");
 }
 
 void PrettyPrinter::print(const Expression& expr)
 {
     LOG("(");
-    if (const BinaryExpression* binExpr = dynamic_cast<const BinaryExpression*>(&expr))
+    if (const auto* binaryExpr = dynamic_cast<const BinaryExpression*>(&expr))
     {
-        print(*binExpr);
+        print(*binaryExpr);
     }
-    else if (const UnaryExpression* unExpr = dynamic_cast<const UnaryExpression*>(&expr))
+    else if (const auto* unaryExpr = dynamic_cast<const UnaryExpression*>(&expr))
     {
-        print(*unExpr);
+        print(*unaryExpr);
     }
-    else if (const LiteralExpression* litExpr = dynamic_cast<const LiteralExpression*>(&expr))
+    else if (const auto* literalExpr = dynamic_cast<const LiteralExpression*>(&expr))
     {
-        print(*litExpr);
+        print(*literalExpr);
     }
     else LOG("Unknown expression type");
-    LOG(")\n");
+    LOG(")");
 }
 
 void PrettyPrinter::print(const BinaryExpression& expr)
@@ -63,7 +64,7 @@ void PrettyPrinter::print(const LiteralExpression& expr)
     else LOG(Token::getTokenTypeString(expr.literal.getType()));
 }
 
-void PrettyPrinter::printTokens(const vector<Token>& tokens)
+void PrettyPrinter::print(const vector<Token>& tokens)
 {
     LOG("{");
     for (const Token& token : tokens)
