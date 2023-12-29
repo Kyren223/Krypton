@@ -28,30 +28,30 @@ unique_ptr<ASTNode> Parser::parse()
 unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
 {
     Token token = peek();
-    if (token.getType() == TokenType::END) throw std::exception();
+    if (token.getType() == TokenTypes::END) throw std::exception();
     
     unique_ptr<Expression> left;
     
     optional<pair<int, int>> prefixPrecedence = getPrefixPrecedence(token.getType());
 
     // Literal Expression
-    if (match(TokenType::INT_LITERAL,
-              TokenType::DEC_LITERAL,
-              TokenType::STRING_LITERAL,
-              TokenType::CHAR_LITERAL,
-              TokenType::IDENTIFIER,
-              TokenType::TRUE,
-              TokenType::FALSE,
-              TokenType::NUL))
+    if (match(TokenTypes::INT_LITERAL,
+              TokenTypes::DEC_LITERAL,
+              TokenTypes::STRING_LITERAL,
+              TokenTypes::CHAR_LITERAL,
+              TokenTypes::IDENTIFIER,
+              TokenTypes::TRUE,
+              TokenTypes::FALSE,
+              TokenTypes::NUL))
     {
         left = make_unique<LiteralExpression>(token);
     }
     
     // Grouped Expression
-    else if (match(TokenType::LEFT_PAREN))
+    else if (match(TokenTypes::LEFT_PAREN))
     {
         left = parseExpression();
-        if (!match(TokenType::RIGHT_PAREN))
+        if (!match(TokenTypes::RIGHT_PAREN))
         {
             _handler.expectedXgotY(token.getLocation(),
                                    ")",
@@ -61,8 +61,9 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     }
     
     // Unary Expression (operator on the left)
-    else if (prefixPrecedence)
+    else if (prefixPrecedence.has_value())
     {
+        consume(); // Consume the operator
         left = parseExpression(prefixPrecedence->second);
         left = make_unique<UnaryExpression>(token, std::move(left));
     }
@@ -79,7 +80,7 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     while (true)
     {
         token = peek();
-        if (token.getType() == TokenType::END) break;
+        if (token.getType() == TokenTypes::END) break;
 
         optional<pair<int, int>> postfixPrecedence = getPostfixPrecedence(token.getType());
         optional<pair<int, int>> infixPrecedence = getInfixPrecedence(token.getType());
@@ -90,10 +91,10 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
             if (postfixPrecedence->first < minPrecedence) break;
             consume(); // Consume the operator
 
-            if (token.getType() == TokenType::LEFT_BRACKET)
+            if (token.getType() == TokenTypes::LEFT_BRACKET)
             {
                 unique_ptr<Expression> right = parseExpression();
-                if (consume().getType() != TokenType::RIGHT_BRACKET)
+                if (consume().getType() != TokenTypes::RIGHT_BRACKET)
                 {
                     _handler.expectedXgotY(token.getLocation(),
                                            "]",
@@ -111,10 +112,10 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
             if (infixPrecedence->first < minPrecedence) break;
             consume(); // Consume the operator
 
-            if (token.getType() == TokenType::QUESTION_MARK)
+            if (token.getType() == TokenTypes::QUESTION_MARK)
             {
                 unique_ptr<Expression> middle = parseExpression();
-                if (consume().getType() != TokenType::COLON)
+                if (consume().getType() != TokenTypes::COLON)
                 {
                     _handler.expectedXgotY(token.getLocation(),
                                            ":",
@@ -141,7 +142,7 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
 Token Parser::consume()
 {
     Token token = peek();
-    if (token.getType() != TokenType::END) _current++;
+    if (token.getType() != TokenTypes::END) _current++;
     if (_current >= _tokens.size())
     {
         Logger::error("Parser - Tried to consume past the end of the token stream");
@@ -155,67 +156,69 @@ Token Parser::peek() const
     return _tokens[_current];
 }
 
-optional<pair<int, int>> Parser::getInfixPrecedence(TokenType op)
+optional<pair<int, int>> Parser::getInfixPrecedence(TokenTypes op)
 {
     switch (op)
     {
-        case TokenType::DOT: return {{1, 2}};
+        case TokenTypes::DOT: return {{1, 2}};
         
-        case TokenType::PIPE: return {{1, 2}};
-        case TokenType::AMPERSAND: return {{1, 2}};
-        case TokenType::PERCENTAGE: return {{1, 2}};
-        case TokenType::CARET: return {{1, 2}};
+        case TokenTypes::PIPE: return {{1, 2}};
+        case TokenTypes::AMPERSAND: return {{1, 2}};
+        case TokenTypes::PERCENT: return {{1, 2}};
+        case TokenTypes::CARET: return {{1, 2}};
         
-        case TokenType::SLASH:
-        case TokenType::ASTERISK:
-            return {{1, 2}};
+        case TokenTypes::SLASH:
+        case TokenTypes::ASTERISK:
+            return {{50, 60}};
         
-        case TokenType::PLUS:
-        case TokenType::MINUS:
-            return {{1, 2}};
+        case TokenTypes::PLUS:
+        case TokenTypes::MINUS:
+            return {{20, 30}};
         
-        case TokenType::GREATER:
-        case TokenType::LESS:
-        case TokenType::BANG_EQUAL:
-        case TokenType::EQUAL_EQUAL:
-        case TokenType::GREATER_EQUAL:
-        case TokenType::LESS_EQUAL:
-            return {{1, 2}};
-            
-        case TokenType::OR:
-        case TokenType::PIPE_PIPE:
+        case TokenTypes::GREATER:
+        case TokenTypes::LESS:
+        case TokenTypes::BANG_EQUAL:
+        case TokenTypes::EQUAL_EQUAL:
+        case TokenTypes::GREATER_EQUAL:
+        case TokenTypes::LESS_EQUAL:
             return {{1, 2}};
             
-        case TokenType::AND:
-        case TokenType::AMPERSAND_AMPERSAND:
+        case TokenTypes::OR:
+        case TokenTypes::PIPE_PIPE:
+            return {{1, 2}};
+            
+        case TokenTypes::AND:
+        case TokenTypes::AMPERSAND_AMPERSAND:
             return {{1, 2}};
         default: return {};
     }
 }
 
-optional<pair<int, int>> Parser::getPrefixPrecedence(TokenType op)
+optional<pair<int, int>> Parser::getPrefixPrecedence(TokenTypes op)
 {
     switch (op)
     {
-        case TokenType::AT: return {{1, 2}};
-        case TokenType::DOLLAR: return {{1, 2}};
-        case TokenType::BANG: return {{1, 2}};
-        case TokenType::MINUS: return {{1, 2}};
+        case TokenTypes::AT: return {{{}, 2}};
+        case TokenTypes::DOLLAR: return {{{}, 2}};
+        case TokenTypes::BANG: return {{{}, 2}};
+        case TokenTypes::MINUS: return {{{}, 100}};
         default: return {};
-    }}
+    }
+}
 
-optional<pair<int, int>> Parser::getPostfixPrecedence(TokenType op)
+optional<pair<int, int>> Parser::getPostfixPrecedence(TokenTypes op)
 {
     switch (op)
     {
-        case TokenType::BANG: return {{1, 2}};
-        case TokenType::PLUS_PLUS: return {{1, 2}};
-        case TokenType::MINUS_MINUS: return {{1, 2}};
+        case TokenTypes::PLUS_PLUS:
+        case TokenTypes::MINUS_MINUS:
+            return {{1, {}}};
         default: return {};
-    }}
+    }
+}
 
-template<std::same_as<TokenType>... Ts>
-bool Parser::match(TokenType first, Ts... rest)
+template<std::same_as<TokenTypes>... Ts>
+bool Parser::match(TokenTypes first, Ts... rest)
 {
     if (peek().getType() == first)
     {

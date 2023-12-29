@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 using std::string, std::optional;
 
 
-enum class TokenType
+enum class TokenTypes
 {
     // Single-character tokens
     LEFT_PAREN,
@@ -37,7 +37,7 @@ enum class TokenType
     LESS,
     PIPE,
     AMPERSAND,
-    PERCENTAGE,
+    PERCENT,
     CARET,
     SLASH,
     ASTERISK,
@@ -107,17 +107,17 @@ enum class TokenType
 class Token
 {
     SourceLocation _loc;
-    TokenType _type;
+    TokenTypes _type;
     optional<string> _lexeme;
     
 public:
-    Token(SourceLocation loc, TokenType type, string lexeme);
-    Token(SourceLocation loc, TokenType type);
+    Token(SourceLocation loc, TokenTypes type, string lexeme);
+    Token(SourceLocation loc, TokenTypes type);
     
     [[nodiscard]] SourceLocation getLocation() const;
-    [[nodiscard]] TokenType getType() const;
+    [[nodiscard]] TokenTypes getType() const;
     [[nodiscard]] optional<string> getLexeme() const;
     [[nodiscard]] string toString();
     
-    static string getTokenTypeString(TokenType type);
+    static string getTokenTypeString(TokenTypes type);
 };

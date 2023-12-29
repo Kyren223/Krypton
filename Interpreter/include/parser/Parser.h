@@ -23,12 +23,12 @@ public:
 private:
     Token consume();
     [[nodiscard]] Token peek() const;
-    template<std::same_as<TokenType>... Ts>
-    bool match(TokenType first, Ts... rest);
+    template<std::same_as<TokenTypes>... Ts>
+    bool match(TokenTypes first, Ts... rest);
     
     unique_ptr<Expression> parseExpression(int minPrecedence = 0);
     
-    static optional<pair<int, int>> getInfixPrecedence(TokenType op);
-    static optional<pair<int, int>> getPrefixPrecedence(TokenType op);
-    static optional<pair<int, int>> getPostfixPrecedence(TokenType op);
+    static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
+    static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);
+    static optional<pair<int, int>> getPostfixPrecedence(TokenTypes op);
 };

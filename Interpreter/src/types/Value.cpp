@@ -5,20 +5,20 @@
 Value::Value(const Type& type, PrimitiveValue value)
     : _type(type)
 {
-    Logger::debug("Value::Value - primitive value");
+    Logger::debug("Value::Value - primitive value\n");
     _primitiveValue = value;
 }
 
 Value::Value(const Type& type, unordered_map<string, Value> value)
     : _type(type)
 {
-    Logger::debug("Value::Value - field value");
+    Logger::debug("Value::Value - field value\n");
     _fieldValue = std::move(value);
 }
 
 Value::~Value()
 {
-    Logger::debug("Value::~Value");
+    Logger::debug("Value::~Value\n");
 }
 
 const Type& Value::getType() const
@@ -28,15 +28,7 @@ const Type& Value::getType() const
 
 Value Value::getField(const string& name) const
 {
-    Logger::debug("Value::getField");
+    Logger::debug("Value::getField\n");
     return _fieldValue.at(name);
-}
-
-
-template<typename T>
-optional<T> Value::getValue() const
-{
-    Logger::debug("Value::getValue");
-    return std::holds_alternative<T>() ? std::get<T>(_primitiveValue) : std::nullopt;
 }
 

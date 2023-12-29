@@ -32,7 +32,7 @@ void PrettyPrinter::print(const Expression& expr)
 
 void PrettyPrinter::print(const BinaryExpression& expr)
 {
-    if (expr.op.getType() == TokenType::END)
+    if (expr.op.getType() == TokenTypes::END)
     {
         LOG("END");
         return;
@@ -47,7 +47,7 @@ void PrettyPrinter::print(const BinaryExpression& expr)
 void PrettyPrinter::print(const UnaryExpression& expr)
 {
     LOG("(");
-    if (expr.op.getType() == TokenType::END)
+    if (expr.op.getType() == TokenTypes::END)
     {
         LOG("END");
         return;

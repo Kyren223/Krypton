@@ -29,6 +29,7 @@ void Logger::log(const string& message)
 
 void Logger::debug(const string& message)
 {
+    if (DEBUG == false) return;
     print(LogMode::DEBUG_LOG, message, Color::GREEN);
 }
 
@@ -49,7 +50,7 @@ void Logger::error(const string& message)
 
 void Logger::print(LogMode mode, const string& message, Color color)
 {
-    bool isDebug = DEBUG && mode == LogMode::DEBUG_LOG;
+    bool isDebug = DEBUG == true && mode == LogMode::DEBUG_LOG;
     if (mode != LogMode::ERROR_LOG && !isDebug)
     {
         if (_silent) return;

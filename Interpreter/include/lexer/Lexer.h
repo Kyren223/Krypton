@@ -9,7 +9,7 @@ using std::vector, std::unordered_map;
 
 class Lexer
 {
-    static const unordered_map<string, TokenType> KEYWORDS;
+    static const unordered_map<string, TokenTypes> KEYWORDS;
     ErrorHandler& _handler;
     vector<Token> _tokens;
     string _source;
@@ -21,13 +21,13 @@ class Lexer
     size_t _utf8;
     
 public:
-    Lexer(const string& filepath, const string& source);
+    Lexer(const string& filepath, string source);
     vector<Token> scanTokens();
     
 private:
     bool isAtEnd();
-    void addToken(TokenType type);
-    void addToken(TokenType type, const string& lexeme);
+    void addToken(TokenTypes type);
+    void addToken(TokenTypes type, const string& lexeme);
     
     char consume();
     char peek();

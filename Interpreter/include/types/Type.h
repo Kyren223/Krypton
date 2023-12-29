@@ -29,8 +29,8 @@ using UnaryMethod = function<Value(Value)>;
 using Constructors = vector<pair<FunctionSignature, Method>>;
 using Methods = unordered_map<string, vector<pair<FunctionSignature, Method>>>;
 using ComparisonMethod = pair<FunctionSignature, BinaryMethod>;
-using BinaryMethods = unordered_map<BinaryOperation, vector<pair<FunctionSignature, BinaryMethod>>>;
-using UnaryMethods = unordered_map<UnaryOperation, pair<FunctionSignature, UnaryMethod>>;
+using BinaryMethods = unordered_map<Operation::Binary, vector<pair<FunctionSignature, BinaryMethod>>>;
+using UnaryMethods = unordered_map<Operation::Unary, pair<FunctionSignature, UnaryMethod>>;
 using Fields = unordered_map<string, const Type&>;
 
 class Type
@@ -53,10 +53,10 @@ public:
          Fields fields);
     
     Value construct(vector<Value> args) const;
-    Value compare(Value left, Value right) const;
-    Value isEqual(Value left, Value right) const;
-    Value binaryOperation(BinaryOperation operation, Value left, Value right) const;
-    Value unaryOperation(UnaryOperation operation, Value left, Value right);
+    Value compare(const Value& left, const Value& right) const;
+    Value isEqual(const Value& left, const Value& right) const;
+    Value binaryOperation(Operation::Binary operation, const Value& left, const Value& right) const;
+    Value unaryOperation(Operation::Unary operation, const Value& value) const;
     
 private:
     static bool isSignatureMatching(const FunctionSignature& signature, const vector<Value>& otherSignature) ;

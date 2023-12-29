@@ -3,6 +3,8 @@
 
 #include <types/Type.h>
 
+using PrimitiveValue = variant<int, double, bool, unsigned char>;
+
 struct Primitive
 {
     static const Type BYTE;

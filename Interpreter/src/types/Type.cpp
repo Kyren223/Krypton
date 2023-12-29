@@ -102,17 +102,17 @@ bool Type::isUnaryMethodSignature(const FunctionSignature& signature)
     return returnType && parameters && parameter;
 }
 
-Value Type::compare(Value left, Value right) const
+Value Type::compare(const Value& left, const Value& right) const
 {
     return _compareMethod.second(left, right);
 }
 
-Value Type::isEqual(Value left, Value right) const
+Value Type::isEqual(const Value& left, const Value& right) const
 {
     return _isEqualMethod.second(left, right);
 }
 
-Value Type::binaryOperation(BinaryOperation operation, Value left, Value right) const
+Value Type::binaryOperation(Operation::Binary operation, const Value& left, const Value& right) const
 {
     for (auto& method : _binaryMethods.at(operation))
     {
@@ -125,7 +125,13 @@ Value Type::binaryOperation(BinaryOperation operation, Value left, Value right) 
     exit(1);
 }
 
-Value Type::unaryOperation(UnaryOperation operation, Value left, Value right)
+Value Type::unaryOperation(Operation::Unary operation, const Value& value) const
 {
-    return _unaryMethods.at(operation).second(left);
+    if (!_unaryMethods.contains(operation))
+    {
+        // TODO - Handle errors properly
+        Logger::error("No matching unary method found");
+        exit(1);
+    }
+    return _unaryMethods.at(operation).second(value);
 }

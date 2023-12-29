@@ -2,13 +2,7 @@
 #pragma once
 
 #include <types/Type.h>
-#include <optional>
-#include <any>
-#include <memory>
-
-using std::optional, std::shared_ptr;
-
-using PrimitiveValue = variant<int, double, bool, unsigned char>;
+#include <types/Primitive.h>
 
 class Value
 {
@@ -22,7 +16,10 @@ public:
     ~Value();
     
     [[nodiscard]] const Type& getType() const;
-    template<typename T>
-    [[nodiscard]] optional<T> getValue() const;
     [[nodiscard]] Value getField(const string& name) const;
+    template<typename T>
+    [[nodiscard]] T getValue() const
+    {
+        return std::get<T>(_primitiveValue);
+    }
 };

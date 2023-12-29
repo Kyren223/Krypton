@@ -39,8 +39,9 @@ add_executable(Interpreter src/Interpreter.cpp
         src/types/IntType.cpp
         include/types/Operations.h
         src/types/IntType.cpp
-        include/types/FunctionSignature.h
         src/types/BoolType.cpp
+        src/runtime/KryptonRuntime.cpp
+        include/runtime/KryptonRuntime.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)

@@ -4,44 +4,46 @@
 #include <common/utf8/unchecked.h>
 #include <common/StringHelper.h>
 
-const unordered_map<string, TokenType> Lexer::KEYWORDS =
+#include <utility>
+
+const unordered_map<string, TokenTypes> Lexer::KEYWORDS =
         {
-                {"class", TokenType::CLASS},
-                {"is", TokenType::IS},
-                {"if", TokenType::IF},
-                {"else", TokenType::ELSE},
-                {"for", TokenType::FOR},
-                {"while", TokenType::WHILE},
-                {"true", TokenType::TRUE},
-                {"false", TokenType::FALSE},
-                {"super", TokenType::SUPER},
-                {"this", TokenType::THIS},
-                {"return", TokenType::RETURN},
-                {"break", TokenType::BREAK},
-                {"continue", TokenType::CONTINUE},
-                {"null", TokenType::NUL},
-                {"import", TokenType::IMPORT},
-                {"as", TokenType::AS},
-                {"from", TokenType::FROM},
-                {"switch", TokenType::SWITCH},
-                {"case", TokenType::CASE},
-                {"default", TokenType::DEFAULT},
-                {"enum", TokenType::ENUM},
-                {"export", TokenType::EXPORT},
-                {"or", TokenType::OR},
-                {"and", TokenType::AND},
+                {"class",    TokenTypes::CLASS},
+                {"is",       TokenTypes::IS},
+                {"if",       TokenTypes::IF},
+                {"else",     TokenTypes::ELSE},
+                {"for",      TokenTypes::FOR},
+                {"while",    TokenTypes::WHILE},
+                {"true",     TokenTypes::TRUE},
+                {"false",    TokenTypes::FALSE},
+                {"super",    TokenTypes::SUPER},
+                {"this",     TokenTypes::THIS},
+                {"return",   TokenTypes::RETURN},
+                {"break",    TokenTypes::BREAK},
+                {"continue", TokenTypes::CONTINUE},
+                {"null",     TokenTypes::NUL},
+                {"import",   TokenTypes::IMPORT},
+                {"as",       TokenTypes::AS},
+                {"from",     TokenTypes::FROM},
+                {"switch",   TokenTypes::SWITCH},
+                {"case",     TokenTypes::CASE},
+                {"default",  TokenTypes::DEFAULT},
+                {"enum",     TokenTypes::ENUM},
+                {"export",   TokenTypes::EXPORT},
+                {"or",       TokenTypes::OR},
+                {"and",      TokenTypes::AND},
                 
-                {"void", TokenType::VOID},
-                {"int", TokenType::INT},
-                {"bool", TokenType::BOOL},
-                {"char", TokenType::CHAR},
-                {"int", TokenType::INT},
-                {"dec", TokenType::DEC},
+                {"void",     TokenTypes::VOID},
+                {"int",      TokenTypes::INT},
+                {"bool",     TokenTypes::BOOL},
+                {"char",     TokenTypes::CHAR},
+                {"int",      TokenTypes::INT},
+                {"dec",      TokenTypes::DEC},
         };
 
-Lexer::Lexer(const string& filepath, const string& source) :
+Lexer::Lexer(const string& filepath, string source) :
     _handler(ErrorHandler::getInstance()),
-    _source(source),
+    _source(std::move(source)),
     _loc(filepath, 1, 0),
     _start(0),
     _current(0),
@@ -59,7 +61,7 @@ vector<Token> Lexer::scanTokens()
         scanToken();
     }
     
-    addToken(TokenType::END);
+    addToken(TokenTypes::END);
     _handler.terminateIfErrors();
     return _tokens;
 }
@@ -107,12 +109,12 @@ char Lexer::consume()
     return c;
 }
 
-void Lexer::addToken(TokenType type)
+void Lexer::addToken(TokenTypes type)
 {
     _tokens.emplace_back(_loc, type);
 }
 
-void Lexer::addToken(TokenType type, const string& lexeme)
+void Lexer::addToken(TokenTypes type, const string& lexeme)
 {
     _tokens.emplace_back(_loc, type, lexeme);
 }
@@ -136,65 +138,65 @@ void Lexer::scanToken()
     switch(c)
     {
         // Single-character tokens
-        case '(': addToken(TokenType::LEFT_PAREN); break;
-        case ')': addToken(TokenType::RIGHT_PAREN); break;
-        case '{': addToken(TokenType::LEFT_BRACE); break;
-        case '}': addToken(TokenType::RIGHT_BRACE); break;
-        case '[': addToken(TokenType::LEFT_BRACKET); break;
-        case ']': addToken(TokenType::RIGHT_BRACKET); break;
-        case ',': addToken(TokenType::COMMA); break;
-        case ':': addToken(TokenType::COLON); break;
-        case ';': addToken(TokenType::SEMICOLON); break;
-        case '?': addToken(TokenType::QUESTION_MARK); break;
-        case '.': addToken(TokenType::DOT); break;
-        case '\\': addToken(TokenType::BACK_SLASH); break;
-        case '@': addToken(TokenType::AT); break;
-        case '$': addToken(TokenType::DOLLAR); break;
-        case '#': addToken(TokenType::HASHTAG); break;
+        case '(': addToken(TokenTypes::LEFT_PAREN); break;
+        case ')': addToken(TokenTypes::RIGHT_PAREN); break;
+        case '{': addToken(TokenTypes::LEFT_BRACE); break;
+        case '}': addToken(TokenTypes::RIGHT_BRACE); break;
+        case '[': addToken(TokenTypes::LEFT_BRACKET); break;
+        case ']': addToken(TokenTypes::RIGHT_BRACKET); break;
+        case ',': addToken(TokenTypes::COMMA); break;
+        case ':': addToken(TokenTypes::COLON); break;
+        case ';': addToken(TokenTypes::SEMICOLON); break;
+        case '?': addToken(TokenTypes::QUESTION_MARK); break;
+        case '.': addToken(TokenTypes::DOT); break;
+        case '\\': addToken(TokenTypes::BACK_SLASH); break;
+        case '@': addToken(TokenTypes::AT); break;
+        case '$': addToken(TokenTypes::DOLLAR); break;
+        case '#': addToken(TokenTypes::HASHTAG); break;
         
         // Two-character tokens
         case '!':
-            addToken(match('=') ? TokenType::BANG_EQUAL : TokenType::BANG);
+            addToken(match('=') ? TokenTypes::BANG_EQUAL : TokenTypes::BANG);
             break;
         case '=':
-            addToken(match('=') ? TokenType::EQUAL_EQUAL : TokenType::EQUAL);
+            addToken(match('=') ? TokenTypes::EQUAL_EQUAL : TokenTypes::EQUAL);
             break;
         case '<':
-            addToken(match('=') ? TokenType::LESS_EQUAL : TokenType::LESS);
+            addToken(match('=') ? TokenTypes::LESS_EQUAL : TokenTypes::LESS);
             break;
         case '>':
-            addToken(match('=') ? TokenType::GREATER_EQUAL : TokenType::GREATER);
+            addToken(match('=') ? TokenTypes::GREATER_EQUAL : TokenTypes::GREATER);
             break;
         case '*':
-            addToken(match('=') ? TokenType::ASTERISK_EQUAL : TokenType::ASTERISK);
+            addToken(match('=') ? TokenTypes::ASTERISK_EQUAL : TokenTypes::ASTERISK);
             break;
         case '%':
-            addToken(match('=') ? TokenType::PERCENTAGE_EQUAL : TokenType::PERCENTAGE);
+            addToken(match('=') ? TokenTypes::PERCENTAGE_EQUAL : TokenTypes::PERCENT);
             break;
         case '^':
-            addToken(match('=') ? TokenType::CARET_EQUAL : TokenType::CARET);
+            addToken(match('=') ? TokenTypes::CARET_EQUAL : TokenTypes::CARET);
             break;
         case '|':
-            addToken(match('=') ? TokenType::PIPE_EQUAL :
-                     match('!') ? TokenType::PIPE_PIPE : TokenType::PIPE);
+            addToken(match('=') ? TokenTypes::PIPE_EQUAL :
+                     match('!') ? TokenTypes::PIPE_PIPE : TokenTypes::PIPE);
             break;
         case '&':
-            addToken(match('=') ? TokenType::AMPERSAND_EQUAL :
-                     match('&') ? TokenType::AMPERSAND_AMPERSAND : TokenType::AMPERSAND);
+            addToken(match('=') ? TokenTypes::AMPERSAND_EQUAL :
+                     match('&') ? TokenTypes::AMPERSAND_AMPERSAND : TokenTypes::AMPERSAND);
             break;
         case '+':
-            addToken(match('=') ? TokenType::PLUS_EQUAL :
-                     match('+') ? TokenType::PLUS_PLUS : TokenType::PLUS);
+            addToken(match('=') ? TokenTypes::PLUS_EQUAL :
+                     match('+') ? TokenTypes::PLUS_PLUS : TokenTypes::PLUS);
             break;
         case '-':
-            addToken(match('=') ? TokenType::MINUS_EQUAL :
-                     match('-') ? TokenType::MINUS_MINUS : TokenType::MINUS);
+            addToken(match('=') ? TokenTypes::MINUS_EQUAL :
+                     (match('-') ? TokenTypes::MINUS_MINUS : TokenTypes::MINUS));
             break;
         case '/':
             if (match('/')) scanComment();
             else if (match('*')) scanMultilineComment();
-            else if (match('=')) addToken(TokenType::SLASH_EQUAL);
-            else addToken(TokenType::SLASH);
+            else if (match('=')) addToken(TokenTypes::SLASH_EQUAL);
+            else addToken(TokenTypes::SLASH);
             break;
         
         // Literals
@@ -259,7 +261,7 @@ void Lexer::scanString()
     
     string value = _source.substr(_start + 1, _current - _start - 2);
     value = unescape(value);
-    addToken(TokenType::STRING_LITERAL, value);
+    addToken(TokenTypes::STRING_LITERAL, value);
 }
 
 void Lexer::scanChar()
@@ -285,7 +287,7 @@ void Lexer::scanChar()
         _handler.multiCharacterChar(_loc, _currentLine, value);
         return;
     }
-    addToken(TokenType::CHAR_LITERAL, value);
+    addToken(TokenTypes::CHAR_LITERAL, value);
 }
 
 void Lexer::scanNumber()
@@ -306,7 +308,7 @@ void Lexer::scanNumber()
     }
     
     string value = _source.substr(_start, _current - _start);
-    TokenType type = hasDecimal ? TokenType::DEC_LITERAL : TokenType::INT_LITERAL;
+    TokenTypes type = hasDecimal ? TokenTypes::DEC_LITERAL : TokenTypes::INT_LITERAL;
     addToken(type, value);
 }
 
@@ -468,8 +470,8 @@ void Lexer::scanIdentifier()
 {
     while (isIdentifier(peek())) consume();
     string value = _source.substr(_start, _current - _start);
-    TokenType type = KEYWORDS.contains(value) ? KEYWORDS.at(value) : TokenType::IDENTIFIER;
-    if (type == TokenType::IDENTIFIER) addToken(type, value);
+    TokenTypes type = KEYWORDS.contains(value) ? KEYWORDS.at(value) : TokenTypes::IDENTIFIER;
+    if (type == TokenTypes::IDENTIFIER) addToken(type, value);
     else addToken(type);
 }
 
