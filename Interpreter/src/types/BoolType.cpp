@@ -3,6 +3,9 @@
 #include <types/Type.h>
 #include <types/Value.h>
 
+const FunctionSignature BOOL_binarySignature(&Primitive::BOOL, {&Primitive::BOOL, &Primitive::BOOL});
+const FunctionSignature BOOL_unarySignature(&Primitive::BOOL, {&Primitive::BOOL});
+
 Value BOOL_compare(const Value& left, const Value& right)
 {
     bool leftBool = left.getValue<bool>();
@@ -19,13 +22,22 @@ Value BOOL_isEqual(const Value& left, const Value& right)
     return {Primitive::BOOL, result};
 }
 
+Value BOOL_not(const Value& value)
+{
+    bool boolValue = value.getValue<bool>();
+    bool result = !boolValue;
+    return {Primitive::BOOL, result};
+}
+
 const Type Primitive::BOOL = Type
 (
     {},
-    {FunctionSignature(&Primitive::BOOL, {&Primitive::BOOL, &Primitive::BOOL}), BOOL_compare},
-    {FunctionSignature(&Primitive::BOOL, {&Primitive::BOOL, &Primitive::BOOL}), BOOL_isEqual},
+    {BOOL_binarySignature, BOOL_compare},
+    {BOOL_binarySignature, BOOL_isEqual},
     {},
-    {},
+    {
+            {Operation::Unary::BANG, {BOOL_unarySignature, BOOL_not}}
+    },
     {},
     {}
 );

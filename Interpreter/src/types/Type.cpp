@@ -88,10 +88,9 @@ bool Type::isComparisonMethodSignature(const FunctionSignature& signature)
 
 bool Type::isBinaryMethodSignature(const FunctionSignature& signature)
 {
-    bool returnType = signature.returnType == this;
     bool parameters = signature.parameters.size() == 2;
     bool parameter = signature.parameters[0] == this;
-    return returnType && parameters && parameter;
+    return parameters && parameter;
 }
 
 bool Type::isUnaryMethodSignature(const FunctionSignature& signature)

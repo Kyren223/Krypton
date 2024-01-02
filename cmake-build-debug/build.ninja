@@ -205,6 +205,22 @@ build Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj:
   OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\runtime
 
+build Interpreter/CMakeFiles/Interpreter.dir/src/types/DecType.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Debug C$:/Krypton/Interpreter/src/types/DecType.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=true
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\types\DecType.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/PackageManager/include
+  OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\types
+
+build Interpreter/CMakeFiles/Interpreter.dir/src/types/CharType.cpp.obj: CXX_COMPILER__Interpreter_unscanned_Debug C$:/Krypton/Interpreter/src/types/CharType.cpp || cmake_object_order_depends_target_Interpreter
+  DEFINES = -DDEBUG=true
+  DEP_FILE = Interpreter\CMakeFiles\Interpreter.dir\src\types\CharType.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/PackageManager/include
+  OBJECT_DIR = Interpreter\CMakeFiles\Interpreter.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\Interpreter.dir\src\types
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Interpreter
@@ -213,7 +229,7 @@ build Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj:
 #############################################
 # Link the executable C:\Krypton\bin\debug\KryptonInterpreter.exe
 
-build C$:/Krypton/bin/debug/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Debug Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/ErrorHandler.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/PrettyPrinter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/Value.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/Type.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/IntType.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/BoolType.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj
+build C$:/Krypton/bin/debug/KryptonInterpreter.exe: CXX_EXECUTABLE_LINKER__Interpreter_Debug Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/ErrorHandler.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/common/PrettyPrinter.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/Value.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/Type.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/IntType.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/BoolType.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/DecType.cpp.obj Interpreter/CMakeFiles/Interpreter.dir/src/types/CharType.cpp.obj
   FLAGS = -g
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -361,6 +377,22 @@ build Interpreter/CMakeFiles/InterpreterTests.dir/src/runtime/KryptonRuntime.cpp
   OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
   OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\runtime
 
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/types/DecType.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Debug C$:/Krypton/Interpreter/src/types/DecType.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEFINES = -DDEBUG=true -DNO_MAIN
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\types\DecType.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/cmake-build-debug/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-debug/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\types
+
+build Interpreter/CMakeFiles/InterpreterTests.dir/src/types/CharType.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Debug C$:/Krypton/Interpreter/src/types/CharType.cpp || cmake_object_order_depends_target_InterpreterTests
+  DEFINES = -DDEBUG=true -DNO_MAIN
+  DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\src\types\CharType.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IC:/Krypton/Interpreter/include -IC:/Krypton/Interpreter/src -IC:/Krypton/cmake-build-debug/_deps/catch2-src/src/catch2/.. -IC:/Krypton/cmake-build-debug/_deps/catch2-build/generated-includes
+  OBJECT_DIR = Interpreter\CMakeFiles\InterpreterTests.dir
+  OBJECT_FILE_DIR = Interpreter\CMakeFiles\InterpreterTests.dir\src\types
+
 build Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentParserTest.cpp.obj: CXX_COMPILER__InterpreterTests_unscanned_Debug C$:/Krypton/Interpreter/tests/ArgumentParserTest.cpp || cmake_object_order_depends_target_InterpreterTests
   DEFINES = -DDEBUG=true -DNO_MAIN
   DEP_FILE = Interpreter\CMakeFiles\InterpreterTests.dir\tests\ArgumentParserTest.cpp.obj.d
@@ -425,7 +457,7 @@ build Interpreter/CMakeFiles/InterpreterTests.dir/tests/ParserTest.cpp.obj: CXX_
 #############################################
 # Link the executable C:\Krypton\bin\debug\InterpreterTests.exe
 
-build C$:/Krypton/bin/debug/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Debug Interpreter/CMakeFiles/InterpreterTests.dir/src/Interpreter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/FileHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/ErrorHandler.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/parser/Parser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/PrettyPrinter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/Value.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/Type.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/IntType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/BoolType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/runtime/KryptonRuntime.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentParserTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LoggerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/CommandExecutorTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/FileHelperTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/StringHelperTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LexerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ParserTest.cpp.obj | _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a || _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a
+build C$:/Krypton/bin/debug/InterpreterTests.exe: CXX_EXECUTABLE_LINKER__InterpreterTests_Debug Interpreter/CMakeFiles/InterpreterTests.dir/src/Interpreter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/ArgumentParser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/cli/CommandExecutor.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/Logger.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/StringHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Lexer.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/lexer/Token.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/FileHelper.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/ErrorHandler.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/parser/Parser.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/common/PrettyPrinter.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/Value.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/Type.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/IntType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/BoolType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/runtime/KryptonRuntime.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/DecType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/src/types/CharType.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ArgumentParserTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LoggerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/CommandExecutorTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/FileHelperTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/StringHelperTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/LexerTest.cpp.obj Interpreter/CMakeFiles/InterpreterTests.dir/tests/ParserTest.cpp.obj | _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a || _deps/catch2-build/src/libCatch2Maind.a _deps/catch2-build/src/libCatch2d.a
   FLAGS = -g
   LINK_FLAGS = -static -static-libgcc -static-libstdc++
   LINK_LIBRARIES = _deps/catch2-build/src/libCatch2Maind.a  _deps/catch2-build/src/libCatch2d.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

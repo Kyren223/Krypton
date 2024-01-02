@@ -19,6 +19,16 @@ void KryptonRuntime::run()
             int result = value.getValue<int>();
             Logger::print(LogMode::NONE, std::to_string(result) + "\n", Color::BLUE);
         }
+        else if (&value.getType() == &Primitive::DEC)
+        {
+            double result = value.getValue<double>();
+            Logger::print(LogMode::NONE, std::to_string(result) + "\n", Color::BLUE);
+        }
+        else if (&value.getType() == &Primitive::BOOL)
+        {
+            bool result = value.getValue<bool>();
+            Logger::print(LogMode::NONE, std::to_string(result) + "\n", Color::BLUE);
+        }
     }
 }
 
@@ -67,6 +77,11 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
         {
             int value = std::stoi(expression.literal.getLexeme().value());
             return {Primitive::INT, value};
+        }
+        case TokenTypes::DEC_LITERAL:
+        {
+            double value = std::stod(expression.literal.getLexeme().value());
+            return {Primitive::DEC, value};
         }
         default: break;
     }

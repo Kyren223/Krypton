@@ -42,6 +42,8 @@ add_executable(Interpreter src/Interpreter.cpp
         src/types/BoolType.cpp
         src/runtime/KryptonRuntime.cpp
         include/runtime/KryptonRuntime.h
+        src/types/DecType.cpp
+        src/types/CharType.cpp
 )
 
 target_include_directories(Interpreter PRIVATE include/)
