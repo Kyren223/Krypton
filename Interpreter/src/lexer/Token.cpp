@@ -119,5 +119,6 @@ string Token::getTokenTypeString(TokenTypes type)
         case TokenTypes::INT: return "int";
         case TokenTypes::DEC: return "dec";
         case TokenTypes::END: return "EOF";
+        case TokenTypes::PRINT: return "print"; // TODO: Remove
     }
 }

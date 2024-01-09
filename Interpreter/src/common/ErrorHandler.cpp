@@ -98,5 +98,16 @@ void ErrorHandler::expectedXgotY(const SourceLocation& loc, const string& expect
     _hasErrors = true;
 }
 
+void ErrorHandler::unterminatedStatement(const SourceLocation& loc, const string& got)
+{
+    printErrorLocation(loc);
+    Logger::print(LogMode::ERROR_LOG, "Unterminated statement, expected '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, ";", Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, got, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    _hasErrors = true;
+}
+
 
 

@@ -19,7 +19,10 @@ unique_ptr<ASTNode> Parser::parse()
     // But it also reports the error to the error handler so we don't need to catch it
     // Because we have _handler.terminateIfErrors() at the end of the method
     unique_ptr<ASTNode> ast = nullptr;
-    try { ast = parseExpression(); }
+    try
+    {
+        ast = parseStatement();
+    }
     catch (const std::exception& ignored) {}
     _handler.terminateIfErrors();
     return ast;
@@ -215,6 +218,73 @@ optional<pair<int, int>> Parser::getPostfixPrecedence(TokenTypes op)
             return {{1, {}}};
         default: return {};
     }
+}
+
+unique_ptr<Statement> Parser::parseStatement()
+{
+    Token token = peek();
+    if (token.getType() == TokenTypes::END) throw std::exception();
+    
+    // Scope Statement (Code Block)
+    if (match(TokenTypes::LEFT_BRACE))
+    {
+        vector<unique_ptr<Statement>> statements;
+        while (!match(TokenTypes::RIGHT_BRACE))
+        {
+            statements.push_back(std::move(parseStatement()));
+        }
+        return make_unique<ScopeStatement>(std::move(statements));
+    }
+    
+    // Print Statement
+    else if (match(TokenTypes::PRINT))
+    {
+        unique_ptr<Expression> expression = parseExpression();
+        token = peek();
+        if (!match(TokenTypes::SEMICOLON))
+        {
+            _handler.unterminatedStatement(token.getLocation(), token.toString());
+            throw std::exception();
+        }
+        return make_unique<PrintStatement>(std::move(expression));
+    }
+    
+    // If Statement
+    else if (match(TokenTypes::IF))
+    {
+        token = peek();
+        if (!match(TokenTypes::LEFT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   "(",
+                                   token.toString());
+            throw std::exception();
+        }
+        unique_ptr<Expression> condition = parseExpression();
+        token = peek();
+        if (!match(TokenTypes::RIGHT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   ")",
+                                   token.toString());
+            throw std::exception();
+        }
+        
+        unique_ptr<Statement> thenBranch = parseStatement();
+        
+        if (match(TokenTypes::ELSE))
+        {
+            unique_ptr<Statement> elseBranch = parseStatement();
+            return make_unique<IfStatement>(std::move(condition),
+                                            std::move(thenBranch),
+                                            std::move(elseBranch));
+        }
+        
+        return make_unique<IfStatement>(std::move(condition),
+                                        std::move(thenBranch));
+    }
+    
+    throw std::exception();
 }
 
 template<std::same_as<TokenTypes>... Ts>

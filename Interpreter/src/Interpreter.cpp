@@ -42,7 +42,7 @@ void execute(string source)
     PrettyPrinter::print(tokens);
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
-    PrettyPrinter::print(*ast);
+//    PrettyPrinter::print(*ast);
     KryptonRuntime runtime(std::move(ast));
     runtime.run();
 }
@@ -52,10 +52,11 @@ void loop()
     while (true)
     {
         Logger::print(LogMode::NONE, ">>> ", Color::WHITE);
-        char input[256];
+        char input[1024];
         scanf("%[^\n]%*c", input);
         if (strcmp(input, "exit") == 0) exit(0);
         execute(input);
+        printf("\n");
     }
 }
 

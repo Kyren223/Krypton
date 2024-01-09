@@ -44,6 +44,7 @@ add_executable(Interpreter src/Interpreter.cpp
         include/runtime/KryptonRuntime.h
         src/types/DecType.cpp
         src/types/CharType.cpp
+        include/nodes/Statements.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)

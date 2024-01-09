@@ -36,6 +36,7 @@ public:
     
     // Parser Errors Factory methods
     void expectedXgotY(const SourceLocation& loc, const string& expected, const string& got);
+    void unterminatedStatement(const SourceLocation& loc, const string& got);
     
     // Runtime Errors Factory methods
     

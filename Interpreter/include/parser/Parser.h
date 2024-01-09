@@ -7,6 +7,7 @@
 #include <nodes/Expressions.h>
 #include <common/ErrorHandler.h>
 #include <memory>
+#include <nodes/Statements.h>
 
 using std::vector, std::pair, std::unique_ptr;
 
@@ -27,6 +28,7 @@ private:
     bool match(TokenTypes first, Ts... rest);
     
     unique_ptr<Expression> parseExpression(int minPrecedence = 0);
+    unique_ptr<Statement> parseStatement();
     
     static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);
