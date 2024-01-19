@@ -16,12 +16,15 @@ struct SourceLocation
 class ErrorHandler
 {
     bool _hasErrors;
+    bool _replMode;
     
     ErrorHandler() : _hasErrors(false) {}
 public:
     static ErrorHandler& getInstance();
     
     [[nodiscard]] bool hasErrors() const;
+    void setReplMode(bool replMode);
+    [[nodiscard]] bool isReplMode() const;
     void terminateIfErrors() const;
     
     // Command Line Errors Factory methods

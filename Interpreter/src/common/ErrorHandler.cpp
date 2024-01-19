@@ -17,6 +17,7 @@ bool ErrorHandler::hasErrors() const
 
 void ErrorHandler::terminateIfErrors() const
 {
+    if (_replMode) return;
     if (hasErrors()) exit(1);
 }
 
@@ -107,6 +108,16 @@ void ErrorHandler::unterminatedStatement(const SourceLocation& loc, const string
     Logger::print(LogMode::ERROR_LOG, got, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
     _hasErrors = true;
+}
+
+void ErrorHandler::setReplMode(bool replMode)
+{
+    _replMode = replMode;
+}
+
+bool ErrorHandler::isReplMode() const
+{
+    return _replMode;
 }
 
 

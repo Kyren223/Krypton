@@ -133,6 +133,11 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
         {
             return {Primitive::BOOL, false};
         }
+        case TokenTypes::STRING_LITERAL:
+        {
+            string value = expression.literal.getLexeme().value();
+            return {Primitive::STR, value};
+        }
         default: break;
     }
     // TODO: Add better error handling
@@ -182,6 +187,11 @@ void KryptonRuntime::execute(const PrintStatement& statement)
     else if (&value.getType() == &Primitive::CHAR)
     {
         string s(1, value.getValue<unsigned char>());
+        Logger::print(LogMode::NONE, s, Color::WHITE);
+    }
+    else if (&value.getType() == &Primitive::STR)
+    {
+        string s = value.getValue<string>();
         Logger::print(LogMode::NONE, s, Color::WHITE);
     }
     else

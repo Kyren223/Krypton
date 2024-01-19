@@ -39,7 +39,7 @@ void execute(string source)
 {
     Lexer lexer("src/test.kr", std::move(source));
     vector<Token> tokens = lexer.scanTokens();
-    PrettyPrinter::print(tokens);
+    if (DEBUG == true) PrettyPrinter::print(tokens);
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
 //    PrettyPrinter::print(*ast);
@@ -47,8 +47,9 @@ void execute(string source)
     runtime.run();
 }
 
-void loop()
+void repl()
 {
+    ErrorHandler::getInstance().setReplMode(true);
     while (true)
     {
         Logger::print(LogMode::NONE, ">>> ", Color::WHITE);
@@ -64,7 +65,7 @@ int main(const int argc, const char* argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
     
-    loop();
+    repl();
 //    execute(R"(5 + 7 * 30 / 10 + (65 + 5) * 50)");
 //    printf("Result: %d\n", 5 + 7 * 30 / 10 + (65 + 5) * 50);
 
