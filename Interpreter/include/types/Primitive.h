@@ -3,7 +3,7 @@
 
 #include <types/Type.h>
 
-using PrimitiveValue = variant<int, double, bool, unsigned char>;
+using PrimitiveValue = variant<int, double, bool, unsigned char, string>;
 
 struct Primitive
 {
@@ -11,4 +11,5 @@ struct Primitive
     static const Type DEC;
     static const Type BOOL;
     static const Type CHAR;
+    static const Type STR;
 };

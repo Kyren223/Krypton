@@ -3,186 +3,198 @@
 #include <types/Type.h>
 #include <types/Value.h>
 
-const FunctionSignature DEC_boolConstructorSignature(&Primitive::DEC, {&Primitive::BOOL});
-const FunctionSignature DEC_intConstructorSignature(&Primitive::DEC, {&Primitive::INT});
-const FunctionSignature DEC_charConstructorSignature(&Primitive::DEC, {&Primitive::CHAR});
-
-const FunctionSignature DEC_comparisonSignature(&Primitive::BOOL, {&Primitive::DEC, &Primitive::DEC});
-const FunctionSignature DEC_binarySignature(&Primitive::DEC, {&Primitive::DEC, &Primitive::DEC});
-const FunctionSignature DEC_unarySignature(&Primitive::DEC, {&Primitive::DEC});
-
-const FunctionSignature DEC_binarySignatureInt(&Primitive::DEC, {&Primitive::DEC, &Primitive::INT});
-const FunctionSignature DEC_binarySignatureChar(&Primitive::DEC, {&Primitive::DEC, &Primitive::CHAR});
-
-Value DEC_constructFromBool(const vector<Value>& parameters)
+namespace Dec
 {
-    double value = parameters[0].getValue<bool>();
-    return {Primitive::DEC, value};
-}
-
-Value DEC_constructFromInt(const vector<Value>& parameters)
-{
-    double value = parameters[0].getValue<int>();
-    return {Primitive::DEC, value};
-}
-
-Value DEC_constructFromChar(const vector<Value>& parameters)
-{
-    double value = parameters[0].getValue<unsigned char>();
-    return {Primitive::DEC, value};
-}
-
-Value DEC_compare(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    bool result = leftDec > rightDec;
-    return {Primitive::BOOL, result};
-}
-
-Value DEC_isEqual(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    bool result = leftDec == rightDec;
-    return {Primitive::BOOL, result};
-}
-
-Value DEC_add(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    double result = leftDec + rightDec;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_subtract(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    double result = leftDec - rightDec;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_multiply(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    double result = leftDec * rightDec;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_divide(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    double rightDec = right.getValue<double>();
-    double result = leftDec / rightDec;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_negate(const Value& value)
-{
-    double result = -value.getValue<double>();
-    return {Primitive::DEC, result};
-}
-
-Value DEC_addInt(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    int rightInt = right.getValue<int>();
-    double result = leftDec + rightInt;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_subtractInt(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    int rightInt = right.getValue<int>();
-    double result = leftDec - rightInt;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_multiplyInt(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    int rightInt = right.getValue<int>();
-    double result = leftDec * rightInt;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_divideInt(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    int rightInt = right.getValue<int>();
-    double result = leftDec / rightInt;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_addChar(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    unsigned char rightChar = right.getValue<unsigned char>();
-    double result = leftDec + rightChar;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_subtractChar(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    unsigned char rightChar = right.getValue<unsigned char>();
-    double result = leftDec - rightChar;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_multiplyChar(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    unsigned char rightChar = right.getValue<unsigned char>();
-    double result = leftDec * rightChar;
-    return {Primitive::DEC, result};
-}
-
-Value DEC_divideChar(const Value& left, const Value& right)
-{
-    double leftDec = left.getValue<double>();
-    unsigned char rightChar = right.getValue<unsigned char>();
-    double result = leftDec / rightChar;
-    return {Primitive::DEC, result};
+    const FunctionSignature boolConstructorSignature(&Primitive::DEC, {&Primitive::BOOL});
+    const FunctionSignature intConstructorSignature(&Primitive::DEC, {&Primitive::INT});
+    const FunctionSignature charConstructorSignature(&Primitive::DEC, {&Primitive::CHAR});
+    
+    const FunctionSignature comparisonSignature(&Primitive::BOOL, {&Primitive::DEC, &Primitive::DEC});
+    const FunctionSignature binarySignature(&Primitive::DEC, {&Primitive::DEC, &Primitive::DEC});
+    const FunctionSignature unarySignature(&Primitive::DEC, {&Primitive::DEC});
+    
+    const FunctionSignature binarySignatureInt(&Primitive::DEC, {&Primitive::DEC, &Primitive::INT});
+    const FunctionSignature binarySignatureChar(&Primitive::DEC, {&Primitive::DEC, &Primitive::CHAR});
+    const FunctionSignature binarySignatureStr(&Primitive::STR, {&Primitive::DEC, &Primitive::STR});
+    
+    Value constructFromBool(const vector<Value>& parameters)
+    {
+        double value = parameters[0].getValue<bool>();
+        return {Primitive::DEC, value};
+    }
+    
+    Value constructFromInt(const vector<Value>& parameters)
+    {
+        double value = parameters[0].getValue<int>();
+        return {Primitive::DEC, value};
+    }
+    
+    Value constructFromChar(const vector<Value>& parameters)
+    {
+        double value = parameters[0].getValue<unsigned char>();
+        return {Primitive::DEC, value};
+    }
+    
+    Value compare(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        bool result = leftDec > rightDec;
+        return {Primitive::BOOL, result};
+    }
+    
+    Value isEqual(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        bool result = leftDec == rightDec;
+        return {Primitive::BOOL, result};
+    }
+    
+    Value add(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        double result = leftDec + rightDec;
+        return {Primitive::DEC, result};
+    }
+    
+    Value subtract(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        double result = leftDec - rightDec;
+        return {Primitive::DEC, result};
+    }
+    
+    Value multiply(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        double result = leftDec * rightDec;
+        return {Primitive::DEC, result};
+    }
+    
+    Value divide(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        double rightDec = right.getValue<double>();
+        double result = leftDec / rightDec;
+        return {Primitive::DEC, result};
+    }
+    
+    Value negate(const Value& value)
+    {
+        double result = -value.getValue<double>();
+        return {Primitive::DEC, result};
+    }
+    
+    Value addInt(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        int rightInt = right.getValue<int>();
+        double result = leftDec + rightInt;
+        return {Primitive::DEC, result};
+    }
+    
+    Value subtractInt(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        int rightInt = right.getValue<int>();
+        double result = leftDec - rightInt;
+        return {Primitive::DEC, result};
+    }
+    
+    Value multiplyInt(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        int rightInt = right.getValue<int>();
+        double result = leftDec * rightInt;
+        return {Primitive::DEC, result};
+    }
+    
+    Value divideInt(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        int rightInt = right.getValue<int>();
+        double result = leftDec / rightInt;
+        return {Primitive::DEC, result};
+    }
+    
+    Value addChar(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        unsigned char rightChar = right.getValue<unsigned char>();
+        double result = leftDec + rightChar;
+        return {Primitive::DEC, result};
+    }
+    
+    Value subtractChar(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        unsigned char rightChar = right.getValue<unsigned char>();
+        double result = leftDec - rightChar;
+        return {Primitive::DEC, result};
+    }
+    
+    Value multiplyChar(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        unsigned char rightChar = right.getValue<unsigned char>();
+        double result = leftDec * rightChar;
+        return {Primitive::DEC, result};
+    }
+    
+    Value divideChar(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        unsigned char rightChar = right.getValue<unsigned char>();
+        double result = leftDec / rightChar;
+        return {Primitive::DEC, result};
+    }
+    
+    Value addStr(const Value& left, const Value& right)
+    {
+        double leftDec = left.getValue<double>();
+        string rightStr = right.getValue<string>();
+        string result = std::to_string(leftDec) + rightStr;
+        return {Primitive::STR, result};
+    }
 }
 
 const Type Primitive::DEC = Type
 (
     {
-        {DEC_boolConstructorSignature, DEC_constructFromBool},
-        {DEC_intConstructorSignature, DEC_constructFromInt},
-        {DEC_charConstructorSignature, DEC_constructFromChar}
+        {Dec::boolConstructorSignature, Dec::constructFromBool},
+        {Dec::intConstructorSignature, Dec::constructFromInt},
+        {Dec::charConstructorSignature, Dec::constructFromChar}
     },
-    {DEC_comparisonSignature, DEC_compare},
-    {DEC_comparisonSignature, DEC_isEqual},
+    {Dec::comparisonSignature, Dec::compare},
+    {Dec::comparisonSignature, Dec::isEqual},
     {
             {Operation::Binary::PLUS, {
-                {DEC_binarySignature, DEC_add},
-                {DEC_binarySignatureInt, DEC_addInt},
-                {DEC_binarySignatureChar, DEC_addChar}
+                {Dec::binarySignature, Dec::add},
+                {Dec::binarySignatureInt, Dec::addInt},
+                {Dec::binarySignatureChar, Dec::addChar}
             }},
             {Operation::Binary::MINUS, {
-                {DEC_binarySignature, DEC_subtract},
-                {DEC_binarySignatureInt, DEC_subtractInt},
-                {DEC_binarySignatureChar, DEC_subtractChar}
+                {Dec::binarySignature, Dec::subtract},
+                {Dec::binarySignatureInt, Dec::subtractInt},
+                {Dec::binarySignatureChar, Dec::subtractChar}
             }},
             {Operation::Binary::ASTERISK, {
-                {DEC_binarySignature, DEC_multiply},
-                {DEC_binarySignatureInt, DEC_multiplyInt},
-                {DEC_binarySignatureChar, DEC_multiplyChar}
+                {Dec::binarySignature, Dec::multiply},
+                {Dec::binarySignatureInt, Dec::multiplyInt},
+                {Dec::binarySignatureChar, Dec::multiplyChar}
             }},
             {Operation::Binary::SLASH, {
-                {DEC_binarySignature, DEC_divide},
-                {DEC_binarySignatureInt, DEC_divideInt},
-                {DEC_binarySignatureChar, DEC_divideChar}
+                {Dec::binarySignature, Dec::divide},
+                {Dec::binarySignatureInt, Dec::divideInt},
+                {Dec::binarySignatureChar, Dec::divideChar}
             }}
     },
     {
-            {Operation::Unary::MINUS, {DEC_unarySignature, DEC_negate}}
+            {Operation::Unary::MINUS, {Dec::unarySignature, Dec::negate}}
     },
     {},
     {}

@@ -45,6 +45,7 @@ add_executable(Interpreter src/Interpreter.cpp
         src/types/DecType.cpp
         src/types/CharType.cpp
         include/nodes/Statements.h
+        src/types/StrType.cpp
 )
 
 target_include_directories(Interpreter PRIVATE include/)

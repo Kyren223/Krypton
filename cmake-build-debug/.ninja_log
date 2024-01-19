@@ -1,7 +1,7 @@
 # ninja log v5
 11833	13185	7229080835966815	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.obj	37ca2c5c41850e3e
 28443	30589	7229081010079382	_deps/catch2-build/src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.obj	cff07e88856579ce
-2	412	7265070796292613	build.ninja	15069da000c0c877
+2	412	7273706839101221	build.ninja	15069da000c0c877
 11865	14320	7229080847249076	_deps/catch2-build/src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.obj	cdb1477ce36ea310
 11	2144	7256460735511511	Interpreter/CMakeFiles/Interpreter.dir/src/types/DecType.cpp.obj	dfb52dc6f6719bec
 2	320	7230497806508212	C:/Krypton/bin/debug/KaPI.exe	d4917675290967fa
@@ -160,3 +160,23 @@
 4	1844	7256465221496562	Interpreter/CMakeFiles/Interpreter.dir/src/types/IntType.cpp.obj	32635d9fadaab314
 2681	5682	7255569926696668	Interpreter/CMakeFiles/Interpreter.dir/src/types/BoolType.cpp.obj	ef190bdd4b57f8c6
 5	1433	7256465651745289	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	21639b3b690d2a40
+16	1656	7273738444740610	Interpreter/CMakeFiles/Interpreter.dir/src/common/StringHelper.cpp.obj	3fa75be029188805
+36	3034	7273738458930604	Interpreter/CMakeFiles/Interpreter.dir/src/common/FileHelper.cpp.obj	ced10bd995386a
+28	3446	7273738463040595	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	f59e7746d12500c0
+22	3709	7273738465480593	Interpreter/CMakeFiles/Interpreter.dir/src/common/ErrorHandler.cpp.obj	947362e479243fba
+12	3993	7273738468400600	Interpreter/CMakeFiles/Interpreter.dir/src/cli/CommandExecutor.cpp.obj	ac645b59324c55ce
+6	4369	7273738472351091	Interpreter/CMakeFiles/Interpreter.dir/src/common/Logger.cpp.obj	a5812ad169a4d94
+3447	5198	7273738480621906	Interpreter/CMakeFiles/Interpreter.dir/src/common/PrettyPrinter.cpp.obj	98145ccd28c04599
+1656	5300	7273738481600766	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Token.cpp.obj	f7f3381600c76c8c
+3035	5852	7273738487139349	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	26e423f72a510f86
+3709	6487	7273738493479349	Interpreter/CMakeFiles/Interpreter.dir/src/types/Value.cpp.obj	1a0af4a1f65abeb4
+3994	7026	7273738498841738	Interpreter/CMakeFiles/Interpreter.dir/src/types/Type.cpp.obj	f0e7fa11794b7990
+4370	7156	7273738500190623	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	21639b3b690d2a40
+5198	8124	7273738509821912	Interpreter/CMakeFiles/Interpreter.dir/src/types/BoolType.cpp.obj	ef190bdd4b57f8c6
+5301	8716	7273738515724586	Interpreter/CMakeFiles/Interpreter.dir/src/types/IntType.cpp.obj	32635d9fadaab314
+5852	8855	7273738517147020	Interpreter/CMakeFiles/Interpreter.dir/src/types/DecType.cpp.obj	dfb52dc6f6719bec
+6487	9293	7273738521528033	Interpreter/CMakeFiles/Interpreter.dir/src/types/StrType.cpp.obj	d6ddec5bfd36a5ff
+7026	9846	7273738527070759	Interpreter/CMakeFiles/Interpreter.dir/src/types/CharType.cpp.obj	a9804ffcf520a8d9
+8124	9888	7273738527530754	Interpreter/CMakeFiles/Interpreter.dir/src/cli/ArgumentParser.cpp.obj	62496dd34d1d570e
+7157	10531	7273738533966631	Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj	2825efc02fd624c
+10531	12733	7273738555872108	C:/Krypton/bin/debug/KryptonInterpreter.exe	53a5fa0740f3c81d
