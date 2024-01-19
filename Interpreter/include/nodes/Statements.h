@@ -3,12 +3,10 @@
 #include <nodes/ASTNode.h>
 #include "Expressions.h"
 
-struct Statement : ASTNode
-{
+struct Statement : ASTNode {};
+struct InlineStatement : Statement {};
 
-};
-
-struct PrintStatement : Statement
+struct PrintStatement : InlineStatement
 {
     unique_ptr<Expression> expression;
 
@@ -16,29 +14,29 @@ struct PrintStatement : Statement
         : expression(std::move(expression)) {}
 };
 
-struct ScopeStatement : Statement
+struct CodeBlock : InlineStatement
 {
     vector<unique_ptr<Statement>> statements;
 
-    explicit ScopeStatement(vector<unique_ptr<Statement>> statements)
+    explicit CodeBlock(vector<unique_ptr<Statement>> statements)
         : statements(std::move(statements)) {}
 };
 
 struct IfStatement : Statement
 {
     unique_ptr<Expression> condition;
-    unique_ptr<Statement> thenBranch;
-    optional<unique_ptr<Statement>> elseBranch;
+    unique_ptr<InlineStatement> thenBranch;
+    optional<unique_ptr<InlineStatement>> elseBranch;
 
     IfStatement(unique_ptr<Expression> condition,
-                unique_ptr<Statement> thenBranch,
-                unique_ptr<Statement> elseBranch)
+                unique_ptr<InlineStatement> thenBranch,
+                unique_ptr<InlineStatement> elseBranch)
         : condition(std::move(condition)),
           thenBranch(std::move(thenBranch)),
           elseBranch(std::move(elseBranch)) {}
     
     IfStatement(unique_ptr<Expression> condition,
-                unique_ptr<Statement> thenBranch)
+                unique_ptr<InlineStatement> thenBranch)
             : condition(std::move(condition)),
               thenBranch(std::move(thenBranch)),
               elseBranch(std::nullopt) {}

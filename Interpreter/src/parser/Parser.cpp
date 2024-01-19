@@ -225,6 +225,25 @@ unique_ptr<Statement> Parser::parseStatement()
     Token token = peek();
     if (token.getType() == TokenTypes::END) throw std::exception();
     
+    unique_ptr<Statement> statement = parseNonInlineStatement();
+    if (statement == nullptr) statement = parseInlineStatement();
+    
+    if (statement == nullptr)
+    {
+        _handler.expectedXgotY(token.getLocation(),
+                               "Statement",
+                               token.toString());
+        throw std::exception();
+    }
+    
+    return statement;
+}
+
+unique_ptr<InlineStatement> Parser::parseInlineStatement()
+{
+    Token token = peek();
+    if (token.getType() == TokenTypes::END) throw std::exception();
+    
     // Scope Statement (Code Block)
     if (match(TokenTypes::LEFT_BRACE))
     {
@@ -233,7 +252,7 @@ unique_ptr<Statement> Parser::parseStatement()
         {
             statements.push_back(std::move(parseStatement()));
         }
-        return make_unique<ScopeStatement>(std::move(statements));
+        return make_unique<CodeBlock>(std::move(statements));
     }
     
     // Print Statement
@@ -249,8 +268,28 @@ unique_ptr<Statement> Parser::parseStatement()
         return make_unique<PrintStatement>(std::move(expression));
     }
     
+    // Check if the statement isn't an inline statement
+    if (parseNonInlineStatement() != nullptr)
+    {
+        _handler.nonInlineStatementFound(token.getLocation());
+    }
+    else
+    {
+        _handler.expectedXgotY(token.getLocation(),
+                               "Statement",
+                               token.toString());
+    }
+    
+    throw std::exception();
+}
+
+unique_ptr<Statement> Parser::parseNonInlineStatement()
+{
+    Token token = peek();
+    if (token.getType() == TokenTypes::END) throw std::exception();
+    
     // If Statement
-    else if (match(TokenTypes::IF))
+    if (match(TokenTypes::IF))
     {
         token = peek();
         if (!match(TokenTypes::LEFT_PAREN))
@@ -270,11 +309,11 @@ unique_ptr<Statement> Parser::parseStatement()
             throw std::exception();
         }
         
-        unique_ptr<Statement> thenBranch = parseStatement();
+        unique_ptr<InlineStatement> thenBranch = parseInlineStatement();
         
         if (match(TokenTypes::ELSE))
         {
-            unique_ptr<Statement> elseBranch = parseStatement();
+            unique_ptr<InlineStatement> elseBranch = parseInlineStatement();
             return make_unique<IfStatement>(std::move(condition),
                                             std::move(thenBranch),
                                             std::move(elseBranch));
@@ -284,7 +323,7 @@ unique_ptr<Statement> Parser::parseStatement()
                                         std::move(thenBranch));
     }
     
-    throw std::exception();
+    else return nullptr;
 }
 
 template<std::same_as<TokenTypes>... Ts>

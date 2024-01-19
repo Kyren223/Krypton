@@ -120,5 +120,13 @@ bool ErrorHandler::isReplMode() const
     return _replMode;
 }
 
+void ErrorHandler::nonInlineStatementFound(const SourceLocation& loc)
+{
+    printErrorLocation(loc);
+    Logger::print(LogMode::ERROR_LOG,"Non-Inline Statement cannot be used in the current context\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "Help: Try introducing a Code Block\n\n", Color::BLUE);
+    _hasErrors = true;
+}
+
 
 

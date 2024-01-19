@@ -37,7 +37,7 @@ void operator delete(void* p, size_t size) noexcept
 
 void execute(string source)
 {
-    Lexer lexer("src/test.kr", std::move(source));
+    Lexer lexer("Terminal - repl", std::move(source));
     vector<Token> tokens = lexer.scanTokens();
     if (DEBUG == true) PrettyPrinter::print(tokens);
     Parser parser(tokens);

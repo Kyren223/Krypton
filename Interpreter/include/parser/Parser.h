@@ -29,6 +29,8 @@ private:
     
     unique_ptr<Expression> parseExpression(int minPrecedence = 0);
     unique_ptr<Statement> parseStatement();
+    unique_ptr<InlineStatement> parseInlineStatement();
+    unique_ptr<Statement> parseNonInlineStatement();
     
     static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);

@@ -23,7 +23,7 @@ private:
     Value evaluate(const UnaryExpression& expression);
     void execute(const Statement& statement);
     void execute(const PrintStatement& statement);
-    void execute(const ScopeStatement& statement);
+    void execute(const CodeBlock& statement);
     void execute(const IfStatement& statement);
     [[nodiscard]] Value evaluate(const LiteralExpression& expression);
 };

@@ -147,7 +147,7 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
 
 void KryptonRuntime::execute(const Statement& statement)
 {
-    if (auto scopeStmt = dynamic_cast<const ScopeStatement*>(&statement))
+    if (auto scopeStmt = dynamic_cast<const CodeBlock*>(&statement))
     {
         execute(*scopeStmt);
     }
@@ -201,7 +201,7 @@ void KryptonRuntime::execute(const PrintStatement& statement)
     }
 }
 
-void KryptonRuntime::execute(const ScopeStatement& statement)
+void KryptonRuntime::execute(const CodeBlock& statement)
 {
     for (const auto& stmt : statement.statements)
     {
