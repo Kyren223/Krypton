@@ -3,6 +3,7 @@
 #include <exception>
 #include <utility>
 #include <common/Logger.h>
+#include <types/Primitive.h>
 
 using std::make_unique;
 
@@ -323,7 +324,80 @@ unique_ptr<Statement> Parser::parseNonInlineStatement()
                                         std::move(thenBranch));
     }
     
+    // Variable
+    unique_ptr<Statement> variableDeclaration = parseVariableDeclaration();
+    if (variableDeclaration != nullptr) return variableDeclaration;
+    
+    return nullptr;
+}
+
+unique_ptr<Statement> Parser::parseVariableDeclaration()
+{
+    const Type* type;
+    if (match(TokenTypes::INT)) type = &Primitive::INT;
+    else if (match(TokenTypes::DEC)) type = &Primitive::DEC;
+    else if (match(TokenTypes::BOOL)) type = &Primitive::BOOL;
+    else if (match(TokenTypes::CHAR)) type = &Primitive::CHAR;
+    else if (match(TokenTypes::STR)) type = &Primitive::STR;
+    else if (peek().getType() == TokenTypes::IDENTIFIER) return parseVariableAssignment();
     else return nullptr;
+    
+    Token identifier = consume();
+    if (identifier.getType() != TokenTypes::IDENTIFIER)
+    {
+        _handler.expectedXgotY(identifier.getLocation(),
+                               "Identifier",
+                               identifier.toString());
+        throw std::exception();
+    }
+    
+    if (!match(TokenTypes::EQUAL))
+    {
+        _handler.expectedXgotY(peek().getLocation(),
+                               "=",
+                               peek().toString());
+        throw std::exception();
+    }
+    
+    if (match(TokenTypes::SEMICOLON))
+    {
+        return make_unique<VariableDeclaration>(*type, std::move(identifier));
+    }
+    
+    unique_ptr<Expression> initializer = parseExpression();
+    
+    if (!match(TokenTypes::SEMICOLON))
+    {
+        _handler.unterminatedStatement(peek().getLocation(),
+                                       peek().toString());
+        throw std::exception();
+    }
+    
+    return make_unique<VariableDeclaration>(*type, std::move(identifier), std::move(initializer));
+}
+
+unique_ptr<Statement> Parser::parseVariableAssignment()
+{
+    Token identifier = consume();
+    
+    if (!match(TokenTypes::EQUAL))
+    {
+        _handler.expectedXgotY(peek().getLocation(),
+                               "=",
+                               peek().toString());
+        throw std::exception();
+    }
+    
+    unique_ptr<Expression> value = parseExpression();
+    
+    if (!match(TokenTypes::SEMICOLON))
+    {
+        _handler.unterminatedStatement(peek().getLocation(),
+                                       peek().toString());
+        throw std::exception();
+    }
+    
+    return make_unique<VariableAssignment>(std::move(identifier), std::move(value));
 }
 
 template<std::same_as<TokenTypes>... Ts>

@@ -3,6 +3,9 @@
 
 #include <nodes/ASTNode.h>
 #include <nodes/Expressions.h>
+#include <vector>
+
+using std::vector;
 
 class PrettyPrinter
 {

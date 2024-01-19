@@ -5,11 +5,10 @@
 #include <utility>
 #include <filesystem>
 #include <optional>
-#include <common/ErrorHandler.h>
+#include <common/SourceLocation.h>
 
 namespace fs = std::filesystem;
 using std::string, std::optional;
-
 
 enum class TokenTypes
 {
@@ -101,6 +100,7 @@ enum class TokenTypes
     CHAR, // char 1-byte
     INT, // int 4-bytes
     DEC, // double 8-bytes
+    STR, // string unknown size
     
     END
 };

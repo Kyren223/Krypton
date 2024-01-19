@@ -8,17 +8,13 @@
 
 using std::unique_ptr;
 
-struct Expression : ASTNode
-{
-
-};
+struct Expression : ASTNode {};
 
 struct LiteralExpression : Expression
 {
-    // TODO: Implement Type
     const Token literal;
-    explicit LiteralExpression(const Token literal)
-        : literal(literal) {}
+    explicit LiteralExpression(Token  literal)
+        : literal(std::move(literal)) {}
 };
 
 struct UnaryExpression : Expression

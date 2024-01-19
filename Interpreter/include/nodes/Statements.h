@@ -1,6 +1,7 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #pragma once
 #include <nodes/ASTNode.h>
+#include <types/Type.h>
 #include "Expressions.h"
 
 struct Statement : ASTNode {};
@@ -40,4 +41,35 @@ struct IfStatement : Statement
             : condition(std::move(condition)),
               thenBranch(std::move(thenBranch)),
               elseBranch(std::nullopt) {}
+};
+
+struct VariableDeclaration : Statement
+{
+    const Type& type;
+    string identifier;
+    optional<unique_ptr<Expression>> initializer;
+    
+    VariableDeclaration(const Type& type,
+                        const Token& identifier,
+                        unique_ptr<Expression> initializer)
+        : type(type),
+          identifier(identifier.getLexeme().value()),
+          initializer(std::move(initializer)) {}
+  
+    VariableDeclaration(const Type& type,
+                        const Token& identifier)
+        : type(type),
+          identifier(identifier.getLexeme().value()),
+          initializer(std::nullopt) {}
+};
+
+struct VariableAssignment : Statement
+{
+    string identifier;
+    unique_ptr<Expression> value;
+    
+    VariableAssignment(const Token& identifier,
+                       unique_ptr<Expression> value)
+        : identifier(identifier.getLexeme().value()),
+          value(std::move(value)) {}
 };

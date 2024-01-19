@@ -5,21 +5,21 @@
 #include <lexer/Token.h>
 #include <nodes/Statements.h>
 
-KryptonRuntime::KryptonRuntime(unique_ptr<ASTNode> ast)
-{
-    this->ast = std::move(ast);
-}
+KryptonRuntime::KryptonRuntime(unique_ptr<ASTNode> ast, Environment& environment) :
+    _ast(std::move(ast)),
+    _environment(environment),
+    _handler(ErrorHandler::getInstance()) {}
 
 void KryptonRuntime::run()
 {
-    if (auto node = dynamic_cast<const Statement*>(ast.get()))
+    try
     {
-        execute(*node);
+        if (auto node = dynamic_cast<const Statement*>(_ast.get()))
+        {
+            execute(*node);
+        }
     }
-    else if (auto node = dynamic_cast<const Expression*>(ast.get()))
-    {
-        //evaluate(*node);
-    }
+    catch (const std::exception& ignored) {}
 }
 
 Value KryptonRuntime::evaluate(const Expression& expression)
@@ -138,6 +138,14 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
             string value = expression.literal.getLexeme().value();
             return {Primitive::STR, value};
         }
+        case TokenTypes::IDENTIFIER:
+        {
+            string identifier = expression.literal.getLexeme().value();
+            Value* value = _environment.get(identifier);
+            if (value != nullptr) return *value;
+            _handler.nullReference(identifier);
+            _handler.terminateIfErrors();
+        }
         default: break;
     }
     // TODO: Add better error handling
@@ -158,6 +166,14 @@ void KryptonRuntime::execute(const Statement& statement)
     else if (auto ifStmt = dynamic_cast<const IfStatement*>(&statement))
     {
         execute(*ifStmt);
+    }
+    else if (auto varDecl = dynamic_cast<const VariableDeclaration*>(&statement))
+    {
+        execute(*varDecl);
+    }
+    else if (auto varAssign = dynamic_cast<const VariableAssignment*>(&statement))
+    {
+        execute(*varAssign);
     }
     else
     {
@@ -225,5 +241,24 @@ void KryptonRuntime::execute(const IfStatement& statement)
     {
         execute(*statement.elseBranch.value());
     }
+}
+
+void KryptonRuntime::execute(const VariableDeclaration& statement)
+{
+    if (statement.initializer.has_value())
+    {
+        Value value = evaluate(*statement.initializer.value());
+        _environment.define(statement.type, statement.identifier, value);
+    }
+    else
+    {
+        _environment.define(statement.type, statement.identifier);
+    }
+}
+
+void KryptonRuntime::execute(const VariableAssignment& statement)
+{
+    Value value = evaluate(*statement.value);
+    _environment.assign(statement.identifier, value);
 }
 

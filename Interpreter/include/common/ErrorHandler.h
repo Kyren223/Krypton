@@ -3,15 +3,11 @@
 
 #include <string>
 #include <vector>
+#include <lexer/Token.h>
+#include <common/SourceLocation.h>
+#include <types/Type.h>
 
 using std::vector, std::string;
-
-struct SourceLocation
-{
-    string filepath;
-    int line;
-    int column;
-};
 
 class ErrorHandler
 {
@@ -43,7 +39,11 @@ public:
     void nonInlineStatementFound(const SourceLocation& loc);
     
     // Runtime Errors Factory methods
-    
+    void undefinedVariable(const string& name);
+    void redefinedVariable(const string& name);
+    void nullReference(const string& name);
+    void typeMismatch(const string& name, const Type& expected, const Type& got);
+
 private:
     void printErrorLocation(const SourceLocation& loc);
     void printErrorLine(const SourceLocation& loc, const string& error, const string& problem, const string& line, size_t problemLength);

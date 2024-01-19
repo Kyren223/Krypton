@@ -35,7 +35,7 @@ void operator delete(void* p, size_t size) noexcept
 
 #ifndef NO_MAIN
 
-void execute(string source)
+void execute(string source, Environment& env)
 {
     Lexer lexer("Terminal - repl", std::move(source));
     vector<Token> tokens = lexer.scanTokens();
@@ -43,20 +43,21 @@ void execute(string source)
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
 //    PrettyPrinter::print(*ast);
-    KryptonRuntime runtime(std::move(ast));
+    KryptonRuntime runtime(std::move(ast), env);
     runtime.run();
 }
 
 void repl()
 {
     ErrorHandler::getInstance().setReplMode(true);
+    Environment env;
     while (true)
     {
         Logger::print(LogMode::NONE, ">>> ", Color::WHITE);
         char input[1024];
         scanf("%[^\n]%*c", input);
         if (strcmp(input, "exit") == 0) exit(0);
-        execute(input);
+        execute(input, env);
         printf("\n");
     }
 }

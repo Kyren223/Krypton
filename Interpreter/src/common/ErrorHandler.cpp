@@ -128,5 +128,41 @@ void ErrorHandler::nonInlineStatementFound(const SourceLocation& loc)
     _hasErrors = true;
 }
 
+void ErrorHandler::undefinedVariable(const string& name)
+{
+    Logger::print(LogMode::ERROR_LOG, "Undefined variable '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::redefinedVariable(const string& name)
+{
+    Logger::print(LogMode::ERROR_LOG, "Redefined variable '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::nullReference(const string& name)
+{
+    Logger::print(LogMode::ERROR_LOG, "Cannot access variable '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' because it holds null\n\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::typeMismatch(const string& name, const Type& expected, const Type& got)
+{
+    Logger::print(LogMode::ERROR_LOG, "Type mismatch in variable '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "', expected type '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, expected.getName(), Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, got.getName(), Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    _hasErrors = true;
+}
+
 
 
