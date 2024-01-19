@@ -164,6 +164,7 @@ namespace Dec
 
 const Type Primitive::DEC = Type
 (
+    "dec",
     {
         {Dec::boolConstructorSignature, Dec::constructFromBool},
         {Dec::intConstructorSignature, Dec::constructFromInt},

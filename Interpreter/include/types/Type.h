@@ -35,6 +35,7 @@ using Fields = unordered_map<string, const Type&>;
 
 class Type
 {
+    string _name;
     Constructors _constructors;
     Methods _methods;
     ComparisonMethod _compareMethod;
@@ -44,7 +45,8 @@ class Type
     Fields _fields;
     
 public:
-    Type(Constructors constructors,
+    Type(string name,
+         Constructors constructors,
          ComparisonMethod compareMethod,
          ComparisonMethod isEqualMethod,
          BinaryMethods binaryMethods,
@@ -52,6 +54,7 @@ public:
          Methods methods,
          Fields fields);
     
+    string getName() const;
     Value construct(vector<Value> args) const;
     Value compare(const Value& left, const Value& right) const;
     Value isEqual(const Value& left, const Value& right) const;

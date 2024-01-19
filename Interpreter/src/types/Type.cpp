@@ -6,14 +6,15 @@
 
 #define INVALID_SIGNATURE { Logger::error("Invalid Signature"); exit(1); }
 
-Type::Type(Constructors constructors, ComparisonMethod compareMethod, ComparisonMethod isEqualMethod, BinaryMethods binaryMethods, UnaryMethods unaryMethods, Methods methods, Fields fields)
-    : _constructors(std::move(constructors)),
-     _compareMethod(std::move(compareMethod)),
-      _isEqualMethod(std::move(isEqualMethod)),
-      _binaryMethods(std::move(binaryMethods)),
-      _unaryMethods(std::move(unaryMethods)),
-      _methods(std::move(methods)),
-      _fields(std::move(fields))
+Type::Type(string name, Constructors constructors, ComparisonMethod compareMethod, ComparisonMethod isEqualMethod, BinaryMethods binaryMethods, UnaryMethods unaryMethods, Methods methods, Fields fields)
+    : _name(std::move(name)),
+    _constructors(std::move(constructors)),
+    _compareMethod(std::move(compareMethod)),
+    _isEqualMethod(std::move(isEqualMethod)),
+    _binaryMethods(std::move(binaryMethods)),
+    _unaryMethods(std::move(unaryMethods)),
+    _methods(std::move(methods)),
+    _fields(std::move(fields))
 {
     // TODO - Add proper error handling
     
@@ -133,4 +134,9 @@ Value Type::unaryOperation(Operation::Unary operation, const Value& value) const
         exit(1);
     }
     return _unaryMethods.at(operation).second(value);
+}
+
+string Type::getName() const
+{
+    return _name;
 }

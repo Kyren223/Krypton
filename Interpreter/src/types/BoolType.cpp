@@ -45,6 +45,7 @@ namespace Bool
 
 const Type Primitive::BOOL = Type
 (
+    "bool",
     {},
     {Bool::binarySignature, Bool::compare},
     {Bool::binarySignature, Bool::isEqual},

@@ -165,6 +165,7 @@ namespace Char
 
 const Type Primitive::CHAR = Type
 (
+    "char",
     {
         {Char::boolConstructorSignature, Char::constructFromBool},
         {Char::intConstructorSignature, Char::constructFromInt},

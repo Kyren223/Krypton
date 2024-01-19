@@ -114,6 +114,7 @@ namespace Str
 
 const Type Primitive::STR = Type
 (
+    "str",
     {
         {Str::boolConstructorSignature, Str::constructFromBool},
         {Str::decConstructorSignature, Str::constructFromDec},

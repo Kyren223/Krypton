@@ -180,6 +180,7 @@ namespace Int
 
 const Type Primitive::INT = Type
 (
+    "int",
     {
         {Int::boolConstructorSignature, Int::constructFromBool},
         {Int::decConstructorSignature, Int::constructFromDec},
