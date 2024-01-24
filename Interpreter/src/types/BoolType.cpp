@@ -41,6 +41,22 @@ namespace Bool
         result += rightStr;
         return {Primitive::STR, result};
     }
+    
+    Value andGate(const Value& left, const Value& right)
+    {
+        bool leftBool = left.getValue<bool>();
+        bool rightBool = right.getValue<bool>();
+        bool result = leftBool && rightBool;
+        return {Primitive::BOOL, result};
+    }
+    
+    Value orGate(const Value& left, const Value& right)
+    {
+        bool leftBool = left.getValue<bool>();
+        bool rightBool = right.getValue<bool>();
+        bool result = leftBool || rightBool;
+        return {Primitive::BOOL, result};
+    }
 }
 
 const Type Primitive::BOOL = Type
@@ -50,9 +66,9 @@ const Type Primitive::BOOL = Type
     {Bool::binarySignature, Bool::compare},
     {Bool::binarySignature, Bool::isEqual},
     {
-        {Operation::Binary::PLUS, {
-                {Bool::binarySignatureStr, Bool::addStr}
-        }}
+        {Operation::Binary::PLUS, {{Bool::binarySignatureStr, Bool::addStr}}},
+        {Operation::Binary::AMPERSAND_AMPERSAND, {{Bool::binarySignature, Bool::andGate}}},
+        {Operation::Binary::PIPE_PIPE, {{Bool::binarySignature, Bool::orGate}}}
     },
     {
             {Operation::Unary::BANG, {Bool::unarySignature, Bool::negate}}

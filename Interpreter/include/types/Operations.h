@@ -14,6 +14,8 @@ struct Operation
         SLASH,
         PERCENT,
         CARET,
+        AMPERSAND_AMPERSAND,
+        PIPE_PIPE,
     };
     
     enum class Unary
@@ -30,30 +32,20 @@ struct Operation
     {
         switch (op)
         {
-//        case TokenTypes::DOT:break;
-
-//        case TokenTypes::GREATER:break;
-//        case TokenTypes::LESS:break;
-//        case TokenTypes::PIPE:break;
-//        case TokenTypes::AMPERSAND:break;
+//            case TokenTypes::IS:break;
+//            case TokenTypes::DOT:break;
             case TokenTypes::PERCENT: return Binary::PERCENT;
             case TokenTypes::CARET: return Binary::CARET;
             case TokenTypes::SLASH: return Binary::SLASH;
             case TokenTypes::ASTERISK: return Binary::ASTERISK;
             case TokenTypes::PLUS: return Binary::PLUS;
             case TokenTypes::MINUS: return Binary::MINUS;
-
-//        case TokenTypes::BANG_EQUAL:break;
-//        case TokenTypes::EQUAL_EQUAL:break;
-//        case TokenTypes::GREATER_EQUAL:break;
-//        case TokenTypes::LESS_EQUAL:break;
-//
-//        case TokenTypes::PIPE_PIPE:break;
-//        case TokenTypes::AMPERSAND_AMPERSAND:break;
-//
-//        case TokenTypes::IS:break;
-//        case TokenTypes::AND:break;
-//        case TokenTypes::OR:break;
+            case TokenTypes::AMPERSAND_AMPERSAND:
+            case TokenTypes::AND:
+                return Binary::AMPERSAND_AMPERSAND;
+            case TokenTypes::PIPE_PIPE:
+            case TokenTypes::OR:
+                return Binary::PIPE_PIPE;
             
             default: break;
         }

@@ -179,7 +179,7 @@ void Lexer::scanToken()
             break;
         case '|':
             addToken(match('=') ? TokenTypes::PIPE_EQUAL :
-                     match('!') ? TokenTypes::PIPE_PIPE : TokenTypes::PIPE);
+                     match('|') ? TokenTypes::PIPE_PIPE : TokenTypes::PIPE);
             break;
         case '&':
             addToken(match('=') ? TokenTypes::AMPERSAND_EQUAL :
