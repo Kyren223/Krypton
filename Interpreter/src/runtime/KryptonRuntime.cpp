@@ -175,6 +175,10 @@ void KryptonRuntime::execute(const Statement& statement)
     {
         execute(*varAssign);
     }
+    else if (auto whileStmt = dynamic_cast<const WhileStatement*>(&statement))
+    {
+        execute(*whileStmt);
+    }
     else
     {
         Logger::error("KryptonRuntime::execute - unknown statement type");
@@ -265,5 +269,21 @@ void KryptonRuntime::execute(const VariableAssignment& statement)
 {
     Value value = evaluate(*statement.value);
     _environment->assign(statement.identifier, value);
+}
+
+void KryptonRuntime::execute(const WhileStatement& statement)
+{
+    while (true)
+    {
+        Value condition = evaluate(*statement.condition);
+        if (&condition.getType() != &Primitive::BOOL)
+        {
+            Logger::error("KryptonRuntime::execute - while statement condition must be a boolean");
+            exit(1);
+        }
+        
+        if (!condition.getValue<bool>()) break;
+        execute(*statement.body);
+    }
 }
 

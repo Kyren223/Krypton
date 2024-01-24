@@ -251,3 +251,7 @@
 8726	9118	7277987795995401	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
 4	2334	7277988859069500	Interpreter/CMakeFiles/Interpreter.dir/src/lexer/Lexer.cpp.obj	a4170856ca49460e
 2335	2827	7277988863951115	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+15	1872	7277994423806213	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	eab658967947cd5a
+10	2664	7277994431715794	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	992061985b639b13
+5	2802	7277994433115781	Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj	e3493980044d100a
+2802	3337	7277994438385777	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322

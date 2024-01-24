@@ -30,6 +30,7 @@ private:
     void execute(const PrintStatement& statement);
     void execute(const CodeBlock& statement);
     void execute(const IfStatement& statement);
+    void execute(const WhileStatement& statement);
     void execute(const VariableDeclaration& statement);
     void execute(const VariableAssignment& statement);
 };

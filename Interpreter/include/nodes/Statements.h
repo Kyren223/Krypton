@@ -73,3 +73,14 @@ struct VariableAssignment : Statement
         : identifier(identifier.getLexeme().value()),
           value(std::move(value)) {}
 };
+
+struct WhileStatement : Statement
+{
+    unique_ptr<Expression> condition;
+    unique_ptr<InlineStatement> body;
+    
+    WhileStatement(unique_ptr<Expression> condition,
+                   unique_ptr<InlineStatement> body)
+        : condition(std::move(condition)),
+          body(std::move(body)) {}
+};

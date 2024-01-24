@@ -324,6 +324,33 @@ unique_ptr<Statement> Parser::parseNonInlineStatement()
                                         std::move(thenBranch));
     }
     
+    // While Statement
+    if (match(TokenTypes::WHILE))
+    {
+        token = peek();
+        if (!match(TokenTypes::LEFT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   "(",
+                                   token.toString());
+            throw std::exception();
+        }
+        unique_ptr<Expression> condition = parseExpression();
+        token = peek();
+        if (!match(TokenTypes::RIGHT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   ")",
+                                   token.toString());
+            throw std::exception();
+        }
+        
+        unique_ptr<InlineStatement> body = parseInlineStatement();
+        
+        return make_unique<WhileStatement>(std::move(condition),
+                                           std::move(body));
+    }
+    
     // Variable
     unique_ptr<Statement> variableDeclaration = parseVariableDeclaration();
     if (variableDeclaration != nullptr) return variableDeclaration;
