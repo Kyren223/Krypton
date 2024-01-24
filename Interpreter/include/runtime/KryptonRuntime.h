@@ -14,7 +14,7 @@ using std::unique_ptr;
 class KryptonRuntime
 {
     unique_ptr<ASTNode> _ast;
-    Environment& _environment;
+    Environment* _environment;
     ErrorHandler& _handler;
     
 public:

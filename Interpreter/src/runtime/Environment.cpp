@@ -1,7 +1,13 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #include <runtime/Environment.h>
 
-Environment::Environment() : _handler(ErrorHandler::getInstance()) {}
+Environment::Environment()
+    : _handler(ErrorHandler::getInstance())
+    , _parent(nullptr) {}
+
+Environment::Environment(Environment& parent)
+    : _handler(ErrorHandler::getInstance())
+    , _parent(&parent) {}
 
 Environment::~Environment()
 {
@@ -21,7 +27,7 @@ void Environment::define(const Type& type, const string& name)
     _values.emplace(name, Variable{type, nullptr});
 }
 
-void Environment::define(const Type& type, const string& name, Value value)
+void Environment::define(const Type& type, const string& name, const Value& value)
 {
     if (_values.contains(name))
     {
@@ -33,28 +39,43 @@ void Environment::define(const Type& type, const string& name, Value value)
 
 Value* Environment::get(const string& name) const
 {
-    try { return _values.at(name).value; }
-    catch (const std::out_of_range& e)
-    {
-        _handler.undefinedVariable(name);
-        _handler.terminateIfErrors();
-        throw e;
-    }
+    auto var = _values.find(name);
+    
+    // Variable exists in this environment
+    if (var != _values.end()) return var->second.value;
+    
+    // Try to find variable in parent environment
+    if (_parent != nullptr) return _parent->get(name);
+    
+    _handler.undefinedVariable(name);
+    _handler.terminateIfErrors();
 }
 
 void Environment::assign(const string& name, Value value)
 {
-    if (!_values.contains(name))
+    auto var = _values.find(name);
+    
+    // Variable exists in this environment
+    if (var != _values.end())
     {
-        _handler.undefinedVariable(name);
-        _handler.terminateIfErrors();
+        Variable& variable = var->second;
+        if (&variable.type != &value.getType())
+        {
+            _handler.typeMismatch(name, variable.type, value.getType());
+            _handler.terminateIfErrors();
+        }
+        delete variable.value;
+        variable.value = new Value(value);
+        return;
     }
-    Variable& variable = _values.at(name);
-    if (&variable.type != &value.getType())
+    
+    // Try to find variable in parent environment
+    if (_parent != nullptr)
     {
-        _handler.typeMismatch(name, variable.type, value.getType());
-        _handler.terminateIfErrors();
+        _parent->assign(name, value);
+        return;
     }
-    delete variable.value;
-    variable.value = new Value(value);
+    
+    _handler.undefinedVariable(name);
+    _handler.terminateIfErrors();
 }

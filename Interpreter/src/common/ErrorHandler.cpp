@@ -17,8 +17,9 @@ bool ErrorHandler::hasErrors() const
 
 void ErrorHandler::terminateIfErrors() const
 {
-    if (_replMode) return;
-    if (hasErrors()) exit(1);
+    if (!hasErrors()) return;
+    if (_replMode) throw std::runtime_error("Error occurred");
+    else exit(1);
 }
 
 void ErrorHandler::unexpectedCharacter(const SourceLocation& loc, const string& line)
@@ -66,7 +67,7 @@ void ErrorHandler::printErrorLine(const SourceLocation& loc, const string& error
     Logger::print(LogMode::ERROR_LOG, lineString, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, string(loc.column + 3, ' '), Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, string(problemLength, '^'), Color::RED);
-    Logger::print(LogMode::ERROR_LOG, "\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "\n", Color::RED);
 }
 
 void ErrorHandler::multiCharacterChar(const SourceLocation& loc, const string& line, const string& problem)
@@ -95,7 +96,7 @@ void ErrorHandler::expectedXgotY(const SourceLocation& loc, const string& expect
     Logger::print(LogMode::ERROR_LOG, expected, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, got, Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
     _hasErrors = true;
 }
 
@@ -106,7 +107,7 @@ void ErrorHandler::unterminatedStatement(const SourceLocation& loc, const string
     Logger::print(LogMode::ERROR_LOG, ";", Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, got, Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
     _hasErrors = true;
 }
 
@@ -124,7 +125,7 @@ void ErrorHandler::nonInlineStatementFound(const SourceLocation& loc)
 {
     printErrorLocation(loc);
     Logger::print(LogMode::ERROR_LOG,"Non-Inline Statement cannot be used in the current context\n", Color::RED);
-    Logger::print(LogMode::ERROR_LOG, "Help: Try introducing a Code Block\n\n", Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "Help: Try introducing a Code Block\n", Color::BLUE);
     _hasErrors = true;
 }
 
@@ -132,7 +133,7 @@ void ErrorHandler::undefinedVariable(const string& name)
 {
     Logger::print(LogMode::ERROR_LOG, "Undefined variable '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
     _hasErrors = true;
 }
 
@@ -140,7 +141,7 @@ void ErrorHandler::redefinedVariable(const string& name)
 {
     Logger::print(LogMode::ERROR_LOG, "Redefined variable '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
     _hasErrors = true;
 }
 
@@ -148,7 +149,7 @@ void ErrorHandler::nullReference(const string& name)
 {
     Logger::print(LogMode::ERROR_LOG, "Cannot access variable '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "' because it holds null\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "' because it holds null\n", Color::RED);
     _hasErrors = true;
 }
 
@@ -160,8 +161,13 @@ void ErrorHandler::typeMismatch(const string& name, const Type& expected, const 
     Logger::print(LogMode::ERROR_LOG, expected.getName(), Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, got.getName(), Color::BLUE);
-    Logger::print(LogMode::ERROR_LOG, "'\n\n", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
     _hasErrors = true;
+}
+
+void ErrorHandler::reset()
+{
+    _hasErrors = false;
 }
 
 

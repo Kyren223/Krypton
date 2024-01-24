@@ -22,6 +22,7 @@ public:
     void setReplMode(bool replMode);
     [[nodiscard]] bool isReplMode() const;
     void terminateIfErrors() const;
+    void reset();
     
     // Command Line Errors Factory methods
     

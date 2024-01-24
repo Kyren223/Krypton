@@ -7,7 +7,7 @@
 
 KryptonRuntime::KryptonRuntime(unique_ptr<ASTNode> ast, Environment& environment) :
     _ast(std::move(ast)),
-    _environment(environment),
+    _environment(&environment),
     _handler(ErrorHandler::getInstance()) {}
 
 void KryptonRuntime::run()
@@ -141,7 +141,7 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
         case TokenTypes::IDENTIFIER:
         {
             string identifier = expression.literal.getLexeme().value();
-            Value* value = _environment.get(identifier);
+            Value* value = _environment->get(identifier);
             if (value != nullptr) return *value;
             _handler.nullReference(identifier);
             _handler.terminateIfErrors();
@@ -215,14 +215,19 @@ void KryptonRuntime::execute(const PrintStatement& statement)
         Logger::error("KryptonRuntime::execute - unknown value type");
         exit(1);
     }
+    Logger::print(LogMode::NONE, "\n", Color::WHITE);
 }
 
 void KryptonRuntime::execute(const CodeBlock& statement)
 {
+    Environment* _parent = _environment;
+    _environment = new Environment(*_parent);
     for (const auto& stmt : statement.statements)
     {
         execute(*stmt);
     }
+    delete _environment;
+    _environment = _parent;
 }
 
 void KryptonRuntime::execute(const IfStatement& statement)
@@ -248,17 +253,17 @@ void KryptonRuntime::execute(const VariableDeclaration& statement)
     if (statement.initializer.has_value())
     {
         Value value = evaluate(*statement.initializer.value());
-        _environment.define(statement.type, statement.identifier, value);
+        _environment->define(statement.type, statement.identifier, value);
     }
     else
     {
-        _environment.define(statement.type, statement.identifier);
+        _environment->define(statement.type, statement.identifier);
     }
 }
 
 void KryptonRuntime::execute(const VariableAssignment& statement)
 {
     Value value = evaluate(*statement.value);
-    _environment.assign(statement.identifier, value);
+    _environment->assign(statement.identifier, value);
 }
 

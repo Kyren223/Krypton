@@ -53,23 +53,21 @@ void repl()
     Environment env;
     while (true)
     {
+        ErrorHandler::getInstance().reset();
         Logger::print(LogMode::NONE, ">>> ", Color::WHITE);
         char input[1024];
         scanf("%[^\n]%*c", input);
         if (strcmp(input, "exit") == 0) exit(0);
-        execute(input, env);
-        printf("\n");
+        
+        try { execute(input, env); }
+        catch (const std::exception& e) {}
     }
 }
 
 int main(const int argc, const char* argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
-    
     repl();
-//    execute(R"(5 + 7 * 30 / 10 + (65 + 5) * 50)");
-//    printf("Result: %d\n", 5 + 7 * 30 / 10 + (65 + 5) * 50);
-
     return 0;
 }
 

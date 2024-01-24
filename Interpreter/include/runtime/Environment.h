@@ -18,13 +18,15 @@ class Environment
 {
     unordered_map<string, Variable> _values;
     ErrorHandler& _handler;
+    Environment* const _parent;
     
 public:
     Environment();
+    Environment(Environment& parent);
     ~Environment();
     
     void define(const Type& type, const string& name);
-    void define(const Type& type, const string& name, Value value);
+    void define(const Type& type, const string& name, const Value& value);
     void assign(const string& name, Value value);
     Value* get(const string& name) const;
 };
