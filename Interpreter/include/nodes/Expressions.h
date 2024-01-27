@@ -42,3 +42,8 @@ struct TernaryExpression : Expression
     explicit TernaryExpression(unique_ptr<Expression> left, unique_ptr<Expression> middle, unique_ptr<Expression> right)
         : left(std::move(left)), middle(std::move(middle)), right(std::move(right)) {}
 };
+
+struct InputExpression : Expression
+{
+    explicit InputExpression() = default;
+};

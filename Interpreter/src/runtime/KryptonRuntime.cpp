@@ -4,6 +4,7 @@
 #include <common/Logger.h>
 #include <lexer/Token.h>
 #include <nodes/Statements.h>
+#include <iostream>
 
 KryptonRuntime::KryptonRuntime(unique_ptr<ASTNode> ast, Environment& environment) :
     _ast(std::move(ast)),
@@ -35,6 +36,10 @@ Value KryptonRuntime::evaluate(const Expression& expression)
     else if (auto pLiteral = dynamic_cast<const LiteralExpression*>(&expression))
     {
         return evaluate(*pLiteral);
+    }
+    else if (dynamic_cast<const InputExpression*>(&expression))
+    {
+        return evaluateInput();
     }
     else
     {
@@ -293,5 +298,12 @@ void KryptonRuntime::execute(const WhileStatement& statement)
         if (!condition.getValue<bool>()) break;
         execute(*statement.body);
     }
+}
+
+Value KryptonRuntime::evaluateInput()
+{
+    string input;
+    std::getline(std::cin, input);
+    return {Primitive::STR, input};
 }
 

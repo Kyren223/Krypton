@@ -93,6 +93,7 @@ enum class TokenTypes
     AND,
     OR,
     PRINT, // TODO: Remove this (temporary)
+    INPUT, // TODO: Remove this (temporary)
     
     // Built-in type keywords
     VOID, // void*

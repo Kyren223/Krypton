@@ -26,6 +26,7 @@ private:
     Value evaluate(const BinaryExpression& expression);
     Value evaluate(const UnaryExpression& expression);
     Value evaluate(const LiteralExpression& expression);
+    Value evaluateInput();
     void execute(const Statement& statement);
     void execute(const PrintStatement& statement);
     void execute(const CodeBlock& statement);

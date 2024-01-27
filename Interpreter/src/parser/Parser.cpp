@@ -65,6 +65,12 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         }
     }
     
+    // Input expression
+    else if (match(TokenTypes::INPUT))
+    {
+        left = make_unique<InputExpression>();
+    }
+    
     // Unary Expression (operator on the left)
     else if (prefixPrecedence.has_value())
     {
