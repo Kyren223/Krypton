@@ -88,7 +88,8 @@ namespace Str
     {
         string leftStr = left.getValue<string>();
         unsigned char rightChar = right.getValue<unsigned char>();
-        string result = leftStr + std::to_string(rightChar);
+        string result = leftStr;
+        result += rightChar;
         return {Primitive::STR, result};
     }
     
@@ -117,7 +118,8 @@ namespace Str
     {
         string leftStr = left.getValue<string>();
         int rightInt = right.getValue<int>();
-        unsigned char result = leftStr[rightInt];
+        bool outOfBounds = rightInt < 0 || rightInt >= leftStr.size();
+        unsigned char result = outOfBounds ? '\0' : leftStr[rightInt];
         return {Primitive::CHAR, result};
     }
 }

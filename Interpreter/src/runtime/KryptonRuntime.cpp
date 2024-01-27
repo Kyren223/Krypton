@@ -20,7 +20,11 @@ void KryptonRuntime::run()
             execute(*node);
         }
     }
-    catch (const std::exception& ignored) {}
+    catch (const std::exception& e)
+    {
+        Logger::error("KryptonRuntime::run - ");
+        Logger::error(e.what());
+    }
 }
 
 Value KryptonRuntime::evaluate(const Expression& expression)

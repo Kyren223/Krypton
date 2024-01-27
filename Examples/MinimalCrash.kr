@@ -1,0 +1,12 @@
+char instruction = '>';
+if (instruction == '>') {
+    print "increment pointer\n";
+}
+
+if (instruction == '<') {
+    print "decrement pointer\n";
+}
+
+if (instruction == '.') {
+    print "printed pointer\n";
+}
