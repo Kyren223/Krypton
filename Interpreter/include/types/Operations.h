@@ -16,6 +16,7 @@ struct Operation
         CARET,
         AMPERSAND_AMPERSAND,
         PIPE_PIPE,
+        SQUARE_BRACKETS,
     };
     
     enum class Unary
@@ -46,6 +47,7 @@ struct Operation
             case TokenTypes::PIPE_PIPE:
             case TokenTypes::OR:
                 return Binary::PIPE_PIPE;
+            case TokenTypes::LEFT_BRACKET: return Binary::SQUARE_BRACKETS;
             
             default: break;
         }

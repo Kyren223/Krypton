@@ -118,6 +118,7 @@ string Token::getTokenTypeString(TokenTypes type)
         case TokenTypes::CHAR: return "char";
         case TokenTypes::INT: return "int";
         case TokenTypes::DEC: return "dec";
+        case TokenTypes::STR: return "str";
         case TokenTypes::END: return "EOF";
         case TokenTypes::PRINT: return "print"; // TODO: Remove
         case TokenTypes::INPUT: return "input"; // TODO: Remove

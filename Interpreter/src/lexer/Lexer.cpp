@@ -41,6 +41,7 @@ const unordered_map<string, TokenTypes> Lexer::KEYWORDS =
                 {"char",     TokenTypes::CHAR},
                 {"int",      TokenTypes::INT},
                 {"dec",      TokenTypes::DEC},
+                {"str",      TokenTypes::STR},
         };
 
 Lexer::Lexer(const string& filepath, string source) :

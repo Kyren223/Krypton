@@ -224,6 +224,8 @@ optional<pair<int, int>> Parser::getPostfixPrecedence(TokenTypes op)
         case TokenTypes::PLUS_PLUS:
         case TokenTypes::MINUS_MINUS:
             return {{1, {}}};
+        case TokenTypes::LEFT_BRACKET:
+            return {{100, {}}};
         default: return {};
     }
 }

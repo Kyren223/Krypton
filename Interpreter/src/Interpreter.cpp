@@ -36,9 +36,9 @@ void operator delete(void* p, size_t size) noexcept
 
 #ifndef NO_MAIN
 
-void execute(string source, Environment& env)
+void execute(string file, string source, Environment& env)
 {
-    Lexer lexer("Terminal - repl", std::move(source));
+    Lexer lexer(file, std::move(source));
     vector<Token> tokens = lexer.scanTokens();
     if (DEBUG == true) PrettyPrinter::print(tokens);
     Parser parser(tokens);
@@ -61,7 +61,7 @@ void repl()
         scanf("%[^\n]%*c", input);
         if (strcmp(input, "exit") == 0) exit(0);
         
-        try { execute(input, env); }
+        try { execute("Terminal - repl", input, env); }
         catch (const std::exception& e) {}
     }
 }
@@ -76,7 +76,7 @@ void runFile(const string& filepath)
         Logger::error("Failed to read file - " + filepath);
         exit(1);
     }
-    execute(source.value(), env);
+    execute(filepath, source.value(), env);
 }
 
 int main(const int argc, const char* argv[])

@@ -18,6 +18,8 @@ namespace Str
     const FunctionSignature binarySignatureInt(&Primitive::STR, {&Primitive::STR, &Primitive::INT});
     const FunctionSignature binarySignatureChar(&Primitive::STR, {&Primitive::STR, &Primitive::CHAR});
     
+    const FunctionSignature indexSignature(&Primitive::CHAR, {&Primitive::STR, &Primitive::INT});
+    
     Value constructFromBool(const vector<Value>& parameters)
     {
         bool value = parameters[0].getValue<bool>();
@@ -110,6 +112,14 @@ namespace Str
         }
         return {Primitive::STR, result};
     }
+    
+    Value index(const Value& left, const Value& right)
+    {
+        string leftStr = left.getValue<string>();
+        int rightInt = right.getValue<int>();
+        unsigned char result = leftStr[rightInt];
+        return {Primitive::CHAR, result};
+    }
 }
 
 const Type Primitive::STR = Type
@@ -130,6 +140,9 @@ const Type Primitive::STR = Type
           {Str::binarySignatureInt, Str::addInt},
           {Str::binarySignatureChar, Str::addChar},
             {Str::binarySignatureBool, Str::addBool}
+        }},
+        {Operation::Binary::SQUARE_BRACKETS,{
+            {Str::indexSignature, Str::index}
         }},
         {},
         {Operation::Binary::ASTERISK, {

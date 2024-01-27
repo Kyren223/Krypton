@@ -1,0 +1,6 @@
+char c = 'a';
+
+str a = "test";
+c = a[0];
+print c;
+

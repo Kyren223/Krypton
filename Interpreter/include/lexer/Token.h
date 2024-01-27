@@ -13,12 +13,12 @@ using std::string, std::optional;
 enum class TokenTypes
 {
     // Single-character tokens
-    LEFT_PAREN,
-    RIGHT_PAREN,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    LEFT_BRACKET,
-    RIGHT_BRACKET,
+    LEFT_PAREN, // (
+    RIGHT_PAREN, // )
+    LEFT_BRACE, // {
+    RIGHT_BRACE, // }
+    LEFT_BRACKET, // [
+    RIGHT_BRACKET, // ]
     COMMA,
     COLON,
     SEMICOLON,
