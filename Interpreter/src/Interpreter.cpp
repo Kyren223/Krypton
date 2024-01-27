@@ -8,6 +8,7 @@
 #include <runtime/KryptonRuntime.h>
 
 #include <utility>
+#include <common/FileHelper.h>
 
 #if DEBUG
 
@@ -51,10 +52,11 @@ void repl()
 {
     ErrorHandler::getInstance().setReplMode(true);
     Environment env;
+    Logger::print(LogMode::NONE, "==== Krypton REPL ====", Color::BLUE);
     while (true)
     {
         ErrorHandler::getInstance().reset();
-        Logger::print(LogMode::NONE, ">>> ", Color::WHITE);
+        Logger::print(LogMode::NONE, "\n>>> ", Color::WHITE);
         char input[1024];
         scanf("%[^\n]%*c", input);
         if (strcmp(input, "exit") == 0) exit(0);
@@ -64,10 +66,33 @@ void repl()
     }
 }
 
+void runFile(const string& filepath)
+{
+    ErrorHandler::getInstance().setReplMode(false);
+    Environment env;
+    optional<string> source = FileHelper::readFile(filepath);
+    if (!source.has_value())
+    {
+        Logger::error("Failed to read file - " + filepath);
+        exit(1);
+    }
+    execute(source.value(), env);
+}
+
 int main(const int argc, const char* argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
-    repl();
+    if (argc == 1) repl();
+    if (argc == 2) runFile(argv[1]);
+    else
+    {
+        Logger::error("Invalid arguments");
+        Logger::print(LogMode::NONE, "Usage: \n"
+                                     "\tkrypton [path] - Execute file\n"
+                                     "\tkrypton - Go into REPL mode\n", Color::BLUE);
+        exit(1);
+    }
+    
     return 0;
 }
 

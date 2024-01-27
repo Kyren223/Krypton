@@ -19,14 +19,15 @@ unique_ptr<ASTNode> Parser::parse()
     // The method that is assigned to the AST, may throw an exception
     // But it also reports the error to the error handler so we don't need to catch it
     // Because we have _handler.terminateIfErrors() at the end of the method
-    unique_ptr<ASTNode> ast = nullptr;
-    try
+    vector<unique_ptr<Statement>> statements;
+    while (true)
     {
-        ast = parseStatement();
+        if (peek().getType() == TokenTypes::END) break;
+        try { statements.push_back(std::move(parseStatement())); }
+        catch (const std::exception& ignored) {}
     }
-    catch (const std::exception& ignored) {}
     _handler.terminateIfErrors();
-    return ast;
+    return make_unique<CodeBlock>(std::move(statements), false);
 }
 
 unique_ptr<Expression> Parser::parseExpression(int minPrecedence)

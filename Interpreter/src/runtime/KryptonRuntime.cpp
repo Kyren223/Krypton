@@ -219,11 +219,19 @@ void KryptonRuntime::execute(const PrintStatement& statement)
         Logger::error("KryptonRuntime::execute - unknown value type");
         exit(1);
     }
-    Logger::print(LogMode::NONE, "\n", Color::WHITE);
 }
 
 void KryptonRuntime::execute(const CodeBlock& statement)
 {
+    if (!statement.hasScope)
+    {
+        for (const auto& stmt : statement.statements)
+        {
+            execute(*stmt);
+        }
+        return;
+    }
+    
     Environment* _parent = _environment;
     _environment = new Environment(*_parent);
     for (const auto& stmt : statement.statements)

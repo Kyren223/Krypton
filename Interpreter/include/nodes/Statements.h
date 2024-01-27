@@ -18,9 +18,13 @@ struct PrintStatement : InlineStatement
 struct CodeBlock : InlineStatement
 {
     vector<unique_ptr<Statement>> statements;
+    bool hasScope = true;
 
     explicit CodeBlock(vector<unique_ptr<Statement>> statements)
         : statements(std::move(statements)) {}
+        
+    explicit CodeBlock(vector<unique_ptr<Statement>> statements, bool scope)
+            : statements(std::move(statements)), hasScope(scope) {}
 };
 
 struct IfStatement : Statement
