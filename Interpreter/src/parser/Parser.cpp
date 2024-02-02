@@ -360,6 +360,59 @@ unique_ptr<Statement> Parser::parseNonInlineStatement()
                                            std::move(body));
     }
     
+    // For Statement
+    if (match(TokenTypes::FOR))
+    {
+        token = peek();
+        if (!match(TokenTypes::LEFT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   "(",
+                                   token.toString());
+            throw std::exception();
+        }
+        
+        unique_ptr<Statement> initializer = parseVariableDeclaration();
+        unique_ptr<Expression> condition = parseExpression();
+        
+        token = peek();
+        if (!match(TokenTypes::SEMICOLON))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   ";",
+                                   token.toString());
+            throw std::exception();
+        }
+        
+        unique_ptr<Statement> progress = parseVariableAssignment(false);
+        
+        token = peek();
+        
+        if (!match(TokenTypes::RIGHT_PAREN))
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   ")",
+                                   token.toString());
+            throw std::exception();
+        }
+        
+        unique_ptr<InlineStatement> body = parseInlineStatement();
+        
+        vector<unique_ptr<Statement>> whileStatements;
+        whileStatements.push_back(std::move(body));
+        whileStatements.push_back(std::move(progress));
+        unique_ptr<CodeBlock> whileBlock = make_unique<CodeBlock>(
+                std::move(whileStatements));
+        unique_ptr<WhileStatement> whileStatement = make_unique<WhileStatement>(
+                std::move(condition), std::move(whileBlock));
+        
+        vector<unique_ptr<Statement>> codeBlockStatements;
+        codeBlockStatements.push_back(std::move(initializer));
+        codeBlockStatements.push_back(std::move(whileStatement));
+        return make_unique<CodeBlock>(std::move(codeBlockStatements));
+        
+    }
+    
     // Variable
     unique_ptr<Statement> variableDeclaration = parseVariableDeclaration();
     if (variableDeclaration != nullptr) return variableDeclaration;
@@ -412,7 +465,7 @@ unique_ptr<Statement> Parser::parseVariableDeclaration()
     return make_unique<VariableDeclaration>(*type, std::move(identifier), std::move(initializer));
 }
 
-unique_ptr<Statement> Parser::parseVariableAssignment()
+unique_ptr<Statement> Parser::parseVariableAssignment(bool requireSemicolon)
 {
     Token identifier = consume();
     
@@ -426,11 +479,14 @@ unique_ptr<Statement> Parser::parseVariableAssignment()
     
     unique_ptr<Expression> value = parseExpression();
     
-    if (!match(TokenTypes::SEMICOLON))
+    if (requireSemicolon)
     {
-        _handler.unterminatedStatement(peek().getLocation(),
-                                       peek().toString());
-        throw std::exception();
+        if (!match(TokenTypes::SEMICOLON))
+        {
+            _handler.unterminatedStatement(peek().getLocation(),
+                                           peek().toString());
+            throw std::exception();
+        }
     }
     
     return make_unique<VariableAssignment>(std::move(identifier), std::move(value));

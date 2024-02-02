@@ -195,3 +195,9 @@
 9	2781	7280674167079836	Interpreter/CMakeFiles/Interpreter.dir/src/types/IntType.cpp.obj	103549b9a76dd5ee
 4	3504	7280674174342716	Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj	6ff14e8b58608323
 3504	5862	7280674197783953	C:/Krypton/bin/debug/KryptonInterpreter.exe	71e9a62b896467a
+17	2560	7285745151846502	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	c6aac75ede6e493f
+11	2776	7285745153988374	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	55db9f3611369818
+4	3509	7285745161380193	Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj	6ff14e8b58608323
+3510	5862	7285745184790962	C:/Krypton/bin/debug/KryptonInterpreter.exe	71e9a62b896467a
+6	2329	7285757311196160	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	55db9f3611369818
+2330	4649	7285757334294957	C:/Krypton/bin/debug/KryptonInterpreter.exe	71e9a62b896467a

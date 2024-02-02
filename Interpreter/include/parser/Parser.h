@@ -32,7 +32,7 @@ private:
     unique_ptr<InlineStatement> parseInlineStatement();
     unique_ptr<Statement> parseNonInlineStatement();
     unique_ptr<Statement> parseVariableDeclaration();
-    unique_ptr<Statement> parseVariableAssignment();
+    unique_ptr<Statement> parseVariableAssignment(bool requireSemicolon = true);
     
     static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);

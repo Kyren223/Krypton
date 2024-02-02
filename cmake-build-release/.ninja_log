@@ -268,3 +268,16 @@
 1859	2342	7280672985857604	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
 5	1544	7280673343495476	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	eab658967947cd5a
 1545	1932	7280673347276068	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+7	2906	7285739733737536	Interpreter/CMakeFiles/Interpreter.dir/src/Interpreter.cpp.obj	e3493980044d100a
+40	2920	7285739733857540	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	992061985b639b13
+2922	3597	7285739740588224	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+5	3005	7285741467911581	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	992061985b639b13
+3005	3412	7285741471901705	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+4	1804	7285742402331508	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	eab658967947cd5a
+1804	2191	7285742406131576	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+7	1966	7285744107456155	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	eab658967947cd5a
+1967	2353	7285744111236152	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+9	2786	7285757456480873	Interpreter/CMakeFiles/Interpreter.dir/src/parser/Parser.cpp.obj	992061985b639b13
+2786	3188	7285757460430044	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322
+7	1755	7285757626436232	Interpreter/CMakeFiles/Interpreter.dir/src/runtime/KryptonRuntime.cpp.obj	eab658967947cd5a
+1755	2152	7285757630326934	C:/Krypton/bin/release/KryptonInterpreter.exe	b28abba9283fc322

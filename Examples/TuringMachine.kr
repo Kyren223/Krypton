@@ -2,19 +2,15 @@
 int TAPE_SIZE = 7;
 str tape = "";
 
-int i = 0;
-while (i < TAPE_SIZE) {
+for (int i = 0; i < TAPE_SIZE; i = i + 1) {
     tape = tape + '\0';
-    i = i + 1;
 }
 
 // Print tape
-i = 0;
 print "Tape: [";
-while (i < TAPE_SIZE) {
+for (int i = 0; i < TAPE_SIZE; i = i + 1) {
     print 0 + tape[i];
     if (i != TAPE_SIZE - 1) { print ", "; }
-    i = i + 1;
 }
 print "]\n";
 
@@ -60,30 +56,26 @@ while (loop) {
 
         if (instruction == '+') {
             str copyTape = "";
-            i = 0;
-            while (i < TAPE_SIZE) {
+            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
                 if (i == dp) {
                     copyTape = copyTape + (tape[i] + '\1');
                 }
                 else {
                     copyTape = copyTape + tape[i];
                 }
-                i = i + 1;
             }
             tape = copyTape;
         }
 
         if (instruction == '-') {
             str copyTape = "";
-            i = 0;
-            while (i < TAPE_SIZE) {
+            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
                 if (i == dp) {
                     copyTape = copyTape + (tape[i] - '\1');
                 }
                 else {
                     copyTape = copyTape + tape[i];
                 }
-                i = i + 1;
             }
             tape = copyTape;
         }
@@ -94,8 +86,7 @@ while (loop) {
 
         if (instruction == ',') {
             str copyTape = "";
-            i = 0;
-            while (i < TAPE_SIZE) {
+            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
                 if (i == dp) {
                     print "Input: ";
                     copyTape = copyTape + input[0];
@@ -104,7 +95,6 @@ while (loop) {
                 else {
                     copyTape = copyTape + tape[i];
                 }
-                i = i + 1;
             }
             tape = copyTape;
         }
@@ -114,10 +104,8 @@ while (loop) {
                 ip = stack[sp];
             } else {
                 str copyStack = "";
-                i = 0;
-                while (i < sp) {
+                for (int i = 0; i < sp; i = i + 1) {
                     copyStack = copyStack + stack[i];
-                    i = i + 1;
                 }
                 stack = copyStack;
                 sp = sp - 1;
@@ -140,12 +128,10 @@ while (loop) {
 print "Output: " + output + "\n";
 
 // Print tape
-i = 0;
 print "Tape: [";
-while (i < TAPE_SIZE) {
+for (int i = 0; i < TAPE_SIZE; i = i + 1) {
     print 0 + tape[i];
     if (i != TAPE_SIZE - 1) { print ", "; }
-    i = i + 1;
 }
 print "]\n";
 

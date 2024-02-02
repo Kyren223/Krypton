@@ -1,12 +1,11 @@
-char instruction = '>';
-if (instruction == '>') {
-    print "increment pointer\n";
+
+str tape = "";
+int TAPE_SIZE = 10;
+
+for (int i = 0; i < TAPE_SIZE; i = i + 1) {
+    tape = tape + '0';
 }
 
-if (instruction == '<') {
-    print "decrement pointer\n";
-}
+print tape;
 
-if (instruction == '.') {
-    print "printed pointer\n";
-}
+
