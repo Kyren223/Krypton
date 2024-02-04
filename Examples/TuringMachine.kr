@@ -2,17 +2,44 @@
 int TAPE_SIZE = 7;
 str tape = "";
 
-for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-    tape = tape + '\0';
-}
+func initializeTapeWith = void(char c) {
+    for (int i = 0; i < TAPE_SIZE; i = i + 1) {
+        tape = tape + c;
+    }
+};
 
-// Print tape
-print "Tape: [";
-for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-    print 0 + tape[i];
-    if (i != TAPE_SIZE - 1) { print ", "; }
-}
-print "]\n";
+func printTape = void() {
+    print "Tape: [";
+    for (int i = 0; i < TAPE_SIZE; i = i + 1) {
+        print 0 + tape[i];
+        if (i != TAPE_SIZE - 1) { print ", "; }
+    }
+    print "]\n";
+};
+
+func dumpDebugInfo = void() {
+    print "IP: " + (0 + ip) + " (" + userInput[0 + ip] + ")| ";
+    print "SP: " + sp + " | ";
+    print "SIP: " + (0 + stack[sp]) + " | ";
+    print "DP: " + dp + " | ";
+    print "*DP: " + (0 + tape[dp]) + "\n";
+};
+
+func setTapeAtIndex = str(int index, char newC) {
+    str copyTape = "";
+    for (int i = 0; i < TAPE_SIZE; i = i + 1) {
+        if (i == index) {
+            copyTape = copyTape + newC;
+        }
+        else {
+            copyTape = copyTape + tape[i];
+        }
+    }
+    return copyTape;
+};
+
+initializeTapeWith('\0');
+printTape();
 
 print "Enter turing machine program: ";
 str userInput = input;
@@ -26,13 +53,6 @@ str stack = ""; // The stack
 str output = "";
 
 while (loop) {
-    // Debug
-    //print "IP: " + (0 + ip) + " (" + userInput[0 + ip] + ")| ";
-    //print "SP: " + sp + " | ";
-    //print "SIP: " + (0 + stack[sp]) + " | ";
-    //print "DP: " + dp + " | ";
-    //print "*DP: " + (0 + tape[dp]) + "\n";
-    //print input;
 
     char instruction = userInput[0 + ip];
     if (instruction == '\0') { loop = false; }
@@ -55,29 +75,11 @@ while (loop) {
         }
 
         if (instruction == '+') {
-            str copyTape = "";
-            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-                if (i == dp) {
-                    copyTape = copyTape + (tape[i] + '\1');
-                }
-                else {
-                    copyTape = copyTape + tape[i];
-                }
-            }
-            tape = copyTape;
+            tape = setTapeAtIndex(dp, tape[dp] + '\1');
         }
 
         if (instruction == '-') {
-            str copyTape = "";
-            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-                if (i == dp) {
-                    copyTape = copyTape + (tape[i] - '\1');
-                }
-                else {
-                    copyTape = copyTape + tape[i];
-                }
-            }
-            tape = copyTape;
+            tape = setTapeAtIndex(dp, tape[dp] - '\1');
         }
 
         if (instruction == '.') {
@@ -85,18 +87,9 @@ while (loop) {
         }
 
         if (instruction == ',') {
-            str copyTape = "";
-            for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-                if (i == dp) {
-                    print "Input: ";
-                    copyTape = copyTape + input[0];
-                    print '\n';
-                }
-                else {
-                    copyTape = copyTape + tape[i];
-                }
-            }
-            tape = copyTape;
+            print "Input: ";
+            tape = setTapeAtIndex(dp, input[0]);
+            print "\n";
         }
 
         if (instruction == ']') {
@@ -126,14 +119,7 @@ while (loop) {
 }
 
 print "Output: " + output + "\n";
-
-// Print tape
-print "Tape: [";
-for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-    print 0 + tape[i];
-    if (i != TAPE_SIZE - 1) { print ", "; }
-}
-print "]\n";
+printTape();
 
 
 
