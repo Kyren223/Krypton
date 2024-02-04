@@ -8,6 +8,7 @@
 #include <common/ErrorHandler.h>
 #include <memory>
 #include <nodes/Statements.h>
+#include <nodes/FunctionNodes.h>
 
 using std::vector, std::pair, std::unique_ptr;
 
@@ -24,6 +25,7 @@ public:
 private:
     Token consume();
     [[nodiscard]] Token peek() const;
+    [[nodiscard]] Token peekNext() const;
     template<std::same_as<TokenTypes>... Ts>
     bool match(TokenTypes first, Ts... rest);
     
@@ -33,6 +35,8 @@ private:
     unique_ptr<Statement> parseNonInlineStatement();
     unique_ptr<Statement> parseVariableDeclaration();
     unique_ptr<Statement> parseVariableAssignment(bool requireSemicolon = true);
+    optional<const Type*> parseType();
+    unique_ptr<LambdaExpression> parseLambda(const Type* returnType);
     
     static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);

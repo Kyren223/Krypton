@@ -79,3 +79,27 @@ void Environment::assign(const string& name, Value value)
     _handler.undefinedVariable(name);
     _handler.terminateIfErrors();
 }
+
+void Environment::display() const
+{
+    Logger::log("---\nEnvironment:\n");
+    for (auto& [name, variable] : _values)
+    {
+        Logger::log("Name: " + name + "\n");
+        Logger::log("Type: " + variable.type.getName() + "\n");
+        Value* value = variable.value;
+        string v;
+        try {
+            v = value->getValue<string>();
+        } catch (const std::bad_variant_access& e) {
+            v = "Can't Display Value";
+        }
+        Logger::log("Value: " + (value == nullptr ? "null" : v) + "\n");
+    }
+    if (_parent != nullptr)
+    {
+        Logger::log("Parent:\n");
+        _parent->display();
+    }
+    Logger::log("---\n\n");
+}

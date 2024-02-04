@@ -26,6 +26,7 @@ private:
     Value evaluate(const BinaryExpression& expression);
     Value evaluate(const UnaryExpression& expression);
     Value evaluate(const LiteralExpression& expression);
+    Value evaluate(const CallExpression& expression);
     Value evaluateInput();
     void execute(const Statement& statement);
     void execute(const PrintStatement& statement);
@@ -34,4 +35,5 @@ private:
     void execute(const WhileStatement& statement);
     void execute(const VariableDeclaration& statement);
     void execute(const VariableAssignment& statement);
+    void execute(const CallStatement& statement);
 };

@@ -45,6 +45,14 @@ Value KryptonRuntime::evaluate(const Expression& expression)
     {
         return evaluateInput();
     }
+    else if (const auto* pLambda = dynamic_cast<const LambdaExpression*>(&expression))
+    {
+        return {Primitive::FUNC, pLambda};
+    }
+    else if (const auto* pCall = dynamic_cast<const CallExpression*>(&expression))
+    {
+        return evaluate(*pCall);
+    }
     else
     {
         // TODO: Add better error handling
@@ -188,6 +196,10 @@ void KryptonRuntime::execute(const Statement& statement)
     {
         execute(*whileStmt);
     }
+    else if (auto callStmt = dynamic_cast<const CallStatement*>(&statement))
+    {
+        execute(*callStmt);
+    }
     else
     {
         Logger::error("KryptonRuntime::execute - unknown statement type");
@@ -311,3 +323,134 @@ Value KryptonRuntime::evaluateInput()
     return {Primitive::STR, input};
 }
 
+Value KryptonRuntime::evaluate(const CallExpression& expression)
+{
+    Value callee = evaluate(*expression.callee);
+    if (&callee.getType() != &Primitive::FUNC)
+    {
+        // TODO: Add better error handling
+        Logger::error("KryptonRuntime::evaluate - callee must be a function");
+        exit(1);
+    }
+    
+    const auto* lambda = callee.getValue<const LambdaExpression*>();
+    
+    if (!lambda->returnType.has_value())
+    {
+        _handler.usingValueFromVoidFunction("Anonymous Lambda");
+    }
+    
+    Environment* _parent = _environment;
+    _environment = new Environment(*_parent);
+    
+    // Bind arguments to parameters
+    if (lambda->parameters.size() != expression.arguments.size())
+    {
+        // TODO: Add better error handling
+        _handler.argumentLengthMismatch("Anonymous Lambda", lambda->parameters.size(), expression.arguments.size());
+        _handler.terminateIfErrors();
+    }
+    for (size_t i = 0; i < lambda->parameters.size(); i++)
+    {
+        Value value = evaluate(*expression.arguments[i]);
+        pair<string, const Type*> parameter = lambda->parameters[i];
+        
+        if (parameter.second != &value.getType())
+        {
+            _handler.typeMismatch(parameter.first, *parameter.second, value.getType());
+        }
+        
+        _environment->define(*parameter.second, parameter.first,value);
+    }
+    
+    // Execute lambda body
+    for (const auto& stmt : (*lambda->body).statements)
+    {
+        if (auto returnStmt = dynamic_cast<const ReturnStatement*>(stmt.get()))
+        {
+            if (!returnStmt->value.has_value())
+            {
+                _handler.expectedTypeXgotVoid("Anonymous Lambda", *lambda->returnType.value());
+            }
+            Value value = evaluate(*returnStmt->value.value());
+            delete _environment;
+            _environment = _parent;
+            
+            if (lambda->returnType.value() != &value.getType())
+            {
+                _handler.typeMismatch("Anonymous Lambda", *lambda->returnType.value(), value.getType());
+            }
+            
+            return value;
+        }
+        else execute(*stmt);
+    }
+    
+    delete _environment;
+    _environment = _parent;
+    
+    // Error if no return statement
+    _handler.noReturnStatementFound("Anonymous Lambda");
+}
+
+void KryptonRuntime::execute(const CallStatement& statement)
+{
+    Value callee = evaluate(*statement.call->callee);
+    if (&callee.getType() != &Primitive::FUNC)
+    {
+        // TODO: Add better error handling
+        Logger::error("KryptonRuntime::evaluate - callee must be a function");
+        exit(1);
+    }
+    
+    const auto* lambda = callee.getValue<const LambdaExpression*>();
+    
+    Environment* _parent = _environment;
+    _environment = new Environment(*_parent);
+    
+    // Bind arguments to parameters
+    if (lambda->parameters.size() != statement.call->arguments.size())
+    {
+        // TODO: Add better error handling
+        _handler.argumentLengthMismatch("Anonymous Lambda", lambda->parameters.size(), statement.call->arguments.size());
+        _handler.terminateIfErrors();
+    }
+    
+    for (size_t i = 0; i < lambda->parameters.size(); i++)
+    {
+        Value value = evaluate(*statement.call->arguments[i]);
+        pair<string, const Type*> parameter = lambda->parameters[i];
+        
+        if (parameter.second != &value.getType())
+        {
+            _handler.typeMismatch(parameter.first, *parameter.second, value.getType());
+        }
+        
+        _environment->define(*parameter.second, parameter.first, value);
+    }
+    
+    // Execute lambda body
+    for (const auto& stmt : (*lambda->body).statements)
+    {
+        if (auto returnStmt = dynamic_cast<const ReturnStatement*>(stmt.get()))
+        {
+            if (returnStmt->value.has_value())
+            {
+                Value value = evaluate(*returnStmt->value.value());
+                if (lambda->returnType.value() != &value.getType())
+                {
+                    _handler.typeMismatch("Anonymous Lambda", *lambda->returnType.value(), value.getType());
+                }
+            }
+            // If a value is returned, it is ignored but evaluated
+            
+            delete _environment;
+            _environment = _parent;
+            return;
+        }
+        else execute(*stmt);
+    }
+    
+    delete _environment;
+    _environment = _parent;
+}

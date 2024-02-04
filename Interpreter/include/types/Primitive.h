@@ -2,8 +2,9 @@
 #pragma once
 
 #include <types/Type.h>
+#include <nodes/FunctionNodes.h>
 
-using PrimitiveValue = variant<int, double, bool, unsigned char, string>;
+using PrimitiveValue = variant<int, double, bool, unsigned char, string, const LambdaExpression*>;
 
 struct Primitive
 {
@@ -12,4 +13,5 @@ struct Primitive
     static const Type BOOL;
     static const Type CHAR;
     static const Type STR;
+    static const Type FUNC;
 };

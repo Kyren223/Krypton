@@ -29,4 +29,6 @@ public:
     void define(const Type& type, const string& name, const Value& value);
     void assign(const string& name, Value value);
     Value* get(const string& name) const;
+    
+    void display() const;
 };

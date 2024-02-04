@@ -79,13 +79,23 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         left = make_unique<UnaryExpression>(token, std::move(left));
     }
     
-    // Invalid Expression
     else
     {
-        _handler.expectedXgotY(token.getLocation(),
-                               "Expression",
-                               token.toString());
-        return nullptr;
+        // Lambda Expression
+        if (match(TokenTypes::VOID)) left = parseLambda(nullptr);
+        else if (auto type = parseType(); type.has_value())
+        {
+            left =  parseLambda(type.value());
+        }
+        
+        // Invalid Expression
+        else
+        {
+            _handler.expectedXgotY(token.getLocation(),
+                                   "Expression",
+                                   token.toString());
+            return nullptr;
+        }
     }
     
     while (true)
@@ -100,9 +110,27 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
         if (postfixPrecedence)
         {
             if (postfixPrecedence->first < minPrecedence) break;
-            consume(); // Consume the operator
-
-            if (token.getType() == TokenTypes::LEFT_BRACKET)
+            
+            if (match(TokenTypes::LEFT_PAREN))
+            {
+                vector<unique_ptr<Expression>> arguments;
+                while (!match(TokenTypes::RIGHT_PAREN))
+                {
+                    arguments.push_back(parseExpression());
+                    if (match(TokenTypes::COMMA)) continue;
+                    
+                    if (peek().getType() != TokenTypes::RIGHT_PAREN)
+                    {
+                        _handler.expectedXgotY(peek().getLocation(),
+                                               ")",
+                                               peek().toString());
+                        throw std::exception();
+                    }
+                }
+                left = make_unique<CallExpression>(std::move(left), std::move(arguments));
+            }
+            
+            else if (match(TokenTypes::LEFT_BRACKET))
             {
                 unique_ptr<Expression> right = parseExpression();
                 if (consume().getType() != TokenTypes::RIGHT_BRACKET)
@@ -114,7 +142,12 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
                 }
                 left = make_unique<BinaryExpression>(std::move(left), token, std::move(right));
             }
-            else left = make_unique<UnaryExpression>(token, std::move(left));
+            
+            else
+            {
+                consume(); // Consume the operator
+                left = make_unique<UnaryExpression>(token, std::move(left));
+            }
         }
         
         // Binary Expression
@@ -164,6 +197,7 @@ Token Parser::consume()
 
 Token Parser::peek() const
 {
+    if (_current >= _tokens.size()) return {SourceLocation(), TokenTypes::END, ""};
     return _tokens[_current];
 }
 
@@ -226,6 +260,8 @@ optional<pair<int, int>> Parser::getPostfixPrecedence(TokenTypes op)
             return {{1, {}}};
         case TokenTypes::LEFT_BRACKET:
             return {{100, {}}};
+        case TokenTypes::LEFT_PAREN:
+            return {{10000, {}}};
         default: return {};
     }
 }
@@ -276,6 +312,35 @@ unique_ptr<InlineStatement> Parser::parseInlineStatement()
             throw std::exception();
         }
         return make_unique<PrintStatement>(std::move(expression));
+    }
+    
+    // Return Statement
+    else if (match(TokenTypes::RETURN))
+    {
+        if (match(TokenTypes::SEMICOLON)) return make_unique<ReturnStatement>();
+        unique_ptr<Expression> expression = parseExpression();
+        if (match(TokenTypes::SEMICOLON)) return make_unique<ReturnStatement>(std::move(expression));
+        
+        _handler.unterminatedStatement(peek().getLocation(), peek().toString());
+        throw std::exception();
+    }
+    
+    // Call Statement
+    unique_ptr<Expression> expression = parseExpression();
+    if (expression != nullptr)
+    {
+        if (auto* pExpression = dynamic_cast<CallExpression*>(expression.release()))
+        {
+            unique_ptr<CallExpression> call(pExpression);
+            
+            if (!match(TokenTypes::SEMICOLON))
+            {
+                _handler.unterminatedStatement(peek().getLocation(), peek().toString());
+                throw std::exception();
+            }
+            
+            return make_unique<CallStatement>(std::move(call));
+        }
     }
     
     // Check if the statement isn't an inline statement
@@ -422,14 +487,13 @@ unique_ptr<Statement> Parser::parseNonInlineStatement()
 
 unique_ptr<Statement> Parser::parseVariableDeclaration()
 {
-    const Type* type;
-    if (match(TokenTypes::INT)) type = &Primitive::INT;
-    else if (match(TokenTypes::DEC)) type = &Primitive::DEC;
-    else if (match(TokenTypes::BOOL)) type = &Primitive::BOOL;
-    else if (match(TokenTypes::CHAR)) type = &Primitive::CHAR;
-    else if (match(TokenTypes::STR)) type = &Primitive::STR;
-    else if (peek().getType() == TokenTypes::IDENTIFIER) return parseVariableAssignment();
-    else return nullptr;
+    optional<const Type*> type = parseType();
+    if (!type.has_value())
+    {
+        if (peek().getType() == TokenTypes::IDENTIFIER &&
+            peekNext().getType() == TokenTypes::EQUAL) return parseVariableAssignment();
+        else return nullptr;
+    }
     
     Token identifier = consume();
     if (identifier.getType() != TokenTypes::IDENTIFIER)
@@ -450,7 +514,7 @@ unique_ptr<Statement> Parser::parseVariableDeclaration()
     
     if (match(TokenTypes::SEMICOLON))
     {
-        return make_unique<VariableDeclaration>(*type, std::move(identifier));
+        return make_unique<VariableDeclaration>(*(type.value()), std::move(identifier));
     }
     
     unique_ptr<Expression> initializer = parseExpression();
@@ -462,7 +526,7 @@ unique_ptr<Statement> Parser::parseVariableDeclaration()
         throw std::exception();
     }
     
-    return make_unique<VariableDeclaration>(*type, std::move(identifier), std::move(initializer));
+    return make_unique<VariableDeclaration>(*(type.value()), std::move(identifier), std::move(initializer));
 }
 
 unique_ptr<Statement> Parser::parseVariableAssignment(bool requireSemicolon)
@@ -490,6 +554,90 @@ unique_ptr<Statement> Parser::parseVariableAssignment(bool requireSemicolon)
     }
     
     return make_unique<VariableAssignment>(std::move(identifier), std::move(value));
+}
+
+optional<const Type*> Parser::parseType()
+{
+    if (match(TokenTypes::INT)) return &Primitive::INT;
+    if (match(TokenTypes::DEC)) return &Primitive::DEC;
+    if (match(TokenTypes::BOOL)) return &Primitive::BOOL;
+    if (match(TokenTypes::CHAR)) return &Primitive::CHAR;
+    if (match(TokenTypes::STR)) return &Primitive::STR;
+    if (match(TokenTypes::FUNC)) return &Primitive::FUNC;
+    return {};
+}
+
+unique_ptr<LambdaExpression> Parser::parseLambda(const Type* returnType)
+{
+    if (!match(TokenTypes::LEFT_PAREN))
+    {
+        _handler.expectedXgotY(peek().getLocation(),
+                               "(",
+                               peek().toString());
+        throw std::exception();
+    }
+    
+    vector<pair<string, const Type*>> parameters;
+    while (!match(TokenTypes::RIGHT_PAREN))
+    {
+        optional<const Type*> type = parseType();
+        
+        if (!type.has_value())
+        {
+            _handler.expectedXgotY(peek().getLocation(),
+                                   "Type",
+                                   peek().toString());
+            throw std::exception();
+        }
+        
+        Token identifier = consume();
+        if (identifier.getType() != TokenTypes::IDENTIFIER)
+        {
+            _handler.expectedXgotY(identifier.getLocation(),
+                                   "Identifier",
+                                   identifier.toString());
+            throw std::exception();
+        }
+        
+        // Fuck copilot
+        //parameters.emplace_back(identifier.toString(), type.value());
+        // So a few hours yesterday and today were spent debugging and all of this was bcz this line ^
+        // Was generated by GitHub copilot, and it decided to toString() the identifier
+        // The correct line would be to use identifier.getLexeme(), because toStriong() formats it
+        parameters.emplace_back(identifier.getLexeme().value(), type.value());
+        
+        if (match(TokenTypes::COMMA)) continue;
+        
+        if (peek().getType() != TokenTypes::RIGHT_PAREN)
+        {
+            _handler.expectedXgotY(peek().getLocation(),
+                                   ")",
+                                   peek().toString());
+            throw std::exception();
+        }
+    }
+    
+    unique_ptr<Statement> body = parseInlineStatement();
+    
+    if (auto* pCodeBlock = dynamic_cast<CodeBlock*>(body.release()))
+    {
+        unique_ptr<CodeBlock> codeBlock(pCodeBlock);
+        if (returnType == nullptr) return make_unique<LambdaExpression>(parameters, std::move(codeBlock));
+        else return make_unique<LambdaExpression>(returnType, parameters, std::move(codeBlock));
+    }
+    else
+    {
+        _handler.expectedXgotY(peek().getLocation(),
+                               "Code Block",
+                               peek().toString());
+        throw std::exception();
+    }
+}
+
+Token Parser::peekNext() const
+{
+    if (_current + 1 >= _tokens.size()) return {SourceLocation(), TokenTypes::END, ""};
+    return _tokens[_current + 1];
 }
 
 template<std::same_as<TokenTypes>... Ts>

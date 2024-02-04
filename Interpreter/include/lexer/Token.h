@@ -102,6 +102,7 @@ enum class TokenTypes
     INT, // int 4-bytes
     DEC, // double 8-bytes
     STR, // string unknown size
+    FUNC, // Holds a function
     
     END
 };

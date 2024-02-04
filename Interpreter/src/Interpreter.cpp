@@ -40,7 +40,7 @@ void execute(string file, string source, Environment& env)
 {
     Lexer lexer(file, std::move(source));
     vector<Token> tokens = lexer.scanTokens();
-    if (DEBUG == true) PrettyPrinter::print(tokens);
+//    if (DEBUG == true) PrettyPrinter::print(tokens);
     Parser parser(tokens);
     unique_ptr<ASTNode> ast = parser.parse();
 //    PrettyPrinter::print(*ast);

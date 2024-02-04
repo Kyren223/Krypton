@@ -49,6 +49,8 @@ add_executable(Interpreter src/Interpreter.cpp
         src/runtime/Environment.cpp
         include/runtime/Environment.h
         include/common/SourceLocation.h
+        src/types/FuncType.cpp
+        include/nodes/FunctionNodes.h
 )
 
 target_include_directories(Interpreter PRIVATE include/)

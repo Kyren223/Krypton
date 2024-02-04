@@ -170,5 +170,43 @@ void ErrorHandler::reset()
     _hasErrors = false;
 }
 
+void ErrorHandler::argumentLengthMismatch(const string& name, size_t expected, size_t got)
+{
+    Logger::print(LogMode::ERROR_LOG, "Argument length mismatch in function '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "', expected '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, std::to_string(expected), Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, std::to_string(got), Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::usingValueFromVoidFunction(const string& name)
+{
+    Logger::print(LogMode::ERROR_LOG, "Cannot use value from function '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' which returns void\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::noReturnStatementFound(const string& name)
+{
+    Logger::print(LogMode::ERROR_LOG, "Missing return statement in the current path of function '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
+    _hasErrors = true;
+}
+
+void ErrorHandler::expectedTypeXgotVoid(const string& name, const Type& expected)
+{
+    Logger::print(LogMode::ERROR_LOG, "Expected type '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, expected.getName(), Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "' got void from function '", Color::RED);
+    Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
+    Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
+    _hasErrors = true;
+}
+
 
 
