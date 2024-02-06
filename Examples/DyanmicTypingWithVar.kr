@@ -1,9 +1,9 @@
 
 func dynamicRetVal = var() {
-    var test = input;
+    var test = input();
     if (test == "Hello") { return 5; }
     else { return 'b'; }
 };
 
 char t = dynamicRetVal();
-print "T: " + t;
+print("T: " + t);

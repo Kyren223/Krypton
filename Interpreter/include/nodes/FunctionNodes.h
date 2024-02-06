@@ -27,8 +27,10 @@ struct LambdaExpression : Expression
             : returnType(returnType), parameters(std::move(parameters)), body(std::move(body)), isNative(false) {}
     explicit LambdaExpression(vector<pair<string, optional<const Type*>>> parameters, unique_ptr<CodeBlock> body)
             : returnType(std::nullopt), parameters(std::move(parameters)), body(std::move(body)), isNative(false)  {}
-    explicit LambdaExpression(const Type* returnType, vector<pair<string, optional<const Type*>>> parameters, function<void(Environment*)> nativeFunction)
+    explicit LambdaExpression(optional<const Type*> returnType, vector<pair<string, optional<const Type*>>> parameters, function<void(Environment*)> nativeFunction)
             : returnType(returnType), parameters(std::move(parameters)), nativeFunction(std::move(nativeFunction)), isNative(true) {}
+    explicit LambdaExpression(vector<pair<string, optional<const Type*>>> parameters, function<void(Environment*)> nativeFunction)
+            : returnType(std::nullopt), parameters(std::move(parameters)), nativeFunction(std::move(nativeFunction)), isNative(true) {}
 };
 
 struct CallStatement : InlineStatement

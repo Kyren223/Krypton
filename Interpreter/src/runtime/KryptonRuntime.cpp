@@ -365,6 +365,7 @@ Value KryptonRuntime::evaluate(const CallExpression& expression)
         if (parameter.second.has_value() && parameter.second.value() != &value.getType())
         {
             _handler.typeMismatch(parameter.first, parameter.second.value(), value.getType());
+            _handler.terminateIfErrors();
         }
         
         _environment->define(parameter.second, parameter.first,value);
@@ -462,9 +463,10 @@ void KryptonRuntime::execute(const CallStatement& statement)
         Value value = evaluate(*statement.call->arguments[i]);
         pair<string, optional<const Type*>> parameter = lambda->parameters[i];
         
-        if (parameter.second != &value.getType())
+        if (parameter.second.has_value() && parameter.second.value() != &value.getType())
         {
             _handler.typeMismatch(parameter.first, parameter.second, value.getType());
+            _handler.terminateIfErrors();
         }
         
         _environment->define(parameter.second, parameter.first, value);
@@ -477,6 +479,7 @@ void KryptonRuntime::execute(const CallStatement& statement)
         lambda->nativeFunction(_environment);
         delete _environment;
         _environment = _parent;
+        return;
     }
 
     for (const auto& stmt : (*lambda->body).statements)
@@ -490,6 +493,7 @@ void KryptonRuntime::execute(const CallStatement& statement)
             if (lambda->returnType.value().has_value() && lambda->returnType.value().value() != &value->getType())
             {
                 _handler.typeMismatch("Anonymous Lambda", lambda->returnType.value(), value->getType());
+                _handler.terminateIfErrors();
             }
         }
         // If a value is returned, it is ignored but evaluated

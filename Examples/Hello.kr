@@ -1,2 +1,2 @@
-print "Enter your name: ";
-print "Hello " + input + "!\n";
+print("Enter your name: ");
+print("Hello " + input + "!\n");

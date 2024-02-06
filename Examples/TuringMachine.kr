@@ -9,20 +9,20 @@ func initializeTapeWith = void(char c) {
 };
 
 func printTape = void() {
-    print "Tape: [";
+    print("Tape: [");
     for (int i = 0; i < TAPE_SIZE; i = i + 1) {
-        print 0 + tape[i];
-        if (i != TAPE_SIZE - 1) { print ", "; }
+        print(0 + tape[i]);
+        if (i != TAPE_SIZE - 1) { print(", "); }
     }
-    print "]\n";
+    print("]\n");
 };
 
 func dumpDebugInfo = void() {
-    print "IP: " + (0 + ip) + " (" + userInput[0 + ip] + ")| ";
-    print "SP: " + sp + " | ";
-    print "SIP: " + (0 + stack[sp]) + " | ";
-    print "DP: " + dp + " | ";
-    print "*DP: " + (0 + tape[dp]) + "\n";
+    print("IP: " + (0 + ip) + " (" + userInput[0 + ip] + ")| ");
+    print("SP: " + sp + " | ");
+    print("SIP: " + (0 + stack[sp]) + " | ");
+    print("DP: " + dp + " | ");
+    print("*DP: " + (0 + tape[dp]) + "\n");
 };
 
 func setTapeAtIndex = str(int index, char newC) {
@@ -41,9 +41,9 @@ func setTapeAtIndex = str(int index, char newC) {
 initializeTapeWith('\0');
 printTape();
 
-print "Enter turing machine program: ";
-str userInput = input;
-print '\n';
+print("Enter turing machine program: ");
+str userInput = input();
+print('\n');
 
 bool loop = true;
 int dp = 0; // Data Pointer
@@ -61,7 +61,7 @@ while (loop) {
         if (instruction == '>') {
             dp = dp + 1;
             if (dp >= TAPE_SIZE) {
-                print "Error: dp (" + dp + ") out of bounds\n";
+                print("Error: dp (" + dp + ") out of bounds\n");
                 loop = false;
             }
         }
@@ -69,7 +69,7 @@ while (loop) {
         if (instruction == '<') {
             dp = dp - 1;
             if (dp < 0) {
-                print "Error: dp (" + dp + ") out of bounds\n";
+                print("Error: dp (" + dp + ") out of bounds\n");
                 loop = false;
             }
         }
@@ -87,9 +87,9 @@ while (loop) {
         }
 
         if (instruction == ',') {
-            print "Input: ";
+            print("Input: ");
             tape = setTapeAtIndex(dp, input[0]);
-            print "\n";
+            print("\n");
         }
 
         if (instruction == ']') {
@@ -118,7 +118,7 @@ while (loop) {
     }
 }
 
-print "Output: " + output + "\n";
+print("Output: " + output + "\n");
 printTape();
 
 

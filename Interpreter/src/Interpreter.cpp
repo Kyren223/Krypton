@@ -9,6 +9,7 @@
 
 #include <utility>
 #include <common/FileHelper.h>
+#include <runtime/KryptonSTD.h>
 
 #if DEBUG
 
@@ -52,6 +53,7 @@ void repl()
 {
     ErrorHandler::getInstance().setReplMode(true);
     Environment env;
+    KryptonSTD::load(env);
     Logger::print(LogMode::NONE, "==== Krypton REPL ====", Color::BLUE);
     while (true)
     {
@@ -70,6 +72,7 @@ void runFile(const string& filepath)
 {
     ErrorHandler::getInstance().setReplMode(false);
     Environment env;
+    KryptonSTD::load(env);
     optional<string> source = FileHelper::readFile(filepath);
     if (!source.has_value())
     {

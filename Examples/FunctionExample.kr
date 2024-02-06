@@ -1,7 +1,7 @@
 
 // Function Declaration
 func hello = void(str name) {
-    print "Hello, " + name + "!\n";
+    print("Hello, " + name + "!\n");
 };
 
 hello("Kyren");
@@ -12,18 +12,18 @@ func add = int(int a, int b) {
 };
 
 func toInt = int(char c) {
-    return 0 + c;
+    return 0 + c - '0';
 };
 
 func inputNum = int() {
-    print "Enter a number: ";
-    int num = toInt(input[0]);
-    print "\n";
+    print("Enter a number: ");
+    int num = toInt(input()[0]);
+    print("\n");
     return num;
 };
 
 func printResult = void(int result) {
-    print "Result: " + result + "\n";
+    print("Result: " + result + "\n");
 };
 
 printResult(add(inputNum(), inputNum()));

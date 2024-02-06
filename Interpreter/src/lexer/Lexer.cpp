@@ -32,9 +32,7 @@ const unordered_map<string, TokenTypes> Lexer::KEYWORDS =
                 {"export",   TokenTypes::EXPORT},
                 {"or",       TokenTypes::OR},
                 {"and",      TokenTypes::AND},
-                {"print",      TokenTypes::PRINT}, // TODO: Remove this
-                {"input",      TokenTypes::INPUT}, // TODO: Remove this
-                
+
                 {"void",     TokenTypes::VOID},
                 {"int",      TokenTypes::INT},
                 {"bool",     TokenTypes::BOOL},

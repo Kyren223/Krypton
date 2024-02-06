@@ -66,11 +66,11 @@ unique_ptr<Expression> Parser::parseExpression(int minPrecedence)
     }
     
     // Input expression
-    else if (match(TokenTypes::INPUT))
-    {
-        left = make_unique<InputExpression>();
-    }
-    
+//    else if (match(TokenTypes::INPUT))
+//    {
+//        left = make_unique<InputExpression>();
+//    }
+
     // Unary Expression (operator on the left)
     else if (prefixPrecedence.has_value())
     {
@@ -302,17 +302,17 @@ unique_ptr<InlineStatement> Parser::parseInlineStatement()
     }
     
     // Print Statement
-    else if (match(TokenTypes::PRINT))
-    {
-        unique_ptr<Expression> expression = parseExpression();
-        token = peek();
-        if (!match(TokenTypes::SEMICOLON))
-        {
-            _handler.unterminatedStatement(token.getLocation(), token.toString());
-            throw std::exception();
-        }
-        return make_unique<PrintStatement>(std::move(expression));
-    }
+//    else if (match(TokenTypes::PRINT))
+//    {
+//        unique_ptr<Expression> expression = parseExpression();
+//        token = peek();
+//        if (!match(TokenTypes::SEMICOLON))
+//        {
+//            _handler.unterminatedStatement(token.getLocation(), token.toString());
+//            throw std::exception();
+//        }
+//        return make_unique<PrintStatement>(std::move(expression));
+//    }
     
     // Return Statement
     else if (match(TokenTypes::RETURN))
