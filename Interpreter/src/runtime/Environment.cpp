@@ -13,11 +13,14 @@ Environment::~Environment()
 {
     for (auto& [name, variable] : _values)
     {
+        if (name == "return") continue;
         delete variable.value;
     }
+    if (_parent == nullptr) return;
+    if (getReturnValue(false).has_value()) _parent->setReturnValue(getReturnValue(true).value());
 }
 
-void Environment::define(const Type& type, const string& name)
+void Environment::define(optional<const Type*> type, const string& name)
 {
     if (_values.contains(name))
     {
@@ -27,17 +30,22 @@ void Environment::define(const Type& type, const string& name)
     _values.emplace(name, Variable{type, nullptr});
 }
 
-void Environment::define(const Type& type, const string& name, const Value& value)
+void Environment::define(optional<const Type*> type, const string& name, const Value& value)
 {
     if (_values.contains(name))
     {
         _handler.redefinedVariable(name);
         _handler.terminateIfErrors();
     }
+    if (type.has_value() && type.value() != &value.getType())
+    {
+        _handler.typeMismatch(name, type, value.getType());
+        _handler.terminateIfErrors();
+    }
     _values.emplace(name, Variable{type, new Value(value)});
 }
 
-Value* Environment::get(const string& name) const
+const Value* Environment::get(const string& name) const
 {
     auto var = _values.find(name);
     
@@ -51,7 +59,7 @@ Value* Environment::get(const string& name) const
     _handler.terminateIfErrors();
 }
 
-void Environment::assign(const string& name, Value value)
+void Environment::assign(const string& name, const Value& value)
 {
     auto var = _values.find(name);
     
@@ -59,7 +67,7 @@ void Environment::assign(const string& name, Value value)
     if (var != _values.end())
     {
         Variable& variable = var->second;
-        if (&variable.type != &value.getType())
+        if (variable.type.has_value() && variable.type.value() != &value.getType())
         {
             _handler.typeMismatch(name, variable.type, value.getType());
             _handler.terminateIfErrors();
@@ -80,26 +88,22 @@ void Environment::assign(const string& name, Value value)
     _handler.terminateIfErrors();
 }
 
-void Environment::display() const
-{
-    Logger::log("---\nEnvironment:\n");
-    for (auto& [name, variable] : _values)
-    {
-        Logger::log("Name: " + name + "\n");
-        Logger::log("Type: " + variable.type.getName() + "\n");
-        Value* value = variable.value;
-        string v;
-        try {
-            v = value->getValue<string>();
-        } catch (const std::bad_variant_access& e) {
-            v = "Can't Display Value";
-        }
-        Logger::log("Value: " + (value == nullptr ? "null" : v) + "\n");
-    }
-    if (_parent != nullptr)
-    {
-        Logger::log("Parent:\n");
-        _parent->display();
-    }
-    Logger::log("---\n\n");
+void Environment::setReturnValue(optional<Value> value) {
+    _values["return"] = Variable{nullptr, value.has_value() ? new Value(value.value()) : nullptr};
 }
+
+optional<optional<Value>> Environment::getReturnValue(bool remove) {
+    if (_values.contains("return"))
+    {
+        const Value* value = _values.at("return").value;
+        optional<Value> returnValue = value != nullptr ? optional<Value>(*value) : std::nullopt;
+        if (remove)
+        {
+            _values.erase("return");
+            delete value;
+        }
+        return returnValue;
+    }
+    return {};
+}
+

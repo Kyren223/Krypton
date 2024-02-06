@@ -49,18 +49,18 @@ struct IfStatement : Statement
 
 struct VariableDeclaration : Statement
 {
-    const Type& type;
+    optional<const Type*> type;
     string identifier;
     optional<unique_ptr<Expression>> initializer;
     
-    VariableDeclaration(const Type& type,
+    VariableDeclaration(optional<const Type*> type,
                         const Token& identifier,
                         unique_ptr<Expression> initializer)
         : type(type),
           identifier(identifier.getLexeme().value()),
           initializer(std::move(initializer)) {}
   
-    VariableDeclaration(const Type& type,
+    VariableDeclaration(optional<const Type*> type,
                         const Token& identifier)
         : type(type),
           identifier(identifier.getLexeme().value()),

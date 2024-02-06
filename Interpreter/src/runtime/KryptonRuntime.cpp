@@ -4,6 +4,7 @@
 #include <common/Logger.h>
 #include <lexer/Token.h>
 #include <nodes/Statements.h>
+#include <types/Primitive.h>
 #include <iostream>
 
 KryptonRuntime::KryptonRuntime(unique_ptr<ASTNode> ast, Environment& environment) :
@@ -158,7 +159,7 @@ Value KryptonRuntime::evaluate(const LiteralExpression& expression)
         case TokenTypes::IDENTIFIER:
         {
             string identifier = expression.literal.getLexeme().value();
-            Value* value = _environment->get(identifier);
+            const Value* value = _environment->get(identifier);
             if (value != nullptr) return *value;
             _handler.nullReference(identifier);
             _handler.terminateIfErrors();
@@ -199,6 +200,10 @@ void KryptonRuntime::execute(const Statement& statement)
     else if (auto callStmt = dynamic_cast<const CallStatement*>(&statement))
     {
         execute(*callStmt);
+    }
+    else if (auto returnStmt = dynamic_cast<const ReturnStatement*>(&statement))
+    {
+        execute(*returnStmt);
     }
     else
     {
@@ -253,14 +258,15 @@ void KryptonRuntime::execute(const CodeBlock& statement)
         return;
     }
     
-    Environment* _parent = _environment;
-    _environment = new Environment(*_parent);
+    Environment* parent = _environment;
+    _environment = new Environment(*parent);
     for (const auto& stmt : statement.statements)
     {
-        execute(*stmt);
+        Statement* stmtPtr = stmt.get();
+        execute(*stmtPtr);
     }
     delete _environment;
-    _environment = _parent;
+    _environment = parent;
 }
 
 void KryptonRuntime::execute(const IfStatement& statement)
@@ -273,7 +279,8 @@ void KryptonRuntime::execute(const IfStatement& statement)
     }
     if (condition.getValue<bool>())
     {
-        execute(*statement.thenBranch);
+        Statement* stmt = statement.thenBranch.get();
+        execute(*stmt);
     }
     else if (statement.elseBranch.has_value())
     {
@@ -353,42 +360,76 @@ Value KryptonRuntime::evaluate(const CallExpression& expression)
     for (size_t i = 0; i < lambda->parameters.size(); i++)
     {
         Value value = evaluate(*expression.arguments[i]);
-        pair<string, const Type*> parameter = lambda->parameters[i];
+        pair<string, optional<const Type*>> parameter = lambda->parameters[i];
         
-        if (parameter.second != &value.getType())
+        if (parameter.second.has_value() && parameter.second.value() != &value.getType())
         {
-            _handler.typeMismatch(parameter.first, *parameter.second, value.getType());
+            _handler.typeMismatch(parameter.first, parameter.second.value(), value.getType());
         }
         
-        _environment->define(*parameter.second, parameter.first,value);
+        _environment->define(parameter.second, parameter.first,value);
     }
     
     // Execute lambda body
-    for (const auto& stmt : (*lambda->body).statements)
+
+    if (lambda->isNative)
     {
-        if (auto returnStmt = dynamic_cast<const ReturnStatement*>(stmt.get()))
+        lambda->nativeFunction(_environment);
+        if (!_environment->getReturnValue(false).has_value())
         {
-            if (!returnStmt->value.has_value())
-            {
-                _handler.expectedTypeXgotVoid("Anonymous Lambda", *lambda->returnType.value());
-            }
-            Value value = evaluate(*returnStmt->value.value());
-            delete _environment;
-            _environment = _parent;
-            
-            if (lambda->returnType.value() != &value.getType())
-            {
-                _handler.typeMismatch("Anonymous Lambda", *lambda->returnType.value(), value.getType());
-            }
-            
-            return value;
+            _handler.noReturnStatementFound("Anonymous Lambda");
+            _handler.terminateIfErrors();
         }
-        else execute(*stmt);
+        optional<Value> value = _environment->getReturnValue(true).value();
+
+        delete _environment;
+        _environment = _parent;
+
+        if (!value.has_value())
+        {
+            _handler.expectedTypeXgotVoid("Anonymous Lambda", lambda->returnType.value());
+            _handler.terminateIfErrors();
+            throw std::runtime_error("KryptonRuntime::evaluate - expected return value");
+        }
+
+        if (lambda->returnType.value().has_value() && lambda->returnType.value().value() != &value->getType())
+        {
+            _handler.typeMismatch("Anonymous Lambda", lambda->returnType.value(), value->getType());
+            _handler.terminateIfErrors();
+            throw std::runtime_error("KryptonRuntime::evaluate - expected return value");
+        }
+
+        return *value;
     }
-    
+
+    for (auto& stmt : (*lambda->body).statements)
+    {
+        Statement* stmtPtr = stmt.get();
+        execute(*stmtPtr);
+        if (!_environment->getReturnValue(false).has_value()) continue;
+        optional<Value> value = _environment->getReturnValue(true).value();
+
+        delete _environment;
+        _environment = _parent;
+
+        if (!value.has_value())
+        {
+            _handler.expectedTypeXgotVoid("Anonymous Lambda", lambda->returnType.value());
+            _handler.terminateIfErrors();
+            throw std::runtime_error("KryptonRuntime::evaluate - expected return value");
+        }
+
+        if (lambda->returnType.value().has_value() && lambda->returnType.value().value() != &value->getType())
+        {
+            _handler.typeMismatch("Anonymous Lambda", lambda->returnType.value(), value->getType());
+        }
+
+        return *value;
+    }
+
     delete _environment;
     _environment = _parent;
-    
+
     // Error if no return statement
     _handler.noReturnStatementFound("Anonymous Lambda");
 }
@@ -419,38 +460,54 @@ void KryptonRuntime::execute(const CallStatement& statement)
     for (size_t i = 0; i < lambda->parameters.size(); i++)
     {
         Value value = evaluate(*statement.call->arguments[i]);
-        pair<string, const Type*> parameter = lambda->parameters[i];
+        pair<string, optional<const Type*>> parameter = lambda->parameters[i];
         
         if (parameter.second != &value.getType())
         {
-            _handler.typeMismatch(parameter.first, *parameter.second, value.getType());
+            _handler.typeMismatch(parameter.first, parameter.second, value.getType());
         }
         
-        _environment->define(*parameter.second, parameter.first, value);
+        _environment->define(parameter.second, parameter.first, value);
     }
     
     // Execute lambda body
+
+    if (lambda->isNative)
+    {
+        lambda->nativeFunction(_environment);
+        delete _environment;
+        _environment = _parent;
+    }
+
     for (const auto& stmt : (*lambda->body).statements)
     {
-        if (auto returnStmt = dynamic_cast<const ReturnStatement*>(stmt.get()))
+        execute(*stmt);
+        if (!_environment->getReturnValue(false).has_value()) continue;
+        optional<Value> value = _environment->getReturnValue(true).value();
+
+        if (value.has_value())
         {
-            if (returnStmt->value.has_value())
+            if (lambda->returnType.value().has_value() && lambda->returnType.value().value() != &value->getType())
             {
-                Value value = evaluate(*returnStmt->value.value());
-                if (lambda->returnType.value() != &value.getType())
-                {
-                    _handler.typeMismatch("Anonymous Lambda", *lambda->returnType.value(), value.getType());
-                }
+                _handler.typeMismatch("Anonymous Lambda", lambda->returnType.value(), value->getType());
             }
-            // If a value is returned, it is ignored but evaluated
-            
-            delete _environment;
-            _environment = _parent;
-            return;
         }
-        else execute(*stmt);
+        // If a value is returned, it is ignored but evaluated
+
+        delete _environment;
+        _environment = _parent;
+        return;
     }
-    
+
     delete _environment;
     _environment = _parent;
+}
+
+void KryptonRuntime::execute(const ReturnStatement& statement) {
+    if (statement.value.has_value())
+    {
+        Value value = evaluate(*statement.value.value());
+        _environment->setReturnValue(value);
+    }
+    else _environment->setReturnValue({});
 }

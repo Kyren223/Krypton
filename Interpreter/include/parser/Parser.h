@@ -35,8 +35,8 @@ private:
     unique_ptr<Statement> parseNonInlineStatement();
     unique_ptr<Statement> parseVariableDeclaration();
     unique_ptr<Statement> parseVariableAssignment(bool requireSemicolon = true);
-    optional<const Type*> parseType();
-    unique_ptr<LambdaExpression> parseLambda(const Type* returnType);
+    optional<optional<const Type*>> parseType();
+    unique_ptr<LambdaExpression> parseLambda(optional<const Type*> returnType);
     
     static optional<pair<int, int>> getInfixPrecedence(TokenTypes op);
     static optional<pair<int, int>> getPrefixPrecedence(TokenTypes op);

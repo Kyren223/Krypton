@@ -153,12 +153,15 @@ void ErrorHandler::nullReference(const string& name)
     _hasErrors = true;
 }
 
-void ErrorHandler::typeMismatch(const string& name, const Type& expected, const Type& got)
+void ErrorHandler::typeMismatch(const string& name, optional<const Type*> expected, const Type& got)
 {
     Logger::print(LogMode::ERROR_LOG, "Type mismatch in variable '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "', expected type '", Color::RED);
-    Logger::print(LogMode::ERROR_LOG, expected.getName(), Color::BLUE);
+    string expectedType;
+    if (!expected.has_value()) expectedType = "var";
+    else expectedType = expected != nullptr ? expected.value()->getName() : "void";
+    Logger::print(LogMode::ERROR_LOG, expectedType, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "' got '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, got.getName(), Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);
@@ -198,10 +201,13 @@ void ErrorHandler::noReturnStatementFound(const string& name)
     _hasErrors = true;
 }
 
-void ErrorHandler::expectedTypeXgotVoid(const string& name, const Type& expected)
+void ErrorHandler::expectedTypeXgotVoid(const string& name, optional<const Type*> expected)
 {
     Logger::print(LogMode::ERROR_LOG, "Expected type '", Color::RED);
-    Logger::print(LogMode::ERROR_LOG, expected.getName(), Color::BLUE);
+    string expectedType;
+    if (!expected.has_value()) expectedType = "var";
+    else expectedType = expected != nullptr ? expected.value()->getName() : "void";
+    Logger::print(LogMode::ERROR_LOG, expectedType, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "' got void from function '", Color::RED);
     Logger::print(LogMode::ERROR_LOG, name, Color::BLUE);
     Logger::print(LogMode::ERROR_LOG, "'\n", Color::RED);

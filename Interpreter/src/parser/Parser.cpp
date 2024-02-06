@@ -487,7 +487,7 @@ unique_ptr<Statement> Parser::parseNonInlineStatement()
 
 unique_ptr<Statement> Parser::parseVariableDeclaration()
 {
-    optional<const Type*> type = parseType();
+    optional<optional<const Type*>> type = parseType();
     if (!type.has_value())
     {
         if (peek().getType() == TokenTypes::IDENTIFIER &&
@@ -514,7 +514,7 @@ unique_ptr<Statement> Parser::parseVariableDeclaration()
     
     if (match(TokenTypes::SEMICOLON))
     {
-        return make_unique<VariableDeclaration>(*(type.value()), std::move(identifier));
+        return make_unique<VariableDeclaration>(type.value(), std::move(identifier));
     }
     
     unique_ptr<Expression> initializer = parseExpression();
@@ -526,7 +526,7 @@ unique_ptr<Statement> Parser::parseVariableDeclaration()
         throw std::exception();
     }
     
-    return make_unique<VariableDeclaration>(*(type.value()), std::move(identifier), std::move(initializer));
+    return make_unique<VariableDeclaration>(type.value(), std::move(identifier), std::move(initializer));
 }
 
 unique_ptr<Statement> Parser::parseVariableAssignment(bool requireSemicolon)
@@ -556,8 +556,9 @@ unique_ptr<Statement> Parser::parseVariableAssignment(bool requireSemicolon)
     return make_unique<VariableAssignment>(std::move(identifier), std::move(value));
 }
 
-optional<const Type*> Parser::parseType()
+optional<optional<const Type*>> Parser::parseType()
 {
+    if (match(TokenTypes::VAR)) return optional<const Type*>{};
     if (match(TokenTypes::INT)) return &Primitive::INT;
     if (match(TokenTypes::DEC)) return &Primitive::DEC;
     if (match(TokenTypes::BOOL)) return &Primitive::BOOL;
@@ -567,7 +568,7 @@ optional<const Type*> Parser::parseType()
     return {};
 }
 
-unique_ptr<LambdaExpression> Parser::parseLambda(const Type* returnType)
+unique_ptr<LambdaExpression> Parser::parseLambda(optional<const Type*> returnType)
 {
     if (!match(TokenTypes::LEFT_PAREN))
     {
@@ -577,10 +578,10 @@ unique_ptr<LambdaExpression> Parser::parseLambda(const Type* returnType)
         throw std::exception();
     }
     
-    vector<pair<string, const Type*>> parameters;
+    vector<pair<string, optional<const Type*>>> parameters;
     while (!match(TokenTypes::RIGHT_PAREN))
     {
-        optional<const Type*> type = parseType();
+        optional<optional<const Type*>> type = parseType();
         
         if (!type.has_value())
         {
@@ -622,7 +623,7 @@ unique_ptr<LambdaExpression> Parser::parseLambda(const Type* returnType)
     if (auto* pCodeBlock = dynamic_cast<CodeBlock*>(body.release()))
     {
         unique_ptr<CodeBlock> codeBlock(pCodeBlock);
-        if (returnType == nullptr) return make_unique<LambdaExpression>(parameters, std::move(codeBlock));
+        if (returnType.has_value() && returnType.value() == nullptr) return make_unique<LambdaExpression>(parameters, std::move(codeBlock));
         else return make_unique<LambdaExpression>(returnType, parameters, std::move(codeBlock));
     }
     else

@@ -7,7 +7,8 @@
 #include <types/Value.h>
 #include <memory>
 #include <nodes/Statements.h>
-#include "Environment.h"
+#include <nodes/FunctionNodes.h>
+#include <runtime/Environment.h>
 
 using std::unique_ptr;
 
@@ -16,11 +17,11 @@ class KryptonRuntime
     unique_ptr<ASTNode> _ast;
     Environment* _environment;
     ErrorHandler& _handler;
-    
+
 public:
     explicit KryptonRuntime(unique_ptr<ASTNode> ast, Environment& environment);
     void run();
-    
+
 private:
     Value evaluate(const Expression& expression);
     Value evaluate(const BinaryExpression& expression);
@@ -36,4 +37,5 @@ private:
     void execute(const VariableDeclaration& statement);
     void execute(const VariableAssignment& statement);
     void execute(const CallStatement& statement);
+    void execute(const ReturnStatement& statement);
 };

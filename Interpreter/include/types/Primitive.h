@@ -4,7 +4,6 @@
 #include <types/Type.h>
 #include <nodes/FunctionNodes.h>
 
-using PrimitiveValue = variant<int, double, bool, unsigned char, string, const LambdaExpression*>;
 
 struct Primitive
 {

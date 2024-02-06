@@ -40,6 +40,7 @@ private:
     void scanMultilineComment();
     void scanString();
     void scanChar();
+
     void scanNumber();
     void scanIdentifier();
     

@@ -51,6 +51,9 @@ add_executable(Interpreter src/Interpreter.cpp
         include/common/SourceLocation.h
         src/types/FuncType.cpp
         include/nodes/FunctionNodes.h
+        include/runtime/KryptonSTD.cpp
+        include/runtime/KryptonSTD.h
+        src/types/VarType.cpp
 )
 
 target_include_directories(Interpreter PRIVATE include/)

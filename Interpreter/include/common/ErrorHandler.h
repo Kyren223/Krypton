@@ -43,11 +43,11 @@ public:
     void undefinedVariable(const string& name);
     void redefinedVariable(const string& name);
     void nullReference(const string& name);
-    void typeMismatch(const string& name, const Type& expected, const Type& got);
+    void typeMismatch(const string& name, optional<const Type*> expected, const Type& got);
     void argumentLengthMismatch(const string& name, size_t expected, size_t got);
     void usingValueFromVoidFunction(const string& name);
     void noReturnStatementFound(const string& name);
-    void expectedTypeXgotVoid(const string& name, const Type& expected);
+    void expectedTypeXgotVoid(const string& name, optional<const Type*> expected);
 
 private:
     void printErrorLocation(const SourceLocation& loc);

@@ -10,25 +10,26 @@ using std::unordered_map, std::string;
 
 struct Variable
 {
-    const Type& type;
-    Value* value;
+    optional<const Type*> type;
+    const Value* value{};
 };
 
 class Environment
 {
     unordered_map<string, Variable> _values;
     ErrorHandler& _handler;
-    Environment* const _parent;
+    Environment* _parent;
     
 public:
     Environment();
     Environment(Environment& parent);
     ~Environment();
     
-    void define(const Type& type, const string& name);
-    void define(const Type& type, const string& name, const Value& value);
-    void assign(const string& name, Value value);
-    Value* get(const string& name) const;
-    
-    void display() const;
+    void define(optional<const Type*> type, const string& name);
+    void define(optional<const Type*> type, const string& name, const Value& value);
+    void assign(const string& name, const Value& value);
+    const Value* get(const string& name) const;
+
+    void setReturnValue(optional<Value> value);
+    optional<optional<Value>> getReturnValue(bool remove);
 };

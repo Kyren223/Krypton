@@ -103,7 +103,8 @@ enum class TokenTypes
     DEC, // double 8-bytes
     STR, // string unknown size
     FUNC, // Holds a function
-    
+    VAR, // Holds any type, similar to void*
+
     END
 };
 

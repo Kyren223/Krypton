@@ -2,7 +2,13 @@
 #pragma once
 
 #include <types/Type.h>
-#include <types/Primitive.h>
+#include <variant>
+
+using std::variant;
+
+class LambdaExpression; // Forward declaration
+
+using PrimitiveValue = variant<int, double, bool, unsigned char, string, const LambdaExpression*>;
 
 class Value
 {
@@ -12,7 +18,6 @@ class Value
     
 public:
     Value(const Type&  type, PrimitiveValue value);
-    Value(const Type&  type, unordered_map<string, Value> value);
     ~Value();
     
     [[nodiscard]] const Type& getType() const;

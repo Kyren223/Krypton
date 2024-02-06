@@ -3,7 +3,9 @@
 
 #include <nodes/Expressions.h>
 #include <nodes/Statements.h>
+#include <runtime/Environment.h>
 
+#include <functional>
 #include <utility>
 
 struct CallExpression : Expression
@@ -16,13 +18,17 @@ struct CallExpression : Expression
 
 struct LambdaExpression : Expression
 {
-    optional<const Type*> returnType;
-    vector<pair<string, const Type*>> parameters;
+    optional<optional<const Type*>> returnType;
+    vector<pair<string, optional<const Type*>>> parameters;
     unique_ptr<CodeBlock> body;
-    explicit LambdaExpression(const Type* returnType, vector<pair<string, const Type*>> parameters, unique_ptr<CodeBlock> body)
-            : returnType(returnType), parameters(std::move(parameters)), body(std::move(body)) {}
-    explicit LambdaExpression(vector<pair<string, const Type*>> parameters, unique_ptr<CodeBlock> body)
-            : returnType(std::nullopt), parameters(std::move(parameters)), body(std::move(body)) {}
+    function<void(Environment*)> nativeFunction;
+    bool isNative;
+    explicit LambdaExpression(optional<const Type*> returnType, vector<pair<string, optional<const Type*>>> parameters, unique_ptr<CodeBlock> body)
+            : returnType(returnType), parameters(std::move(parameters)), body(std::move(body)), isNative(false) {}
+    explicit LambdaExpression(vector<pair<string, optional<const Type*>>> parameters, unique_ptr<CodeBlock> body)
+            : returnType(std::nullopt), parameters(std::move(parameters)), body(std::move(body)), isNative(false)  {}
+    explicit LambdaExpression(const Type* returnType, vector<pair<string, optional<const Type*>>> parameters, function<void(Environment*)> nativeFunction)
+            : returnType(returnType), parameters(std::move(parameters)), nativeFunction(std::move(nativeFunction)), isNative(true) {}
 };
 
 struct CallStatement : InlineStatement
