@@ -1,0 +1,2 @@
+
+print(typeof("Test"));

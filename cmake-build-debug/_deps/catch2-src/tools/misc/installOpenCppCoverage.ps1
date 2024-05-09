@@ -2,7 +2,7 @@
 $downloadUrl = "https://github.com/OpenCppCoverage/OpenCppCoverage/releases/download/release-0.9.9.0/OpenCppCoverageSetup-x64-0.9.9.0.exe"
 $installerPath = [System.IO.Path]::Combine($Env:USERPROFILE, "Downloads", "OpenCppCoverageSetup.exe")
 
-if(-Not (ArgumentParser-Path $installerPath)) {
+if(-Not (Test-Path $installerPath)) {
     Write-Host -ForegroundColor White ("Downloading OpenCppCoverage from: " + $downloadUrl)
     Start-FileDownload $downloadUrl -FileName $installerPath
 }

@@ -91,7 +91,7 @@ TEST_CASE("STATIC_CHECK showcase", "[traits]") {
 }
 ```
 
-## ArgumentParser case related macros
+## Test case related macros
 
 * `METHOD_AS_TEST_CASE`
 

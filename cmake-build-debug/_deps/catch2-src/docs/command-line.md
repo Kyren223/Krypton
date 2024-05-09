@@ -29,7 +29,7 @@
 [Specify the section to run](#specify-the-section-to-run)<br>
 [Filenames as tags](#filenames-as-tags)<br>
 [Override output colouring](#override-output-colouring)<br>
-[ArgumentParser Sharding](#test-sharding)<br>
+[Test Sharding](#test-sharding)<br>
 [Allow running the binary without tests](#allow-running-the-binary-without-tests)<br>
 [Output verbosity](#output-verbosity)<br>
 
@@ -85,7 +85,7 @@ Click one of the following links to take you straight to that option - or scroll
 
 <pre>&lt;test-spec> ...</pre>
 
-ArgumentParser cases, wildcarded test cases, tags and tag expressions are all passed directly as arguments. Tags are distinguished by being enclosed in square brackets.
+Test cases, wildcarded test cases, tags and tag expressions are all passed directly as arguments. Tags are distinguished by being enclosed in square brackets.
 
 If no test specs are supplied then all test cases, except "hidden" tests, are run.
 A test is hidden by giving it any tag starting with (or just) a period (```.```) - or, in the deprecated case, tagged ```[hide]``` or given name starting with `'./'`. To specify hidden tests from the command line ```[.]``` or ```[hide]``` can be used *regardless of how they were declared*.
@@ -94,12 +94,12 @@ Specs must be enclosed in quotes if they contain spaces. If they do not contain 
 
 Wildcards consist of the `*` character at the beginning and/or end of test case names and can substitute for any number of any characters (including none).
 
-ArgumentParser specs are case insensitive.
+Test specs are case insensitive.
 
 If a spec is prefixed with `exclude:` or the `~` character then the pattern matches an exclusion. This means that tests matching the pattern are excluded from the set - even if a prior inclusion spec included them. Subsequent inclusion specs will take precedence, however.
 Inclusions and exclusions are evaluated in left-to-right order.
 
-ArgumentParser case examples:
+Test case examples:
 
 ```
 thisTestOnly            Matches the test case called, 'thisTestOnly'
@@ -120,7 +120,7 @@ A series of tags form an AND expression whereas a comma-separated sequence forms
 <pre>[one][two],[three]</pre>
 This matches all tests tagged `[one]` and `[two]`, as well as all tests tagged `[three]`
 
-ArgumentParser names containing special characters, such as `,` or `[` can specify them on the command line using `\`.
+Test names containing special characters, such as `,` or `[` can specify them on the command line using `\`.
 `\` also escapes itself.
 
 <a id="choosing-a-reporter-to-use"></a>
@@ -225,7 +225,7 @@ as follows:
 
 | Option             | `normal` (default)              | `quiet`             | `high`                                  |
 |--------------------|---------------------------------|---------------------|-----------------------------------------|
-| `--list-tests`     | ArgumentParser names and tags             | ArgumentParser names only     | Same as `normal`, plus source code line |
+| `--list-tests`     | Test names and tags             | Test names only     | Same as `normal`, plus source code line |
 | `--list-tags`      | Tags and counts                 | Same as `normal`    | Same as `normal`                        |
 | `--list-reporters` | Reporter names and descriptions | Reporter names only | Same as `normal`                        |
 | `--list-listeners` | Listener names and descriptions | Same as `normal`    | Same as `normal`                        |
@@ -335,7 +335,7 @@ use test specs to filter this list down to what you want first.
 ## Specify the order test cases are run
 <pre>--order &lt;decl|lex|rand&gt;</pre>
 
-ArgumentParser cases are ordered one of three ways:
+Test cases are ordered one of three ways:
 
 ### decl
 Declaration order (this is the default order if no --order argument is provided).
@@ -471,7 +471,7 @@ To narrow to sub-sections use multiple instances, where each subsequent instance
 E.g. if you have:
 
 <pre>
-TEST_CASE( "ArgumentParser" ) {
+TEST_CASE( "Test" ) {
   SECTION( "sa" ) {
     SECTION( "sb" ) {
       /*...*/
@@ -487,13 +487,13 @@ TEST_CASE( "ArgumentParser" ) {
 </pre>
 
 Then you can run `sb` with:
-<pre>./MyExe ArgumentParser -c sa -c sb</pre>
+<pre>./MyExe Test -c sa -c sb</pre>
 
 Or run just `sd` with:
-<pre>./MyExe ArgumentParser -c sd</pre>
+<pre>./MyExe Test -c sd</pre>
 
 To run all of `sa`, including `sb` and `sc` use:
-<pre>./MyExe ArgumentParser -c sa</pre>
+<pre>./MyExe Test -c sa</pre>
 
 There are some limitations of this feature to be aware of:
 - Code outside of sections being skipped will still be executed - e.g. any set-up code in the TEST_CASE before the
@@ -540,7 +540,7 @@ when writing to a file
 
 
 <a id="test-sharding"></a>
-## ArgumentParser Sharding
+## Test Sharding
 <pre>--shard-count <#number of shards>, --shard-index <#shard index to run></pre>
 
 > [Introduced](https://github.com/catchorg/Catch2/pull/2257) in Catch2 3.0.1.

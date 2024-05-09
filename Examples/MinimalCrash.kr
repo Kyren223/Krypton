@@ -1,0 +1,11 @@
+
+str tape = "";
+int TAPE_SIZE = 10;
+
+for (int i = 0; i < TAPE_SIZE; i = i + 1) {
+    tape = tape + '0';
+}
+
+print(tape);
+
+

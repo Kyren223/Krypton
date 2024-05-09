@@ -1,0 +1,37 @@
+
+// Function Declaration
+func hello = void(str name) {
+    print("Hello, " + name + "!\n");
+};
+
+hello("Kyren");
+hello("Josh");
+
+func add = int(int a, int b) {
+    return a + b;
+};
+
+func toInt = int(char c) {
+    return 0 + c - '0';
+};
+
+func inputNum = int() {
+    print("Enter a number: ");
+    int num = toInt(input()[0]);
+    print("\n");
+    return num;
+};
+
+func printResult = void(int result) {
+    print("Result: " + result + "\n");
+};
+
+printResult(add(inputNum(), inputNum()));
+
+
+// Function expressions
+// <type>(<0 or more comma separated "Type declaration"s>) { // Normal code block }
+
+// Call Expression
+// <value of type func>(<0 or more comma separated expressions>)
+

@@ -3,8 +3,8 @@
 
 ## Already available
 
-- ArgumentParser Case: [Single-file](../examples/010-TestCase.cpp)
-- ArgumentParser Case: [Multiple-file 1](../examples/020-TestCase-1.cpp), [2](../examples/020-TestCase-2.cpp)
+- Test Case: [Single-file](../examples/010-TestCase.cpp)
+- Test Case: [Multiple-file 1](../examples/020-TestCase-1.cpp), [2](../examples/020-TestCase-2.cpp)
 - Assertion: [REQUIRE, CHECK](../examples/030-Asn-Require-Check.cpp)
 - Fixture: [Sections](../examples/100-Fix-Section.cpp)
 - Fixture: [Class-based fixtures](../examples/110-Fix-ClassFixture.cpp)

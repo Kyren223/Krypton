@@ -1,6 +1,6 @@
 # Krypton Programming Language
 
-Welcome to Krypton, an exciting new programming language that offers versatile features with an emphasis on simplicity and user experience. Right now, Krypton supports a Tree-Walking interpreter, but there are plans to extend this functionality to other options, such as Java bytecode (JAR) and machine code (EXE) in the future.
+Welcome to Krypton, an exciting new programming language that offers versatile features with an emphasis on simplicity and user experience. Right now, Krypton supports a Tree-Walking interpreter, but there are plans to extend this functionality to other options, such as Java bytecode (JAR_FILE) and machine code (EXE_FILE) in the future.
 
 ## Features
 - Command-line interface

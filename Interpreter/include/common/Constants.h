@@ -1,19 +1,46 @@
 // Copyright (c) 2023 Krypton. All rights reserved.
 #pragma once
+
 #include <string>
+#include <format>
+using std::string;
 
 namespace Constants
 {
+    
+    // Interpreter
+    constexpr const char* LANGUAGE = "Krypton";
+    constexpr const char* INTERPRETER = "KryptonInterpreter";
+    constexpr int MAJOR_VERSION = 1;
+    constexpr int MINOR_VERSION = 0;
+    constexpr int PATCH_VERSION = 0;
+    constexpr const char* DESCRIPTION = "Expressions, Types and Statements";
+    
     /*
      * =================================================================================
-     * MAJOR VERSION - Incremented when substantial new features/reworks have been done
-     * MINOR VERSION - Incremented for small features/issues that have been changed
-     * PATCH VERSION - Incremented only for small hotfixes/bugfixes (same functionality)
-     * STABLE - A version is considered stable if it has passed all the tests
+     * MAJOR VERSION - New language features, Breaking changes, etc.
+     * MINOR VERSION - Small features, Improvements, Fixes, etc.
+     * PATCH VERSION - Bug Fixes, Refactors, Optimizations, etc.
+     * DESCRIPTION - Short description of the major version
      * =================================================================================
      */
     
-    constexpr const char* NAME = "KryptonInterpreter";
-    constexpr const char* VERSION = "0.0.1";
-    constexpr bool STABLE = true;
+    // Methods
+    string getLanguageVersion()
+    {
+        return std::format("{} {} - {}",
+                           LANGUAGE,
+                           MAJOR_VERSION,
+                           DESCRIPTION);
+    }
+    
+    string getInterpreterVersion()
+    {
+        return std::format("{} {}.{}{}",
+                               INTERPRETER,
+                               MAJOR_VERSION,
+                               MINOR_VERSION,
+                               PATCH_VERSION ? std::format(".{}", PATCH_VERSION) : "",
+                               DEBUG ? "d" : "");
+    }
 }

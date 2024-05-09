@@ -12,6 +12,6 @@ public:
     void execute();
     
 private:
-    void executeHelp();
-    void executeVersion();
+    static void executeHelp(optional<Argument> argument);
+    static void executeVersion();
 };

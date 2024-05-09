@@ -1,5 +1,5 @@
 <a id="top"></a>
-# ArgumentParser cases and sections
+# Test cases and sections
 
 **Contents**<br>
 [Tags](#tags)<br>
@@ -12,7 +12,7 @@ While Catch fully supports the traditional, xUnit, style of class-based fixtures
 
 Instead Catch provides a powerful mechanism for nesting test case sections within a test case. For a more detailed discussion see the [tutorial](tutorial.md#test-cases-and-sections).
 
-ArgumentParser cases and sections are very easy to use in practice:
+Test cases and sections are very easy to use in practice:
 
 * **TEST_CASE(** _test name_ \[, _tags_ \] **)**
 * **SECTION(** _section name_, \[, _section description_ \] **)**
@@ -32,7 +32,7 @@ For examples see the [Tutorial](tutorial.md#top)
 
 ## Tags
 
-Tags allow an arbitrary number of additional strings to be associated with a test case. ArgumentParser cases can be selected (for running, or just for listing) by tag - or even by an expression that combines several tags. At their most basic level they provide a simple way to group several related tests together.
+Tags allow an arbitrary number of additional strings to be associated with a test case. Test cases can be selected (for running, or just for listing) by tag - or even by an expression that combines several tags. At their most basic level they provide a simple way to group several related tests together.
 
 As an example - given the following test cases:
 
